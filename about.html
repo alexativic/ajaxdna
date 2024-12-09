@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - AJAX DNA</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Full Height for HTML and Body */
+        html, body {
+            height: 100%;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('background1.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* Navigation Menu Styling */
+        nav {
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            margin: 0 5px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #575757;
+        }
+
+        /* Section Styling */
+        .section {
+            margin: 50px auto;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            border-radius: 12px;
+            width: 80%;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .section h1, .section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #00bcd4;
+        }
+
+        .section p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #ddd;
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .team-member {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .team-member img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 15px;
+        }
+
+        .team-member h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .team-member p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        About Us - AJAX DNA
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav>
+        <a href="AJAX_DNA.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="products.html">Products</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- About Section -->
+    <div class="section">
+        <h1>Who We Are</h1>
+        <p>AJAX DNA is at the forefront of the biotech revolution, revolutionizing the way industrial microorganisms are developed and optimized. Our innovative approach combines cutting-edge technology with deep expertise in genetics to empower industries with customized solutions.</p>
+        <p>From analyzing genetic networks to delivering tested and ready microorganisms, we are committed to transforming industrial production processes and enabling a sustainable future.</p>
+    </div>
+
+    <!-- Financing Section -->
+    <div class="section">
+        <h2>Financing Our Vision</h2>
+        <p>AJAX DNA has been supported by a mix of private investors, research grants, and industry partnerships. Our financial model is built to ensure sustainability while driving innovation in biotechnology.</p>
+        <p>If you are interested in supporting our mission or exploring collaboration opportunities, please contact us at <a href="mailto:finance@ajaxdna.com" style="color: #00bcd4;">finance@ajaxdna.com</a>.</p>
+    </div>
+
+    <!-- News Section -->
+    <div class="section">
+        <h2>In the News</h2>
+        <ul style="text-align: left; max-width: 800px; margin: 0 auto; color: #ddd; font-size: 18px; line-height: 1.8;">
+            <li><a href="https://www.bing.com/search?pglt=419&q=ajax+dna&cvid=8cf4427d91054fdcb0ec89549ac69586&gs_lcrp=EgRlZGdlKgYIABBFGDkyBggAEEUYOTIGCAEQABhAMgYIAhAAGEAyBggDEAAYQDIGCAQQABhAMgYIBRAAGEAyBggGEEUYPDIGCAcQRRg9MgYICBBFGDzSAQkxMTE1M2owajGoAgCwAgA&FORM=ANNTA1&PC=HCTS" target="_blank" style="color: #00bcd4;">"Una fábrica de células en miniatura: la apuesta de AJAX DNA por revolucionar la biotecnología" - Las provincias</a></li>
+            <li><a href="https://valenciaplaza.com/amparo-tolosa-alejandro-atienza-premiados-7-edicion-nit-biotec" target="_blank" style="color: #00bcd4;">"Amparo Tolosa y Alejandro Atienza, entre los premiados en la 7ª edición de la Nit Biotec
+" - Valencia Plaza</a></li>
+            <li><a href="https://www.apuntmedia.es/programes/cadena-de-valor/l-entrevista-del-dia/28-10-2024-alejandro-atienza-d-ajax-dna_135_1741101.html" target="_blank" style="color: #00bcd4;">"Cadena de valor 28.10.2024 | Alejandro Atienza, d’Ajax DNA" - À punt</a></li>
+        </ul>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        &copy; 2024 AJAX DNA. All Rights Reserved.
+    </footer>
+</body>
+</html>
