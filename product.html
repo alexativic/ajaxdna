@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - AJAX DNA</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Full Height for HTML and Body */
+        html, body {
+            height: 100%;
+        }
+
+        /* Flexbox for Sticky Footer */
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('background1.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* Navigation Menu Styling */
+        nav {
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none; /* Removes underline */
+            padding: 14px 20px;
+            margin: 0 5px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #575757;
+        }
+
+        /* Main Content Container */
+        .content-box {
+            margin: 50px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 80%;
+        }
+
+        /* Individual Product Boxes */
+        .product-box {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none; /* Removes underline for product box links */
+        }
+
+        .product-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-box h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #222;
+        }
+
+        .product-box p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: auto; /* Pushes footer to the bottom when content is short */
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Header Section -->
+        <header>
+            Products - AJAX DNA
+        </header>
+
+        <!-- Navigation Menu -->
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="content-box">
+            <!-- Product 1 -->
+            <a href="consulting.html" class="product-box">
+                <h2>Consulting Service</h2>
+                <p>Professional guidance for optimizing your industrial or medical cell production systems.</p>
+            </a>
+
+            <!-- Product 2 -->
+            <a href="optimization.html" class="product-box">
+                <h2>Optimization Tool</h2>
+                <p>A powerful platform for identifying the optimal genetic network for your cell’s production.</p>
+            </a>
+
+            <!-- Product 3 -->
+            <a href="cell-building.html" class="product-box">
+                <h2>Cell Building & Testing</h2>
+                <p>End-to-end solutions to build, test, and deliver your production-ready cells.</p>
+            </a>
+        </div>
+
+        <!-- Footer Section -->
+        <footer>
+            &copy; 2024 AJAX DNA. All Rights Reserved.
+        </footer>
+    </div>
+</body>
+</html>
