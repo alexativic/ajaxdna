@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Step 1 - Tell Us About Your Industrial Cell</title>
+    <title>Step 1 - Metabolic Network</title>
     <style>
         /* General Reset */
         * {
@@ -56,176 +56,84 @@
             background-color: #575757;
         }
 
-        /* Main Content Section */
-        .content-section {
+        /* Content Box Styling */
+        .content-box {
             margin: 50px auto;
             padding: 30px;
-            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            background-color: rgba(20, 20, 20, 0.85);
             border-radius: 12px;
             width: 70%;
+            text-align: center;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            text-align: center;
         }
 
-        .content-section h1 {
-            font-size: 28px;
-            margin-bottom: 20px;
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .content-section p {
-            font-size: 16px;
-            line-height: 1.6;
-            color: #ddd;
+        label, input, button {
+            font-size: 18px;
+            margin-bottom: 15px;
         }
 
-        .form-container {
-            margin-top: 30px;
-        }
-
-        .molecule-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .molecule-group label {
-            display: block;
-            font-size: 16px;
-            margin-bottom: 8px;
-            color: #ddd;
-            text-align: left;
-            margin-left: auto;
-            margin-right: auto;
-            max-width: 400px;
-        }
-
-        .molecule-group input {
-            width: 100%;
-            max-width: 400px;
+        input {
+            width: 70%;
             padding: 10px;
-            margin-bottom: 10px;
-            border: none;
             border-radius: 6px;
+            border: none;
+            outline: none;
         }
 
-        .delete-button {
-            position: absolute;
-            top: 0;
-            right: -60px;
-            background-color: #e74c3c;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 10px;
+        button {
+            background-color: #007BFF;
             color: white;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .delete-button:hover {
-            background-color: #c0392b;
-        }
-
-        .form-container button {
             padding: 10px 20px;
-            background-color: #00bcd4;
-            border: none;
-            border-radius: 6px;
             font-size: 16px;
-            color: black;
+            border-radius: 4px;
+            border: none;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
-        .form-container button:hover {
-            background-color: #0097a7;
-            color: white;
-        }
-
-        .add-more-button {
-            margin-top: 10px;
-        }
-
-        /* Footer Styling */
-        footer {
-            background-color: #222;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <!-- Header Section -->
     <header>
-        Step 1: Tell Us About Your Industrial Cell
+        Step 1 - Metabolic Network
     </header>
 
     <!-- Navigation Menu -->
     <nav>
         <a href="index.html">Home</a>
-        <a href="step2.html">Step 2</a>
-        <a href="step3.html">Step 3</a>
-        <a href="step4.html">Step 4</a>
+        <a href="about.html">About Us</a>
+        <a href="product.html">Products</a>
+        <a href="contact.html">Contact</a>
     </nav>
 
     <!-- Main Content -->
-    <div class="content-section">
-        <h1>Step 1: Understanding Your Industrial Cell</h1>
-        <p>Tell us what molecules you want to edit production for and the expected g/liter it should produce.</p>
-        
-        <!-- Form Section -->
-        <form class="form-container" id="molecule-form">
-            <div class="molecule-group" id="molecule-1">
-                <label for="molecule-name-1">Molecule Name:</label>
-                <input type="text" id="molecule-name-1" name="molecule[]" placeholder="e.g., Lactic Acid, Ethanol, etc." required>
-
-                <label for="amount-1">Expected Production (g/L):</label>
-                <input type="number" id="amount-1" name="amount[]" placeholder="e.g., 50" required>
-            </div>
-
-            <button type="button" class="add-more-button" onclick="addMolecule()">Add Another Molecule</button>
+    <div class="content-box">
+        <form id="molecule-form">
+            <label for="molecule-name">Molecule Name:</label>
+            <input type="text" id="molecule-name" name="molecule" placeholder="e.g., glc__D_e" required>
             <button type="submit">Submit Details</button>
         </form>
     </div>
 
-    <!-- Footer Section -->
-    <footer>
-        &copy; 2024 AJAX DNA. All Rights Reserved.
-    </footer>
-
     <script>
-        let moleculeCount = 1;
+        document.getElementById("molecule-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
 
-        function addMolecule() {
-            moleculeCount++;
+            const molecule = document.getElementById("molecule-name").value;
 
-            const form = document.getElementById('molecule-form');
-            const newGroup = document.createElement('div');
-            newGroup.classList.add('molecule-group');
-            newGroup.id = `molecule-${moleculeCount}`;
-            newGroup.innerHTML = `
-                <label for="molecule-name-${moleculeCount}">Molecule Name:</label>
-                <input type="text" id="molecule-name-${moleculeCount}" name="molecule[]" placeholder="e.g., Lactic Acid, Ethanol, etc." required>
-
-                <label for="amount-${moleculeCount}">Expected Production (g/L):</label>
-                <input type="number" id="amount-${moleculeCount}" name="amount[]" placeholder="e.g., 50" required>
-
-                <button type="button" class="delete-button" onclick="removeMolecule(${moleculeCount})">Delete</button>
-            `;
-
-            form.insertBefore(newGroup, form.lastElementChild.previousElementSibling);
-        }
-
-        function removeMolecule(id) {
-            const element = document.getElementById(`molecule-${id}`);
-            if (element) {
-                element.remove();
-            }
-        }
+            // Redirect to graph.html with the molecule name as a query parameter
+            window.location.href = `graph.html?molecule=${encodeURIComponent(molecule)}`;
+        });
     </script>
 </body>
 </html>
-

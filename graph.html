@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metabolic Network Graph</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Full Height for HTML and Body */
+        html, body {
+            height: 100%;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('background1.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* Navigation Menu Styling */
+        nav {
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            margin: 0 5px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #575757;
+        }
+
+        /* Content Box Styling */
+        .content-box {
+            margin: 50px auto;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 12px;
+            width: 80%;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        svg {
+            width: 100%;
+            height: 600px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+        .node-label {
+            font-size: 14px;
+            fill: #333;
+        }
+
+        button {
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .instructions {
+            font-size: 16px;
+            color: #333;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        Metabolic Network Graph
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="step1.html">Step1</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content-box">
+        <div id="molecule-detection-message" class="instructions"></div>
+        <svg></svg>
+        <div class="instructions">
+            For better readability of the nodes, you can click and drag them around.
+        </div>
+        <button id="dna-sequence-button">View DNA Sequences</button>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        &copy; 2024 AJAX DNA. All Rights Reserved.
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const molecule = urlParams.get('molecule');
+
+        if (molecule) {
+            fetch("http://127.0.0.1:5001/graph", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ molecule: molecule })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const graphData = data.graph;
+                const genes = data.genes || [];
+
+                // Display molecule detection message
+                document.getElementById("molecule-detection-message").textContent =
+                    `Your molecule "${molecule}" has been correctly detected. Explore important reactions in its production!`;
+
+                const svg = d3.select("svg");
+
+                // Define marker
+                svg.append("defs").append("marker")
+                    .attr("id", "arrow")
+                    .attr("viewBox", "0 -5 10 10")
+                    .attr("refX", 15)
+                    .attr("refY", 0)
+                    .attr("markerWidth", 6)
+                    .attr("markerHeight", 6)
+                    .attr("orient", "auto")
+                    .append("path")
+                    .attr("d", "M0,-5L10,0L0,5")
+                    .attr("fill", "#999");
+
+                const simulation = d3.forceSimulation(graphData.nodes)
+                    .force("link", d3.forceLink(graphData.links).id(d => d.id).distance(100))
+                    .force("charge", d3.forceManyBody().strength(-200))
+                    .force("center", d3.forceCenter(400, 300));
+
+                const link = svg.append("g")
+                    .attr("stroke", "#999")
+                    .attr("stroke-opacity", 0.6)
+                    .selectAll("line")
+                    .data(graphData.links)
+                    .join("line")
+                    .attr("stroke-width", 2)
+                    .attr("marker-end", "url(#arrow)");
+
+                const node = svg.append("g")
+                    .attr("stroke", "#fff")
+                    .attr("stroke-width", 1.5)
+                    .selectAll("circle")
+                    .data(graphData.nodes)
+                    .join("circle")
+                    .attr("r", 8)
+                    .attr("fill", "blue")
+                    .call(drag(simulation))
+                    .on("click", (event, d) => alert(`Node clicked: ${d.label}`));
+
+                const labels = svg.append("g")
+                    .selectAll("text")
+                    .data(graphData.nodes)
+                    .join("text")
+                    .attr("class", "node-label")
+                    .attr("x", d => d.x)
+                    .attr("y", d => d.y)
+                    .text(d => d.label);
+
+                simulation.on("tick", () => {
+                    link
+                        .attr("x1", d => d.source.x)
+                        .attr("y1", d => d.source.y)
+                        .attr("x2", d => d.target.x)
+                        .attr("y2", d => d.target.y);
+
+                    node
+                        .attr("cx", d => d.x)
+                        .attr("cy", d => d.y);
+
+                    labels
+                        .attr("x", d => d.x + 10)
+                        .attr("y", d => d.y + 5);
+                });
+
+                document.getElementById("dna-sequence-button").onclick = () => {
+                    const geneIds = genes.map(gene => gene.id).join(',');
+                    window.location.href = `dna_sequences.html?genes=${encodeURIComponent(geneIds)}`;
+                };
+            })
+            .catch(error => {
+                console.error("Error fetching graph data:", error);
+                alert("Failed to load graph data. Please try again.");
+            });
+        } else {
+            alert("No molecule specified in the URL.");
+        }
+
+        function drag(simulation) {
+            return d3.drag()
+                .on("start", (event, d) => {
+                    if (!event.active) simulation.alphaTarget(0.3).restart();
+                    d.fx = d.x;
+                    d.fy = d.y;
+                })
+                .on("drag", (event, d) => {
+                    d.fx = event.x;
+                    d.fy = event.y;
+                })
+                .on("end", (event, d) => {
+                    if (!event.active) simulation.alphaTarget(0);
+                    d.fx = null;
+                    d.fy = null;
+                });
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNA Sequences</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Full Height for HTML and Body */
+        html, body {
+            height: 100%;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('background1.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* Navigation Menu Styling */
+        nav {
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            margin: 0 5px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #575757;
+        }
+
+        /* Content Box Styling */
+        .content-box {
+            margin: 50px auto;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            width: 80%;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: black;
+            border-radius: 6px;
+            text-align: left;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        DNA Sequences
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="step1.html">step1</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content-box">
+        <h2>Sequences</h2>
+        <ul id="sequence-list"></ul>
+    </div>
+
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const genesParam = urlParams.get('genes');
+        const genes = genesParam ? genesParam.split(',') : [];
+
+        if (genes.length > 0) {
+            fetch("http://127.0.0.1:5001/dna_sequences", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ genes: genes })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const sequenceList = document.getElementById("sequence-list");
+                data.sequences.forEach(seq => {
+                    const li = document.createElement("li");
+                    li.textContent = `Gene: ${seq.gene}, Name: ${seq.descriptive_name}, Sequence: ${seq.sequence}`;
+                    sequenceList.appendChild(li);
+                });
+            })
+            .catch(error => console.error("Error fetching DNA sequences:", error));
+        } else {
+            alert("No genes specified in the URL.");
+        }
+    </script>
+</body>
+</html>
