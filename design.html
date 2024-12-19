@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gene Design Recommendations</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('background1.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content-box {
+            margin: 50px auto;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            width: 80%;
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 15px 0;
+            padding: 10px;
+            border: 1px solid white;
+            border-radius: 8px;
+        }
+
+        /* Improved Plasmid Visualization */
+        #plasmid-visualization {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        #plasmid-container {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            padding: 20px;
+        }
+
+        svg {
+            width: 600px;
+            height: 600px;
+        }
+
+        /* Region details box */
+        #region-details {
+            margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: black;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            display: none;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-box">
+        <h2>Gene Design Recommendations</h2>
+        <ul id="recommendation-list">Loading recommendations...</ul>
+
+        <h3>Plasmid Design</h3>
+        <div id="plasmid-visualization">
+            <div id="plasmid-container">
+                <svg id="plasmid-svg" viewBox="0 0 600 600"></svg>
+            </div>
+        </div>
+
+        <div id="region-details">
+            <h3>Region Details</h3>
+            <p id="region-content">Click on a region to see its details here.</p>
+        </div>
+    </div>
+
+    <script>
+        let selectedGenes = [];
+        let molecule = "";
+
+        // Fetch molecule name
+        fetch("http://127.0.0.1:5001/get_default_molecule")
+            .then(response => response.json())
+            .then(data => {
+                molecule = data.default_molecule;
+                const urlParams = new URLSearchParams(window.location.search);
+                selectedGenes = JSON.parse(decodeURIComponent(urlParams.get("selectedGenes") || "[]"));
+
+                if (selectedGenes.length === 0) {
+                    document.getElementById("recommendation-list").innerHTML = "<li>No genes selected.</li>";
+                } else {
+                    fetchRecommendations();
+                    fetchPlasmidDesign();
+                }
+            });
+
+        function fetchRecommendations() {
+            fetch("http://127.0.0.1:5001/fba_analysis", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ molecule: molecule, selected_genes: selectedGenes })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const recommendations = data.recommendations || [];
+                document.getElementById("recommendation-list").innerHTML = recommendations.map(r => `
+                    <li>
+                        <strong>Gene:</strong> ${r.gene}<br>
+                        <strong>Recommendation:</strong> ${r.recommendation}<br>
+                        <strong>Explanation:</strong> ${r.explanation}<br>
+                        <strong>Production Flux:</strong> ${r.production_flux.toFixed(2)}<br>
+                        <strong>Growth Flux:</strong> ${r.growth_flux.toFixed(2)}<br>
+                        <strong>Flux Ratio:</strong> ${r.flux_ratio.toFixed(2)}%
+                    </li>`).join("") || "<li>No recommendations available.</li>";
+            });
+        }
+
+        function fetchPlasmidDesign() {
+            const svg = document.getElementById('plasmid-svg');
+            const detailsBox = document.getElementById('region-details');
+            const regionContent = document.getElementById('region-content');
+            const colors = ["#FF4C4C", "#4CAF50", "#2196F3", "#FFC107", "#9C27B0"];
+            const radius = 200, centerX = 300, centerY = 300;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const plasmidData = JSON.parse(decodeURIComponent(urlParams.get("plasmidData")));
+            const regions = plasmidData.annotations.regions;
+            const fullSequence = plasmidData.plasmid_sequence.replace(/\n/g, '');
+
+            svg.innerHTML = ''; // Clear previous SVG content
+
+            regions.forEach((region, index) => {
+                const startAngle = (region.start / fullSequence.length) * 2 * Math.PI;
+                const endAngle = (region.end / fullSequence.length) * 2 * Math.PI;
+                const midAngle = (startAngle + endAngle) / 2;
+
+                const x1 = centerX + radius * Math.cos(startAngle);
+                const y1 = centerY + radius * Math.sin(startAngle);
+                const x2 = centerX + radius * Math.cos(endAngle);
+                const y2 = centerY + radius * Math.sin(endAngle);
+
+                // Draw arc
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("d", `M ${x1} ${y1} A ${radius} ${radius} 0 ${endAngle - startAngle > Math.PI ? 1 : 0} 1 ${x2} ${y2}`);
+                path.setAttribute("stroke", colors[index % colors.length]);
+                path.setAttribute("stroke-width", "6");
+                path.setAttribute("fill", "none");
+                path.style.cursor = "pointer";
+                svg.appendChild(path);
+
+                // Region labels
+                const labelX = centerX + (radius + 30) * Math.cos(midAngle);
+                const labelY = centerY + (radius + 30) * Math.sin(midAngle);
+                const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                label.setAttribute("x", labelX);
+                label.setAttribute("y", labelY);
+                label.setAttribute("text-anchor", "middle");
+                label.setAttribute("font-size", "12");
+                label.setAttribute("fill", "black");
+                label.textContent = region.name;
+                svg.appendChild(label);
+
+                // Add click functionality
+                path.addEventListener("click", () => {
+                    const dnaSequence = fullSequence.substring(region.start, region.end);
+                    regionContent.textContent = `
+                        Region: ${region.name}
+                        Start: ${region.start}
+                        End: ${region.end}
+                        Sequence: ${dnaSequence}
+                    `;
+                    detailsBox.style.display = "block";
+                });
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+
+

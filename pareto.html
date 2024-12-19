@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FBA Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.6.1/d3.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('background1.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .content-box {
+            margin: 50px auto;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            width: 80%;
+            text-align: center;
+        }
+        .chart-section {
+            margin-bottom: 50px;
+        }
+        canvas {
+            margin: 20px auto;
+            display: block;
+        }
+        #venn-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        svg {
+            width: 400px;
+            height: 400px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-box">
+        <!-- Venn Diagram Section -->
+        <div class="chart-section" id="venn-diagram-section">
+            <h3>Venn Diagram</h3>
+            <svg id="venn-diagram"></svg>
+        </div>
+
+        <!-- Bar Plot Section -->
+        <div class="chart-section" id="bar-plot-section">
+            <h3>Gene Score Bar Plot</h3>
+            <canvas id="score-bar-chart"></canvas>
+        </div>
+
+        <!-- Distribution Plot Section -->
+        <div class="chart-section" id="distribution-plot-section">
+            <h3>Gene Score Distribution Plot</h3>
+            <canvas id="score-distribution-chart"></canvas>
+        </div>
+
+        <!-- Pareto Analysis Section -->
+        <div class="chart-section" id="pareto-analysis-section">
+            <h3>Pareto Analysis</h3>
+            <canvas id="pareto-chart"></canvas>
+            <ul id="gene-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        // Fetch URL Parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        let vennData, annotatedGenes, paretoData;
+
+        try {
+            vennData = JSON.parse(decodeURIComponent(urlParams.get("vennData")));
+        } catch {
+            console.error("Venn Data is missing or invalid.");
+        }
+
+        try {
+            annotatedGenes = JSON.parse(decodeURIComponent(urlParams.get("genes")));
+        } catch {
+            console.error("Annotated Genes data is missing or invalid.");
+        }
+
+        try {
+            paretoData = JSON.parse(decodeURIComponent(urlParams.get("paretoData")));
+        } catch {
+            console.error("Pareto Data is missing or invalid.");
+        }
+
+        // Venn Diagram
+        if (vennData) {
+            try {
+                const vennSvg = d3.select("#venn-diagram");
+                const total = vennData.only_in_graph.length + vennData.only_in_fba.length + vennData.intersection.length;
+
+                const graphRadius = Math.sqrt((vennData.only_in_graph.length + vennData.intersection.length) / total) * 150;
+                const fbaRadius = Math.sqrt((vennData.only_in_fba.length + vennData.intersection.length) / total) * 150;
+
+                vennSvg.append("circle")
+                    .attr("cx", 150)
+                    .attr("cy", 200)
+                    .attr("r", graphRadius)
+                    .style("fill", "blue")
+                    .style("opacity", 0.5);
+
+                vennSvg.append("circle")
+                    .attr("cx", 250)
+                    .attr("cy", 200)
+                    .attr("r", fbaRadius)
+                    .style("fill", "green")
+                    .style("opacity", 0.5);
+
+                vennSvg.append("text")
+                    .attr("x", 90)
+                    .attr("y", 200)
+                    .text(`Graph Only: ${vennData.only_in_graph.length}`)
+                    .attr("fill", "white");
+
+                vennSvg.append("text")
+                    .attr("x", 270)
+                    .attr("y", 200)
+                    .text(`FBA Only: ${vennData.only_in_fba.length}`)
+                    .attr("fill", "white");
+
+                vennSvg.append("text")
+                    .attr("x", 170)
+                    .attr("y", 220)
+                    .text(`Intersection: ${vennData.intersection.length}`)
+                    .attr("fill", "white")
+                    .attr("font-weight", "bold");
+            } catch (e) {
+                console.error("Error rendering Venn Diagram:", e);
+            }
+        }
+
+        // Gene Bar Plot
+        if (annotatedGenes) {
+            try {
+                const barCtx = document.getElementById("score-bar-chart").getContext("2d");
+                const sortedGenes = [...annotatedGenes].sort((a, b) => b.score - a.score);
+                const barLabels = sortedGenes.map(g => g.id);
+                const barScores = sortedGenes.map(g => g.score);
+
+                new Chart(barCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: barLabels,
+                        datasets: [{
+                            label: 'Gene Scores',
+                            data: barScores,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { title: { display: true, text: 'Genes' } },
+                            y: { title: { display: true, text: 'Scores' } }
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error("Error rendering Gene Bar Plot:", e);
+            }
+        }
+
+        // Gene Distribution Plot
+        if (annotatedGenes) {
+            try {
+                const distCtx = document.getElementById("score-distribution-chart").getContext("2d");
+                const bins = {};
+                annotatedGenes.forEach(g => {
+                    const bin = Math.floor(g.score / 10) * 10;
+                    bins[bin] = (bins[bin] || 0) + 1;
+                });
+
+                const distLabels = Object.keys(bins).sort((a, b) => a - b);
+                const distCounts = distLabels.map(bin => bins[bin]);
+
+                new Chart(distCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: distLabels,
+                        datasets: [{
+                            label: 'Gene Count',
+                            data: distCounts,
+                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { title: { display: true, text: 'Score Ranges' } },
+                            y: { title: { display: true, text: 'Number of Genes' } }
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error("Error rendering Distribution Plot:", e);
+            }
+        }
+
+        // Pareto Chart
+        if (paretoData) {
+            try {
+                const paretoCtx = document.getElementById("pareto-chart").getContext("2d");
+                const geneLabels = paretoData.map(item => item.gene);
+                const cumulativePercentages = paretoData.map(item => item.cumulative_percentage);
+                const individualScores = paretoData.map(item => item.score);
+                const selectedGenes = new Set();
+
+                const paretoChart = new Chart(paretoCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: geneLabels,
+                        datasets: [
+                            {
+                                type: 'bar',
+                                label: 'Individual Impact',
+                                data: individualScores,
+                                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1,
+                                yAxisID: 'y-impact',
+                            },
+                            {
+                                type: 'line',
+                                label: 'Cumulative Percentage',
+                                data: cumulativePercentages,
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 2,
+                                pointRadius: 5,
+                                pointHoverRadius: 7,
+                                fill: false,
+                                tension: 0.4,
+                                yAxisID: 'y-cumulative',
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: true } },
+                        scales: {
+                            x: { title: { display: true, text: 'Genes' } },
+                            yImpact: { type: 'linear', position: 'left', title: { display: true, text: 'Impact Score' }, beginAtZero: true },
+                            yCumulative: { type: 'linear', position: 'right', title: { display: true, text: 'Cumulative Percentage' }, beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error("Error rendering Pareto Chart:", e);
+            }
+        }
+    </script>
+</body>
+</html>
