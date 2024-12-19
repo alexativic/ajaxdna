@@ -6,58 +6,23 @@
     <title>Metabolic Network Graph</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
-        /* General Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Full Height for HTML and Body */
-        html, body {
-            height: 100%;
-        }
-
-        /* Body Styling */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; }
         body {
             font-family: Arial, sans-serif;
             background: url('background1.webp') no-repeat center center fixed;
             background-size: cover;
             color: white;
         }
-
-        /* Header Styling */
-        header {
-            background-color: #222;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        /* Navigation Menu Styling */
+        header { background-color: #222; color: white; text-align: center; padding: 20px; font-size: 28px; }
         nav {
             background-color: #333;
             display: flex;
             justify-content: center;
             padding: 10px 0;
         }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            padding: 14px 20px;
-            margin: 0 5px;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-
-        nav a:hover {
-            background-color: #575757;
-        }
-
-        /* Content Box Styling */
+        nav a { color: white; text-decoration: none; padding: 14px 20px; margin: 0 5px; border-radius: 4px; }
+        nav a:hover { background-color: #575757; }
         .content-box {
             margin: 50px auto;
             padding: 30px;
@@ -67,20 +32,7 @@
             text-align: center;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
-
-        svg {
-            width: 100%;
-            height: 600px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-        }
-
-        .node-label {
-            font-size: 14px;
-            fill: #333;
-        }
-
+        svg { width: 100%; height: 600px; border: 1px solid #ccc; display: block; margin: auto; }
         button {
             margin: 20px;
             padding: 10px 20px;
@@ -92,43 +44,21 @@
             border-radius: 4px;
             transition: background-color 0.3s ease;
         }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        footer {
-            background-color: #222;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        .instructions {
-            font-size: 16px;
-            color: #333;
-            margin-top: 20px;
-        }
+        button:hover { background-color: #0056b3; }
+        footer { background-color: #222; color: white; text-align: center; padding: 10px 0; position: fixed; bottom: 0; width: 100%; }
+        .instructions { font-size: 16px; color: #333; margin-top: 20px; }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
     <header>
         Metabolic Network Graph
     </header>
-
-    <!-- Navigation Menu -->
     <nav>
         <a href="index.html">Home</a>
         <a href="about.html">About Us</a>
-        <a href="step1.html">Step1</a>
-        <a href="contact.html">Contact</a>
+        <a href="step1.html">Step 1</a>
+        <a id="fba-results-link">FBA Results</a>
     </nav>
-
-    <!-- Main Content -->
     <div class="content-box">
         <div id="molecule-detection-message" class="instructions"></div>
         <svg></svg>
@@ -136,9 +66,8 @@
             For better readability of the nodes, you can click and drag them around.
         </div>
         <button id="dna-sequence-button">View DNA Sequences</button>
+        <button id="fba-synthetic-button">Run FBA</button>
     </div>
-
-    <!-- Footer Section -->
     <footer>
         &copy; 2024 AJAX DNA. All Rights Reserved.
     </footer>
@@ -148,28 +77,35 @@
         const molecule = urlParams.get('molecule');
 
         if (molecule) {
+            document.querySelectorAll('nav a').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && href !== 'index.html' && href !== 'about.html') {
+                    link.setAttribute('href', `${href}?molecule=${encodeURIComponent(molecule)}`);
+                }
+            });
+
+            document.getElementById('fba-results-link').setAttribute('href', `fba_results.html?molecule=${encodeURIComponent(molecule)}`);
+
             fetch("http://127.0.0.1:5001/graph", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ molecule: molecule })
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Server error: ${response.statusText}`);
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 const graphData = data.graph;
                 const genes = data.genes || [];
 
-                // Display molecule detection message
                 document.getElementById("molecule-detection-message").textContent =
                     `Your molecule "${molecule}" has been correctly detected. Explore important reactions in its production!`;
 
                 const svg = d3.select("svg");
 
-                // Define marker
+                // Get SVG dimensions
+                const width = +svg.node().getBoundingClientRect().width;
+                const height = +svg.node().getBoundingClientRect().height;
+
+                // Define marker for links
                 svg.append("defs").append("marker")
                     .attr("id", "arrow")
                     .attr("viewBox", "0 -5 10 10")
@@ -184,21 +120,20 @@
 
                 const simulation = d3.forceSimulation(graphData.nodes)
                     .force("link", d3.forceLink(graphData.links).id(d => d.id).distance(100))
-                    .force("charge", d3.forceManyBody().strength(-200))
-                    .force("center", d3.forceCenter(400, 300));
+                    .force("charge", d3.forceManyBody().strength(-300))
+                    .force("center", d3.forceCenter(width / 2, height / 2))
+                    .force("collision", d3.forceCollide(20)); // Prevent node overlap
 
                 const link = svg.append("g")
-                    .attr("stroke", "#999")
-                    .attr("stroke-opacity", 0.6)
                     .selectAll("line")
                     .data(graphData.links)
                     .join("line")
+                    .attr("stroke", "#999")
+                    .attr("stroke-opacity", 0.6)
                     .attr("stroke-width", 2)
                     .attr("marker-end", "url(#arrow)");
 
                 const node = svg.append("g")
-                    .attr("stroke", "#fff")
-                    .attr("stroke-width", 1.5)
                     .selectAll("circle")
                     .data(graphData.nodes)
                     .join("circle")
@@ -211,9 +146,9 @@
                     .selectAll("text")
                     .data(graphData.nodes)
                     .join("text")
-                    .attr("class", "node-label")
-                    .attr("x", d => d.x)
-                    .attr("y", d => d.y)
+                    .attr("font-size", "10px")
+                    .attr("dx", 10)
+                    .attr("dy", 5)
                     .text(d => d.label);
 
                 simulation.on("tick", () => {
@@ -228,19 +163,36 @@
                         .attr("cy", d => d.y);
 
                     labels
-                        .attr("x", d => d.x + 10)
-                        .attr("y", d => d.y + 5);
+                        .attr("x", d => d.x)
+                        .attr("y", d => d.y);
                 });
 
                 document.getElementById("dna-sequence-button").onclick = () => {
                     const geneIds = genes.map(gene => gene.id).join(',');
-                    window.location.href = `dna_sequences.html?genes=${encodeURIComponent(geneIds)}`;
+                    window.location.href = `dna_sequences.html?genes=${encodeURIComponent(geneIds)}&molecule=${encodeURIComponent(molecule)}`;
                 };
             })
             .catch(error => {
                 console.error("Error fetching graph data:", error);
                 alert("Failed to load graph data. Please try again.");
             });
+
+            document.getElementById("fba-synthetic-button").onclick = () => {
+                fetch("http://127.0.0.1:5001/fba_analysis", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ molecule: molecule })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    sessionStorage.setItem("fbaResults", JSON.stringify(data));
+                    window.location.href = "fba_results.html";
+                })
+                .catch(error => {
+                    console.error("Error during FBA analysis:", error);
+                    alert("Failed to run FBA. Please try again.");
+                });
+            };
         } else {
             alert("No molecule specified in the URL.");
         }
@@ -265,4 +217,3 @@
     </script>
 </body>
 </html>
-
