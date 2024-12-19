@@ -70,6 +70,21 @@
             white-space: pre-wrap;
             word-wrap: break-word;
         }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -88,6 +103,9 @@
             <h3>Region Details</h3>
             <p id="region-content">Click on a region to see its details here.</p>
         </div>
+
+        <button id="buy-plasmid">Buy Plasmid</button>
+        <button id="buy-optimized-cell">Buy Optimized Cell</button>
     </div>
 
     <script>
@@ -189,10 +207,21 @@
                 });
             });
         }
+
+        function promptEmailAndNotify(buttonType) {
+            const email = prompt(`Enter your email to proceed with ${buttonType}:`);
+            if (email) {
+                alert("Information sent successfully, we will shortly contact you.");
+            }
+        }
+
+        document.getElementById("buy-plasmid").addEventListener("click", () => {
+            promptEmailAndNotify("Plasmid purchase");
+        });
+
+        document.getElementById("buy-optimized-cell").addEventListener("click", () => {
+            promptEmailAndNotify("Optimized Cell purchase");
+        });
     </script>
 </body>
 </html>
-
-
-
-
