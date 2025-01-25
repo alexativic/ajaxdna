@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - AJAXdna</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #4A5568;
+            background: #F7FAFC;
+        }
+
+        .our-story-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(-60deg, #083A47, #A6CAEC); /* Correct property for gradients */
+            color: white;
+            padding: 80px 20px; /* Increase padding for spacing */
+            position: relative;
+        }
+
+        .story-title {
+            flex: 1;
+            max-width: 33%; /* Title takes about 1/3rd of screen width */
+            padding-right: 20px;
+        }
+        
+        .story-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: white;
+            text-align: Left; /* Center the title */
+        }
+
+        .story-title p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-align: left; /* Align paragraph text */
+        }
+        
+        .story-image {
+            flex: 1;
+            max-width: 66%; /* Image takes about 2/3rd of screen width */
+            margin-left: 20px;
+        }
+        
+        .story-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .team-section {
+            padding: 50px 20px;
+            background: linear-gradient(-30deg, #FFFFFF, #A6CAEC);
+        }
+
+        .team-section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            color: #083A47;
+            margin-bottom: 30px;
+        }
+
+        .team-members {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            width: 260px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-member img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+
+        .team-member h3 {
+            font-size: 1.2rem;
+            color: #083A47;
+            margin-bottom: 5px;
+        }
+
+        .team-member p {
+            font-size: 1rem;
+            color: #4A5568;
+        }
+
+        .advisors-section {
+            background: linear-gradient(270deg, #FFFFFF, #A6CAEC);
+            padding: 50px 20px;
+            text-align: center;
+            color: #083A47;
+        }
+
+        .advisors-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+
+        .advisors-cards {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .advisor-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 20px;
+            width: 250px;
+            color: #4A5568;
+        }
+
+        .advisor-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .advisor-card h3 {
+            font-size: 1.25rem;
+            color: #083A47;
+            margin-bottom: 10px;
+        }
+
+        .advisor-card p {
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .partners-section {
+            background: #004B5C;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .partners-section h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .partners-logos {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .partners-logos img {
+            width: 150px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .partners-logos img:hover {
+            transform: scale(1.1);
+        }
+
+        footer {
+            background: #083A47;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #A5D1D8;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .our-story-section {
+                flex-direction: column;
+                text-align: center;
+            }
+        
+            .story-content, .story-image {
+                max-width: 100%;
+                margin: 0;
+                transform: none;
+                padding: 0;
+            }
+        
+            .story-image img {
+                width: 90%;
+            }
+        }
+
+        .story-image {
+            transform: translateY(100px); /* Adjust this value to set diagonal alignment */
+        }
+        .story-title {
+            transform: translateY(-200px); /* Adjust this value to set diagonal alignment */
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Full-Screen Photo -->
+<div class="full-screen-photo"></div>
+
+<section class="our-story-section">
+    <div class="story-title">
+        <h2>Our Story</h2>
+        <p>
+            From our inception to today, AJAX DNA has remained committed to pushing the boundaries of biotechnology.
+            Our story is one of innovation, collaboration, and passion, driving us to empower industries worldwide.
+        </p>
+    </div>
+    <div class="story-image">
+        <img src="timeline.png" alt="Our Journey">
+    </div>
+</section>
+
+<!-- Team Section -->
+<div class="team-section" id="team">
+    <h2>Meet the Team</h2>
+    <div class="team-members">
+        <div class="team-member">
+            <img src="images/alejandro.png" alt="Alejandro Atienza">
+            <h3>Alejandro Atienza</h3>
+            <p>Co-Founder, CEO</p>
+        </div>
+        <div class="team-member">
+            <img src="images/xu.png" alt="Jiate Xu">
+            <h3>Jiate Xu</h3>
+            <p>Co-Founder, CSO</p>
+        </div>
+    </div>
+</div>
+
+<!-- Advisors Section -->
+<div class="advisors-section">
+    <h2>Our Advisors</h2>
+    <div class="advisors-cards">
+        <div class="advisor-card">
+            <img src="images/manel.png" alt="Manel Porcar">
+            <h3>Manel Porcar</h3>
+            <p>Biotechnology & Synthetic Biology Expert</p>
+        </div>
+        <div class="advisor-card">
+            <img src="images/ferran.png" alt="Ferran Pla Cardona">
+            <h3>Ferran Pla Cardona</h3>
+            <p>Strategic Advisor</p>
+        </div>
+        <div class="advisor-card">
+            <img src="images/daniel.png" alt="Daniel Ramon Vidal">
+            <h3>Daniel Ramon Vidal</h3>
+            <p>Industrial & Microbiology Expert</p>
+        </div>
+    </div>
+</div>
+
+<!-- Partners Section -->
+<div class="partners-section">
+    <h2>Our Partners</h2>
+    <div class="partners-logos">
+        <img src="i2sysbio.png" alt="I2sysbio">
+        <img src="agrotecuv.png" alt="AgrotecUV">
+        <img src="upv2.png" alt="UPV">
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>© 2025 AJAXdna. All rights reserved. | <a href="contact.html">Contact Us</a></p>
+</footer>
+
+</body>
+</html>
+
