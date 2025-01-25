@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAXdna</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Full-screen video background */
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        /* Full-width overlay for the video */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Dark overlay */
+            z-index: 1; /* Ensure it sits behind the content */
+        }
+        
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Text content container */
+        .hero-content {
+            position: relative;
+            z-index: 2; /* Ensure it sits above the overlay */
+            color: white;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100%;
+            max-width: 600px; /* Restrict the width of the text */
+            margin-left: 5%; /* Add spacing from the left */
+            padding: 0 5%; /* Internal spacing */
+        }
+        
+        .hero-content h1 {
+            font-size: 3rem;
+            margin: 0;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+        
+        .hero-content p {
+            font-size: 1.25rem;
+            margin: 0;
+            margin-bottom: 20px;
+        }
+        
+        .hero-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .advantages-section {
+            padding: 50px 20px;
+            background: linear-gradient(30deg, #FFFFFF, #A6CAEC);
+            text-align: center;
+        }
+        
+        .advantages-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #083A47; /* Dark teal for the title */
+        }
+        
+        .advantages-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #4A5568; /* Subtle gray for subtitle */
+        }
+        
+        .advantage-boxes {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .advantage-box {
+            background: #FFFFFF; /* White background for the box */
+            border-radius: 12px;
+            padding: 20px;
+            width: 260px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for floating effect */
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .advantage-box:hover {
+            transform: translateY(-5px); /* Slight lift on hover */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+        }
+        
+        .advantage-icon-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(30deg, #FFFFFF, #A6CAEC);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 15px auto; /* Center the icon */
+        }
+        
+        .advantage-icon {
+            width: 32px; /* Adjust icon size */
+            height: auto;
+        }
+        
+        .advantage-box h4 {
+            font-size: 1.2rem;
+            color: #2D3748; /* Dark gray for heading */
+            margin-bottom: 10px;
+        }
+        
+        .advantage-box p {
+            font-size: 0.95rem;
+            color: #4A5568; /* Subtle gray for text */
+            line-height: 1.5;
+        }
+        
+        .carousel-section {
+            padding: 50px 20px;
+            linear-gradient(320deg, #FFFFFF, #A6CAEC);
+            text-align: center;
+        }
+
+        .carousel-section img {
+            max-width: 200px;
+            margin: 10px;
+        }
+
+        /* News Section Styling */
+        .news-section {
+            background: #083A47; /* Dark teal background */
+            padding: 50px 20px;
+            color: white;
+        }
+        
+        .news-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        
+        .news-article {
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Light separator line */
+            padding-bottom: 20px;
+        }
+        
+        .news-source {
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .news-icon {
+            height: 40px;
+            width: auto; /* Maintain the aspect ratio */
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .news-date,
+        .news-tag {
+            font-weight: normal;
+            font-size: 0.9rem;
+            color: #A5D1D8; /* Light teal for date and tags */
+        }
+        
+        .news-headline a {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white; /* Headline color */
+            text-decoration: none;
+            line-height: 1.4;
+        }
+        
+        .news-headline a:hover {
+            color: #A5D1D8; /* Light teal on hover */
+        }
+        
+        .news-author {
+            font-size: 0.9rem;
+            color: #C7C7C7; /* Lighter gray for the author line */
+        }
+                
+        .contact-section {
+            padding: 50px 20px;
+            background: linear-gradient(30deg, #FFFFFF, #A6CAEC);
+        }
+        
+        .contact-content {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .contact-text {
+            flex: 1;
+            max-width: 45%;
+        }
+        
+        .contact-form {
+            flex: 1;
+            max-width: 45%;
+            padding: 20px;
+            margin-right: 10px; /* Added margin for spacing */
+            box-sizing: border-box;
+        }
+        
+        .contact-form input, .contact-form select, .contact-form button {
+            display: block;
+            width: calc(100% - 20px); /* Adjusted for consistent padding */
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; /* Ensures padding doesn't overflow */
+        }
+        
+        .contact-form button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            padding: 12px; /* Adjusted padding for a larger button */
+            width: auto; /* Ensures the button width adjusts to its content */
+        }
+        
+        /* Footer Section */
+        .footer-section {
+            background: #F7FAFC;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .footer-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            text-align: left;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            color: #083A47;
+            margin-bottom: 15px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #4A5568;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        
+        .footer-column ul li a:hover {
+            text-decoration: underline;
+            color: #007BFF;
+        }
+        
+        .social-icons a img {
+            width: 24px;
+            height: auto;
+            margin-right: 10px;
+            transition: transform 0.2s ease;
+        }
+        
+        .social-icons a img:hover {
+            transform: scale(1.2);
+        }
+        
+        .footer-bottom {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #4A5568;
+        }
+        
+        
+        /* Products Section Styling */
+        .products-section {
+            padding: 60px 20px;
+            background: linear-gradient(-30deg, #FFFFFF, #A6CAEC);
+            text-align: center;
+        }
+        
+        .product {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .product.reverse {
+            flex-direction: row-reverse; /* Reverse layout for alternating products */
+        }
+        
+        .product img {
+            width: 300px; /* Adjust width of product images */
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for floating effect */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .product img:hover {
+            transform: scale(1.05); /* Slight zoom on hover */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+        }
+        
+        .product-description {
+            max-width: 600px; /* Limit width of text content */
+            text-align: left;
+        }
+        
+        .product-description h3 {
+            font-size: 1.8rem;
+            color: #083A47; /* Dark teal for titles */
+            margin-bottom: 10px;
+        }
+        
+        .product-description ul {
+            padding-left: 20px; /* Indent bullet points */
+            list-style: disc; /* Use bullet points */
+            color: #4A5568; /* Subtle gray for text */
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .product-description ul li {
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .product {
+                flex-direction: column; /* Stack images and text vertically on smaller screens */
+            }
+        
+            .product.reverse {
+                flex-direction: column; /* Ensure reverse products stack correctly */
+            }
+        
+            .product img {
+                width: 100%; /* Full width for smaller screens */
+            }
+        
+            .product-description {
+                text-align: center;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .top-right-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 3; /* Ensure it appears above other elements */
+        }
+        
+        .top-right-button .hero-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .top-right-button .hero-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <video class="hero-video" autoplay muted loop>
+        <source src="video_promo_2.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div> <!-- Dark overlay -->
+    <div class="hero-content">
+        <h1>Take your science to the next level</h1>
+        <p>Revolutionizing your lab through our patent pending technology, fast, efficient and cost effective solutions for your biotechnological developments.</p>
+        <a href="#products" class="hero-button">Go to Products</a>
+    </div>
+</div>
+
+<div class="top-right-button">
+    <a href="about.html" class="hero-button">About Us</a>
+</div>
+
+
+
+<!-- Advantages Section -->
+<div class="advantages-section">
+    <h2>Why Choose AjaxDNA</h2>
+    <h3>Our Advantages</h3>
+    <div class="advantage-boxes">
+        <div class="advantage-box">
+            <div class="advantage-icon-container">
+                <img src="icon1.png" class="advantage-icon" alt="Icon 1">
+            </div>
+            <h4>Lab Automation</h4>
+            <p>Design and run your experiments from your computer.</p>
+        </div>
+        <div class="advantage-box">
+            <div class="advantage-icon-container">
+                <img src="icon2.png" class="advantage-icon" alt="Icon 2">
+            </div>
+            <h4>Instant Development</h4>
+            <p>From mind to wet lab testing in seconds thanks to our patent-pending DNA technology.</p>
+        </div>
+        <div class="advantage-box">
+            <div class="advantage-icon-container">
+                <img src="icon3.png" class="advantage-icon" alt="Icon 3">
+            </div>
+            <h4>Lab Miniaturization</h4>
+            <p>Produce at the scale you need while saving maximum space.</p>
+        </div>
+        <div class="advantage-box">
+            <div class="advantage-icon-container">
+                <img src="icon4.png" class="advantage-icon" alt="Icon 4">
+            </div>
+            <h4>Cost Reductions</h4>
+            <p>Minimize expenses while maximizing product development.</p>
+        </div>
+    </div>
+</div>
+<!-- Products section -->
+<div class="products-section" id="products">
+    <!-- Product 1 -->
+    <div class="product">
+        <a href="design-software.html">
+            <img src="icons/design_tool.png" alt="AjaxDNA Design Software">
+        </a>
+        <div class="product-description">
+            <h3>AjaxDNA Design Software</h3>
+            <ul>
+                <li>From concept to DNA in just a few clicks</li>
+                <li>Automated digital twin modeling and optimization of your system</li>
+                <li>Standalone software for experimental design or integrated with Lab on a Cell workstation as the miniaturized lab management tool</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="product reverse">
+        <a href="lab-workstation.html">
+            <img src="icons/cell_testing.png" alt="Lab on a Cell Workstation">
+        </a>
+        <div class="product-description">
+            <h3>Lab on a Cell Workstation</h3>
+            <ul>
+                <li>Thousands of miniaturized labs that fit inside a cell working in parallele</li>
+                <li>Powered by patent-pending in vivo and in situ DNA synthesis method</li>
+                <li>Lab on a chip technology scaled to your needs</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product">
+        <a href="tech-consultory.html">
+            <img src="icons/tech_consultory.png" alt="Technical Consultory and Product Development">
+        </a>
+        <div class="product-description">
+            <h3>Technical Consultory and Product Development</h3>
+            <ul>
+                <li>Metabolic modeling service on request</li>
+                <li>Protein design through AI</li>
+                <li>Biotechnology trend reports</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Carousel Section -->
+<div class="carousel-section">
+    <h2>Recognitions and awards</h2>
+    <div class="carousel-container">
+        <img src="agrotec.png" alt="Agrotec Logo">
+        <img src="upv_ideas.png" alt="UPV Ideas Logo">
+        <img src="bioval.webp" alt="Bioval Logo">
+    </div>
+</div>
+
+<!-- News Section -->
+<div class="news-section">
+    <h2 class="news-title">Latest News</h2>
+
+    <!-- Las Provincias -->
+    <div class="news-article">
+        <p class="news-source">
+            <img src="las_provincias.png" alt="Las Provincias" class="news-icon">
+            <span class="news-date">25.11.2024</span> |
+            <span class="news-tag">PRESS RELEASE</span>
+        </p>
+        <p class="news-headline">
+            <a href="https://www.lasprovincias.es/economia/startups/fabrica-celulas-miniatura-apuesta-ajax-dna-revolucionar-20241125164050-nt.html" target="_blank">
+                Una fábrica de células en miniatura: la apuesta de AJAX DNA por revolucionar la biotecnología
+            </a>
+        </p>
+        <p class="news-author">By Las Provincias</p>
+    </div>
+
+    <!-- ValenciaPlaza -->
+    <div class="news-article">
+        <p class="news-source">
+            <img src="valenciaplaza.png" alt="Valencia Plaza" class="news-icon">
+            <span class="news-date">15.11.2024</span> |
+            <span class="news-tag">PRESS RELEASE</span>
+        </p>
+        <p class="news-headline">
+            <a href="https://valenciaplaza.com/amparo-tolosa-alejandro-atienza-premiados-7-edicion-nit-biotec" target="_blank">
+                Amparo Tolosa y Alejandro Atienza, entre los premiados en la 7ª edición de la Nit Biotec
+            </a>
+        </p>
+        <p class="news-author">By ValenciaPlaza</p>
+    </div>
+
+    <!-- À Punt -->
+    <div class="news-article">
+        <p class="news-source">
+            <img src="apunt.png" alt="À Punt" class="news-icon">
+            <span class="news-date">28.10.2024</span> |
+            <span class="news-tag">PRESS RELEASE</span>
+        </p>
+        <p class="news-headline">
+            <a href="https://www.lasprovincias.es/economia/startups/fabrica-celulas-miniatura-apuesta-ajax-dna-revolucionar-20241125164050-nt.html" target="_blank">
+                Cadena de Valor: El potent sector biotech de la Comunitat Valenciana
+            </a>
+        </p>
+        <p class="news-author">By À Punt</p>
+    </div>
+</div>
+<!-- Contact Section -->
+<div class="contact-section">
+    <div class="contact-content">
+        <div class="contact-text">
+            <h2>Contact to explore how we can help you</h2>
+            <p>Fill in your details and one of our product experts will contact you shortly to schedule a demo call.</p>
+            <h3>Here's what you can expect:</h3>
+            <ul class="expectation-list">
+                <li>A no-commitment product walkthrough</li>
+                <li>A discussion about your specific needs</li>
+                <li>Answers to your questions</li>
+            </ul>
+        </div>
+        <div class="contact-form">
+            <input type="text" placeholder="First Name">
+            <input type="text" placeholder="Last Name">
+            <input type="text" placeholder="Position">
+            <input type="text" placeholder="Company Name">
+            <select>
+                <option>1-10</option>
+                <option>11-25</option>
+                <option>26-50</option>
+                <option>51-100</option>
+                <option>100+</option>
+            </select>
+            <input type="email" placeholder="Institution Email">
+            <button type="submit">Send</button>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer-section">
+    <div class="footer-container">
+        <!-- About Us -->
+        <div class="footer-column">
+            <h3>About Us</h3>
+            <ul>
+                <li><a href="about.html">Our Team</a></li>
+
+            </ul>
+        </div>
+
+        <!-- Product -->
+        <div class="footer-column">
+            <h3>Product</h3>
+            <ul>
+                <li><a href="#product-section">Our Solution</a></li>
+            </ul>
+        </div>
+
+        <!-- Connect With Us -->
+        <div class="footer-column">
+            <h3>Connect With Us</h3>
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/alejandro-atienza-vicedo-963242190/" target="_blank"><img src="linkedin.png" alt="LinkedIn"></a>
+               
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 All Rights Reserved</p>
+    </div>
+</footer>
+
+</body>
+</html>
