@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Consultancy</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to shared CSS -->
+    <style>
+        /* Product Section */
+        .product-section {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 30px;
+            padding: 50px;
+            background: #F7FAFC;
+        }
+
+        .product-image {
+            width: 40%;
+            border-radius: 10px;
+        }
+
+        .product-description {
+            width: 50%;
+            text-align: left;
+        }
+
+        .product-description h1 {
+            font-size: 2.5rem;
+            color: #083A47;
+        }
+
+        .product-description ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .product-description ul li {
+            font-size: 1rem;
+            color: #4A5568;
+            line-height: 1.8;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .product-description ul li::before {
+            content: "✔";
+            color: #007BFF;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Slider Section */
+        .slider-container {
+            position: relative;
+            width: 80%;
+            margin: 50px auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slides img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 10px;
+            font-size: 1.5rem;
+            z-index: 2;
+        }
+
+        .arrow.left {
+            left: 10px;
+        }
+
+        .arrow.right {
+            right: 10px;
+        }
+
+        /* Contact Section */
+        .cta-section {
+            padding: 50px 20px;
+            background: linear-gradient(30deg, #FFFFFF, #A6CAEC);
+            text-align: left;
+        }
+
+        .cta-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .cta-section p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: #4A5568;
+        }
+
+        .cta-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cta-form input, .cta-form select, .cta-form button {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .cta-form button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-form button:hover {
+            background-color: #0056b3;
+        }
+        .about-section {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            gap: 30px;
+            padding: 50px;
+            background: #F7FAFC;
+            border-top: 2px solid #A6CAEC;
+            border-bottom: 2px solid #A6CAEC;
+        }
+        
+        .block {
+            width: 30%;
+            text-align: center;
+        }
+        
+        .block-icon {
+            width: 50px;
+            margin-bottom: 10px;
+        }
+        
+        .block h2 {
+            font-size: 1.5rem;
+            color: #083A47;
+            margin-bottom: 10px;
+        }
+        
+        .block p {
+            font-size: 1rem;
+            color: #4A5568;
+            line-height: 1.6;
+        }
+        
+        .divider {
+            width: 2px;
+            height: auto;
+            background: #A6CAEC;
+        }
+
+        @media (max-width: 768px) {
+            .about-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+        
+            .block {
+                width: 100%;
+                text-align: center;
+            }
+        
+            .divider {
+                display: none; /* Hide dividers on smaller screens */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Product Section -->
+    <section class="product-section">
+        <img src="icons/tech_consultory.png" alt="Technical Consultancy" class="product-image">
+        <div class="product-description">
+            <h1>Technical Consultancy and Product Development</h1>
+            <ul>
+                <li>Metabolic modeling service on request</li>
+                <li>Protein design through AI</li>
+                <li>Biotechnology trend reports</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Slider Section -->
+    <section class="about-section">
+        <!-- Block 1: Excellence and Team -->
+        <div class="block">
+            <img src="excellence.png" alt="Excellence Icon" class="block-icon">
+            <h2>Dedicated Team of Experts and Excellence</h2>
+            <p>
+                Our small yet passionate and specialized team combines expertise in biotechnology, synthetic biology, and business management. 
+                Educated at prestigious institutions like UPV, UV, and organizations like CSIC, UIMP, CDTM, and UV Empren, we have been recognized 
+                with awards such as UPV Ideas, Bioval Youth Talent Award, and AgrotecUV.  
+            </p>
+        </div>
+        
+        <!-- Vertical Divider -->
+        <div class="divider"></div>
+        
+        <!-- Block 2: Projects -->
+        <div class="block">
+            <img src="projects.png" alt="Projects Icon" class="block-icon">
+            <h2>Proven Experience in Projects</h2>
+            <p>
+                Our team has experience in technical and collaborative projects, including participating in the Micro4Biogas project 
+                for metabolic modeling and partnering with institutions like UPV. We have also written and submitted grant applications (e.g., Valencia Innovation Capital, where we were in the top 10% evaluations) 
+                and driven innovation projects for companies such as Lufthansa, VickyFoods, and biotech startups.
+            </p>
+        </div>
+        
+        <!-- Vertical Divider -->
+        <div class="divider"></div>
+        
+        <!-- Block 3: Values -->
+        <div class="block">
+            <img src="values.png" alt="Values Icon" class="block-icon">
+            <h2>Committed to Local and Global Impact</h2>
+            <p>
+                Our mission is to make biotechnology accessible to everyone, creating a local impact in Valencia and beyond. 
+                We reinvest all consultancy earnings to fund cutting-edge research, furthering our vision to bring biotech to the hands of everyone.
+            </p>
+        </div>
+    </section>
+    
+    
+    <!-- Contact Section -->
+    <section class="cta-section">
+        <h2>Check How We Can Help You</h2>
+        <p>Our technical consultancy is tailored to your needs. Connect with our experts to learn how we can support your biotechnology developments.</p>
+        <form action="book_meeting.php" method="POST" class="cta-form">
+            <input type="text" name="name" placeholder="First Name" required>
+            <input type="text" name="last_name" placeholder="Last Name" required>
+            <input type="text" name="position" placeholder="Position" required>
+            <input type="text" name="company_name" placeholder="Company Name" required>
+            <select name="company_size" required>
+                <option value="1-10">1-10</option>
+                <option value="11-25">11-25</option>
+                <option value="26-50">26-50</option>
+                <option value="51-100">51-100</option>
+                <option value="100+">100+</option>
+            </select>
+            <input type="email" name="email" placeholder="Institution Email" required>
+            <button type="submit">Schedule a Meeting</button>
+        </form>
+    </section>
+
+    <script>
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            const slides = document.querySelector('.slides');
+            const totalSlides = slides.children.length;
+            if (index >= totalSlides) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = totalSlides - 1;
+            } else {
+                currentSlide = index;
+            }
+            slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+    </script>
+</body>
+</html>
