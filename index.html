@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AJAXdna</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700&display=swap" rel="stylesheet">
     <style>
         body, html {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Raleway', Arial, sans-serif;
             overflow-x: hidden;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        * {
+            box-sizing: border-box;
         }
 
         /* Full-screen video background */
@@ -21,6 +28,27 @@
             overflow: hidden;
         }
         
+        .video-carousel {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+        }
+
+        .carousel-video {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1.2s ease; /* Only fade, no transform */
+            will-change: opacity;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .carousel-video.active {
+            opacity: 1;
+            /* No animation, zoom is applied instantly via transform */
+        }
+        
         /* Full-width overlay for the video */
         .hero-overlay {
             position: absolute;
@@ -28,8 +56,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4); /* Dark overlay */
-            z-index: 1; /* Ensure it sits behind the content */
+            background: rgba(0, 0, 0, 0.55); /* Stronger dark overlay for contrast */
+            z-index: 1;
         }
         
         .hero-video {
@@ -43,140 +71,166 @@
         
         /* Text content container */
         .hero-content {
-            position: relative;
-            z-index: 2; /* Ensure it sits above the overlay */
-            color: white;
+            position: absolute;
+            top: 50%;
+            left: 8vw;
+            transform: translateY(-50%);
+            z-index: 2;
+            color: #fff;
             text-align: left;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: flex-start;
-            height: 100%;
-            max-width: 600px; /* Restrict the width of the text */
-            margin-left: 5%; /* Add spacing from the left */
-            padding: 0 5%; /* Internal spacing */
+            max-width: 700px;
+            padding: 0;
+        }
+        
+        .hero-logo {
+            width: 180px;
+            margin-bottom: 32px;
+            filter: drop-shadow(0 2px 8px #0008);
+        }
+
+        .hero-fadeout {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 120px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, #fff 100%);
+            z-index: 2;
+            pointer-events: none;
         }
         
         .hero-content h1 {
-            font-size: 3rem;
-            margin: 0;
-            margin-bottom: 10px;
-            line-height: 1.2;
+            font-size: 2.5rem;
+            margin: 0 0 18px 0;
+            line-height: 1.15;
+            color: #fff;
+            font-weight: 700;
+            text-shadow: 0 2px 8px #000a;
         }
         
         .hero-content p {
             font-size: 1.25rem;
-            margin: 0;
-            margin-bottom: 20px;
+            margin: 0 0 28px 0;
+            color: #f5f5f5;
+            font-weight: 400;
+            text-shadow: 0 1px 4px #0007;
         }
         
         .hero-button {
-            padding: 10px 20px;
-            font-size: 1rem;
-            color: white;
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            color: #fff;
             background-color: #007BFF;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
             text-transform: uppercase;
             text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 2px 8px #0003;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .hero-button:hover {
+            background: #0056b3;
+            color: #fff;
+            transform: translateY(-2px) scale(1.04);
         }
 
         .advantages-section {
-            padding: 50px 20px;
-            background: linear-gradient(30deg, #FFFFFF, #A6CAEC);
+            padding: 60px 20px;
+            background: linear-gradient(30deg, #ECF0F1 60%, #6DB0F4 100%);
             text-align: center;
         }
         
         .advantages-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: #083A47; /* Dark teal for the title */
+            font-size: 2.6rem;
+            margin-bottom: 12px;
+            color: #1E90FF;
+            font-weight: 700;
         }
         
         .advantages-section h3 {
             font-size: 1.2rem;
             margin-bottom: 40px;
-            color: #4A5568; /* Subtle gray for subtitle */
+            color: #95A5A6;
         }
         
         .advantage-boxes {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 30px;
+            gap: 36px;
         }
         
         .advantage-box {
-            background: #FFFFFF; /* White background for the box */
-            border-radius: 12px;
-            padding: 20px;
+            background: #fff;
+            border-radius: 14px;
+            padding: 28px 20px;
             width: 260px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for floating effect */
+            box-shadow: 0 4px 18px #34495E11;
             text-align: center;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1.5px solid #ECF0F1;
         }
-        
         .advantage-box:hover {
-            transform: translateY(-5px); /* Slight lift on hover */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+            transform: translateY(-7px) scale(1.03);
+            box-shadow: 0 8px 24px #34495E22;
+            border-color: #6DB0F4;
         }
-        
         .advantage-icon-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(30deg, #FFFFFF, #A6CAEC);
+            background: linear-gradient(30deg, #ECF0F1, #6DB0F4);
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            margin: 0 auto 15px auto; /* Center the icon */
+            margin: 0 auto 15px auto;
         }
-        
         .advantage-icon {
-            width: 32px; /* Adjust icon size */
+            width: 32px;
             height: auto;
         }
-        
         .advantage-box h4 {
             font-size: 1.2rem;
-            color: #2D3748; /* Dark gray for heading */
+            color: #34495E;
             margin-bottom: 10px;
+            font-weight: 700;
         }
-        
         .advantage-box p {
-            font-size: 0.95rem;
-            color: #4A5568; /* Subtle gray for text */
+            font-size: 1rem;
+            color: #95A5A6;
             line-height: 1.5;
         }
-        
+
         .carousel-section {
             padding: 50px 20px;
-            linear-gradient(320deg, #FFFFFF, #A6CAEC);
+            background: linear-gradient(320deg, #ECF0F1 60%, #6DB0F4 100%);
             text-align: center;
         }
-
         .carousel-section img {
             max-width: 200px;
             margin: 10px;
+            filter: grayscale(0.2) drop-shadow(0 2px 8px #34495E22);
         }
 
         /* News Section Styling */
         .news-section {
-            background: #083A47; /* Dark teal background */
-            padding: 50px 20px;
-            color: white;
+            background: #34495E;
+            padding: 60px 20px;
+            color: #ECF0F1;
         }
         
         .news-title {
             font-size: 2.5rem;
             font-weight: bold;
             margin-bottom: 30px;
+            color: #6DB0F4;
         }
         
         .news-article {
             margin-bottom: 40px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Light separator line */
+            border-bottom: 1px solid #95A5A6;
             padding-bottom: 20px;
         }
         
@@ -198,78 +252,223 @@
         .news-tag {
             font-weight: normal;
             font-size: 0.9rem;
-            color: #A5D1D8; /* Light teal for date and tags */
+            color: #6DB0F4;
         }
         
         .news-headline a {
             font-size: 1.5rem;
             font-weight: bold;
-            color: white; /* Headline color */
+            color: #ECF0F1; /* Headline color */
             text-decoration: none;
             line-height: 1.4;
         }
         
         .news-headline a:hover {
-            color: #A5D1D8; /* Light teal on hover */
+            color: #1E90FF; /* Light teal on hover */
         }
         
         .news-author {
             font-size: 0.9rem;
-            color: #C7C7C7; /* Lighter gray for the author line */
+            color: #95A5A6; /* Lighter gray for the author line */
         }
                 
+        /* Professional Contact Section */
         .contact-section {
-            padding: 50px 20px;
-            background: linear-gradient(30deg, #FFFFFF, #A6CAEC);
+          background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 20%, #f8f9fa 80%, #ffffff 100%);
+          position: relative;
+          overflow: hidden;
         }
         
-        .contact-content {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 20px;
+        .contact-section .section-content {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          align-items: start;
+          gap: 80px;
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 40px;
         }
         
         .contact-text {
-            flex: 1;
-            max-width: 45%;
+          max-width: 500px;
+        }
+        
+        .contact-text h2 {
+          font-size: 3rem;
+          font-weight: 800;
+          margin-bottom: 24px;
+          background: linear-gradient(135deg, #1E90FF 0%, #0066CC 50%, #1E90FF 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          line-height: 1.2;
+        }
+        
+        .contact-text p {
+          font-size: 1.25rem;
+          color: #333;
+          line-height: 1.6;
+          margin-bottom: 40px;
+        }
+        
+        .contact-benefits {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+        }
+        
+        .benefit-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 16px;
+          padding: 20px;
+          background: rgba(255, 255, 255, 0.8);
+          border-radius: 12px;
+          border: 1px solid rgba(30, 144, 255, 0.1);
+          transition: all 0.3s ease;
+        }
+        
+        .benefit-item:hover {
+          background: rgba(255, 255, 255, 1);
+          border-color: rgba(30, 144, 255, 0.3);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(30, 144, 255, 0.1);
+        }
+        
+        .benefit-icon {
+          font-size: 2rem;
+          flex-shrink: 0;
+          width: 48px;
+          height: 48px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #1E90FF 0%, #0066CC 100%);
+          border-radius: 12px;
+          color: white;
+        }
+        
+        .benefit-content h4 {
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: #1E90FF;
+          margin-bottom: 8px;
+        }
+        
+        .benefit-content p {
+          font-size: 0.95rem;
+          color: #666;
+          line-height: 1.5;
+          margin: 0;
+        }
+        
+        .contact-form-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         
         .contact-form {
-            flex: 1;
-            max-width: 45%;
-            padding: 20px;
-            margin-right: 10px; /* Added margin for spacing */
-            box-sizing: border-box;
+          background: #ffffff;
+          border-radius: 20px;
+          padding: 40px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(30, 144, 255, 0.1);
+          width: 100%;
+          max-width: 480px;
         }
         
-        .contact-form input, .contact-form select, .contact-form button {
-            display: block;
-            width: calc(100% - 20px); /* Adjusted for consistent padding */
-            margin-bottom: 15px;
-            padding: 10px;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box; /* Ensures padding doesn't overflow */
+        .contact-form h3 {
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: #1E90FF;
+          margin-bottom: 32px;
+          text-align: center;
         }
         
-        .contact-form button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-            text-transform: uppercase;
-            padding: 12px; /* Adjusted padding for a larger button */
-            width: auto; /* Ensures the button width adjusts to its content */
+        .form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+          margin-bottom: 20px;
+        }
+        
+        .contact-form input,
+        .contact-form select {
+          width: 100%;
+          padding: 16px 20px;
+          font-size: 1rem;
+          border: 2px solid #e0e0e0;
+          border-radius: 12px;
+          background: #fafafa;
+          transition: all 0.3s ease;
+          font-family: 'Raleway', Arial, sans-serif;
+        }
+        
+        .contact-form input:focus,
+        .contact-form select:focus {
+          border-color: #1E90FF;
+          background: #ffffff;
+          outline: none;
+          box-shadow: 0 0 0 4px rgba(30, 144, 255, 0.1);
+        }
+        
+        .contact-submit-btn {
+          width: 100%;
+          padding: 18px 32px;
+          background: linear-gradient(135deg, #1E90FF 0%, #0066CC 100%);
+          color: white;
+          border: none;
+          border-radius: 12px;
+          font-size: 1.1rem;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          margin-top: 8px;
+        }
+        
+        .contact-submit-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 32px rgba(30, 144, 255, 0.3);
+          background: linear-gradient(135deg, #0066CC 0%, #1E90FF 100%);
+        }
+        
+        .contact-submit-btn svg {
+          transition: transform 0.3s ease;
+        }
+        
+        .contact-submit-btn:hover svg {
+          transform: translateX(4px);
+        }
+        
+        @media (max-width: 900px) {
+          .contact-section .section-content {
+            grid-template-columns: 1fr;
+            gap: 40px;
+            padding: 0 20px;
+          }
+          
+          .contact-text h2 {
+            font-size: 2.5rem;
+          }
+          
+          .form-row {
+            grid-template-columns: 1fr;
+          }
+          
+          .contact-form {
+            padding: 30px 24px;
+          }
         }
         
         /* Footer Section */
         .footer-section {
-            background: #F7FAFC;
-            padding: 40px 20px;
+            background: #ECF0F1;
+            padding: 44px 20px 20px 20px;
             text-align: center;
         }
         
@@ -278,7 +477,7 @@
             justify-content: space-around;
             align-items: flex-start;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 24px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -291,8 +490,9 @@
         
         .footer-column h3 {
             font-size: 1.2rem;
-            color: #083A47;
+            color: #1E90FF;
             margin-bottom: 15px;
+            font-weight: 700;
         }
         
         .footer-column ul {
@@ -305,21 +505,22 @@
         }
         
         .footer-column ul li a {
-            color: #4A5568;
+            color: #34495E;
             text-decoration: none;
             font-size: 0.95rem;
+            transition: color 0.2s;
         }
         
         .footer-column ul li a:hover {
             text-decoration: underline;
-            color: #007BFF;
+            color: #1E90FF;
         }
         
         .social-icons a img {
             width: 24px;
             height: auto;
             margin-right: 10px;
-            transition: transform 0.2s ease;
+            transition: transform 0.2s;
         }
         
         .social-icons a img:hover {
@@ -328,15 +529,15 @@
         
         .footer-bottom {
             margin-top: 20px;
-            font-size: 0.85rem;
-            color: #4A5568;
+            font-size: 0.95rem;
+            color: #95A5A6;
         }
         
         
         /* Products Section Styling */
         .products-section {
             padding: 60px 20px;
-            background: linear-gradient(-30deg, #FFFFFF, #A6CAEC);
+            background: linear-gradient(-30deg, #ECF0F1 60%, #6DB0F4 100%);
             text-align: center;
         }
         
@@ -344,7 +545,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 30px;
+            gap: 36px;
             margin-bottom: 50px;
             flex-wrap: wrap;
         }
@@ -356,13 +557,13 @@
         .product img {
             width: 300px; /* Adjust width of product images */
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for floating effect */
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 18px #34495E11; /* Subtle shadow for floating effect */
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         
         .product img:hover {
             transform: scale(1.05); /* Slight zoom on hover */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+            box-shadow: 0 8px 24px #34495E22; /* Enhanced shadow on hover */
         }
         
         .product-description {
@@ -372,14 +573,15 @@
         
         .product-description h3 {
             font-size: 1.8rem;
-            color: #083A47; /* Dark teal for titles */
+            color: #1E90FF; /* Dark teal for titles */
             margin-bottom: 10px;
+            font-weight: 700;
         }
         
         .product-description ul {
             padding-left: 20px; /* Indent bullet points */
             list-style: disc; /* Use bullet points */
-            color: #4A5568; /* Subtle gray for text */
+            color: #34495E; /* Subtle gray for text */
             font-size: 1rem;
             line-height: 1.6;
         }
@@ -388,19 +590,11 @@
             margin-bottom: 10px;
         }
         
-        @media (max-width: 768px) {
-            .product {
-                flex-direction: column; /* Stack images and text vertically on smaller screens */
+        @media (max-width: 900px) {
+            .footer-container, .contact-content, .product {
+                flex-direction: column;
+                align-items: center;
             }
-        
-            .product.reverse {
-                flex-direction: column; /* Ensure reverse products stack correctly */
-            }
-        
-            .product img {
-                width: 100%; /* Full width for smaller screens */
-            }
-        
             .product-description {
                 text-align: center;
             }
@@ -421,16 +615,17 @@
             padding: 10px 20px;
             font-size: 1rem;
             color: white;
-            background-color: #007BFF;
+            background-color: #1E90FF;
             border: none;
             border-radius: 5px;
             text-transform: uppercase;
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
         }
         
         .top-right-button .hero-button:hover {
-            background-color: #0056b3; /* Darker shade on hover */
+            background-color: #34495E;
+            color: #ECF0F1;
         }
         .learn-more-button {
             display: inline-block;
@@ -438,130 +633,1771 @@
             padding: 10px 20px;
             font-size: 1rem;
             color: white;
-            background-color: #007BFF;
+            background-color: #1E90FF;
             text-decoration: none;
             border-radius: 5px;
             text-align: center;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         .learn-more-button:hover {
-            background-color: #0056b3; /* Slightly darker shade on hover */
+            background-color: #6DB0F4;
+            color: #34495E;
             transform: scale(1.05); /* Slight zoom on hover */
+        }
+
+        @media (max-width: 700px) {
+          .hero-content {
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 18px 6vw 18px 6vw;
+            max-width: 98vw;
+            text-align: center;
+            align-items: center;
+          }
+          .hero-logo {
+            width: 120px;
+            margin-bottom: 18px;
+          }
+          .hero-content h1 {
+            font-size: 1.5rem;
+            text-align: center;
+          }
+          .hero-content p {
+            font-size: 1rem;
+            text-align: center;
+          }
+        }
+
+        .main-navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            background: none;
+            padding: 0;
+            margin: 0;
+        }
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 40px 0 40px;
+        }
+        .navbar-logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        .navbar-logo {
+            height: 48px;
+            width: auto;
+            display: block;
+            filter: drop-shadow(0 2px 8px #0008);
+        }
+        .navbar-links {
+            display: flex;
+            gap: 36px;
+        }
+        .navbar-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.08rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
+            transition: color 0.18s, border-bottom 0.18s;
+            background: none;
+        }
+        .navbar-links a:hover, .navbar-links a:focus {
+            color: #FFD166;
+            border-bottom: 2px solid #FFD166;
+        }
+        @media (max-width: 900px) {
+            .navbar-content {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 18px 16px 0 16px;
+            }
+            .navbar-links {
+                gap: 18px;
+                margin-top: 10px;
+                flex-wrap: wrap;
+            }
+            .navbar-logo {
+                height: 36px;
+            }
+        }
+
+        .presentation-section {
+          background: #fff;
+          padding: 64px 0 64px 0;
+        }
+        .problem-solution-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 64px;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+        .problem-block, .solution-block {
+          background: #fff;
+          border-radius: 18px;
+          box-shadow: 0 2px 16px #0001;
+          padding: 36px 32px;
+          flex: 1 1 340px;
+          min-width: 320px;
+          max-width: 480px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .problem-block h2, .solution-block h2 {
+          font-size: 2rem;
+          font-weight: 700;
+          margin-bottom: 18px;
+          color: #222;
+          font-family: 'Raleway', Arial, sans-serif;
+        }
+        .problem-content, .solution-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .problem-text, .solution-text {
+          margin-top: 8px;
+          text-align: left;
+        }
+        @media (max-width: 900px) {
+          .problem-solution-container {
+            flex-direction: column;
+            gap: 32px;
+            padding: 0 8vw;
+          }
+          .problem-block, .solution-block {
+            padding: 24px 8vw;
+            min-width: unset;
+            max-width: unset;
+          }
+        }
+
+        .wide-section {
+          width: 100%;
+          background: #fff;
+          padding: 80px 0;
+        }
+
+        .section-content {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          max-width: 1200px;
+          margin: 0 auto;
+          gap: 64px;
+          padding: 0 32px;
+        }
+
+        .section-content.reverse {
+          flex-direction: row-reverse;
+        }
+
+        .section-text {
+          flex: 1 1 400px;
+          min-width: 300px;
+        }
+
+        .section-text h2 {
+          font-size: 2.8rem;
+          font-weight: 800;
+          margin-bottom: 24px;
+          color: #222;
+          font-family: 'Raleway', Arial, sans-serif;
+        }
+
+        .section-text p {
+          font-size: 1.25rem;
+          color: #333;
+          line-height: 1.6;
+          font-family: 'Raleway', Arial, sans-serif;
+        }
+
+        .section-image {
+          flex: 1 1 400px;
+          min-width: 300px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .section-image img {
+          max-width: 100%;
+          max-height: 500px;
+        }
+
+        @media (max-width: 900px) {
+          .section-content, .section-content.reverse {
+            flex-direction: column !important;
+            gap: 32px;
+            padding: 0 8vw;
+          }
+          .section-image img {
+            max-height: 220px;
+          }
+          .section-text h2 {
+            font-size: 2rem;
+          }
+        }
+
+        .mission-fullscreen {
+          width: 100%;
+          height: 100vh;
+          position: relative;
+          overflow: hidden;
+          background: #fff;
+        }
+
+        .mission-diagonal {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          display: flex;
+        }
+
+        .mission-text-area {
+            flex: 1;
+            background: #fff;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 8vw 0 8vw;
+            clip-path: polygon(0 0, 65% 0, 100% 100%, 0% 100%);
+        }
+
+        .mission-content {
+          max-width: 600px;
+        }
+
+        .mission-content h2 {
+          font-size: 3.5rem;
+          font-weight: 800;
+          margin-bottom: 32px;
+          color: #222;
+          font-family: 'Raleway', Arial, sans-serif;
+          line-height: 1.1;
+        }
+
+        .mission-statement {
+          font-size: 1.8rem;
+          font-weight: 600;
+          color: #1E90FF;
+          line-height: 1.4;
+          font-family: 'Raleway', Arial, sans-serif;
+        }
+
+        .mission-graphic-area {
+            flex: 1;
+            background: #1E90FF;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: polygon(65% 0, 100% 0, 100% 100%, 0% 100%);
+        }
+
+        @media (max-width: 900px) {
+          .mission-diagonal {
+            flex-direction: column;
+          }
+          
+          .mission-text-area {
+            flex: 1;
+            clip-path: polygon(0 0, 100% 0, 100% 70%, 0% 100%);
+            padding: 8vh 6vw 8vh 6vw;
+          }
+          
+          .mission-graphic-area {
+            flex: 1;
+            clip-path: polygon(0 70%, 100% 0, 100% 100%, 0% 100%);
+          }
+          
+          .mission-content h2 {
+            font-size: 2.5rem;
+          }
+          
+          .mission-statement {
+            font-size: 1.4rem;
+          }
+        }
+
+        .vision-fullscreen {
+          width: 100%;
+          height: 100vh;
+          position: relative;
+          overflow: hidden;
+          background: #fff;
+        }
+
+        .vision-diagonal {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          display: flex;
+        }
+
+        .vision-text-area {
+          flex: 1;
+          background: #fff;
+          position: relative;
+          display: flex;
+          align-items: center;
+          padding: 0 8vw 0 8vw;
+          clip-path: polygon(0 0, 65% 0, 100% 100%, 0% 100%);
+        }
+
+        .vision-content {
+          max-width: 600px;
+        }
+
+        .vision-content h2 {
+          font-size: 3.5rem;
+          font-weight: 800;
+          margin-bottom: 32px;
+          color: #222;
+          font-family: 'Raleway', Arial, sans-serif;
+          line-height: 1.1;
+        }
+
+        .vision-statement {
+          font-size: 1.8rem;
+          font-weight: 600;
+          color: #1E90FF;
+          line-height: 1.4;
+          font-family: 'Raleway', Arial, sans-serif;
+        }
+
+        .vision-images-area {
+          flex: 1;
+          background: #f8f9fa;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          clip-path: polygon(65% 0, 100% 0, 100% 100%, 0% 100%);
+          overflow: hidden;
+        }
+
+        .image-container {
+          position: absolute;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        }
+
+        .image-container img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.3s ease;
+        }
+
+        .image-1 {
+          width: 280px;
+          height: 200px;
+          top: 20%;
+          right: 15%;
+          z-index: 3;
+        }
+
+        .image-2 {
+          width: 240px;
+          height: 180px;
+          bottom: 25%;
+          right: 25%;
+          z-index: 2;
+        }
+
+        .image-3 {
+          width: 320px;
+          height: 220px;
+          top: 50%;
+          right: 5%;
+          z-index: 1;
+        }
+
+        .image-1 img {
+          object-position: 30% 20%;
+        }
+
+        .image-2 img {
+          object-position: 70% 60%;
+        }
+
+        .image-3 img {
+          object-position: 20% 80%;
+        }
+
+        @media (max-width: 900px) {
+          .vision-diagonal {
+            flex-direction: column;
+          }
+          
+          .vision-text-area {
+            flex: 1;
+            clip-path: polygon(0 0, 100% 0, 100% 70%, 0% 100%);
+            padding: 8vh 6vw 8vh 6vw;
+          }
+          
+          .vision-images-area {
+            flex: 1;
+            clip-path: polygon(0 70%, 100% 0, 100% 100%, 0% 100%);
+          }
+          
+          .vision-content h2 {
+            font-size: 2.5rem;
+          }
+          
+          .vision-statement {
+            font-size: 1.4rem;
+          }
+          
+          .image-1 {
+            width: 200px;
+            height: 140px;
+            top: 15%;
+            right: 10%;
+          }
+          
+          .image-2 {
+            width: 160px;
+            height: 120px;
+            bottom: 20%;
+            right: 20%;
+          }
+          
+
+        }
+
+        .vision-images-container {
+          flex: 1 1 400px;
+          min-width: 300px;
+          height: var(--vision-height, 400px);
+          position: relative;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: stretch;
+          gap: var(--vision-gap, 20px);
+          overflow: hidden;
+        }
+
+        .vision-labels-container {
+          display: grid;
+          grid-template-columns: var(--img1-width, 162px) var(--img2-width, 192px) var(--img3-width, 170px);
+          gap: var(--vision-gap, 20px);
+          margin-top: 12px;
+          align-items: start;
+          justify-content: start;
+          width: auto;
+        }
+
+        .vision-labels-container .vision-label {
+          background: rgba(255,255,255,0.95);
+          color: #34495E;
+          font-weight: 600;
+          font-size: 1rem;
+          padding: 8px 12px;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+          text-align: center;
+          white-space: nowrap;
+        }
+
+        .vision-image-row {
+          flex: 1;
+          height: 100%;
+          overflow: hidden;
+          border-radius: 8px;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+          position: relative;
+        }
+
+        .vision-caption {
+          position: absolute;
+          bottom: 8px;
+          left: 50%;
+          transform: translateX(-50%);
+          color: #2b3a4a;
+          font-weight: 600;
+          font-size: 0.9rem;
+          background: transparent;
+          padding: 0;
+          border: none;
+          box-shadow: none;
+          text-shadow: 0 2px 6px rgba(0,0,0,0.25);
+          pointer-events: none;
+        }
+
+        .image-row-1 {
+          flex: 0 0 var(--img1-width, 162px);
+        }
+        .image-row-2 {
+          flex: 0 0 var(--img2-width, 192px);
+        }
+        .image-row-3 {
+          flex: 0 0 var(--img3-width, 170px);
+        }
+
+        .vision-image-row img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.3s ease;
+          transform-origin: center center;
+          will-change: transform;
+          -webkit-user-drag: none;
+          user-drag: none;
+          -webkit-user-select: none;
+          user-select: none;
+        }
+        
+        .image-row-1 {
+          animation: containerWidthPulse1 8s ease-in-out infinite;
+        }
+        
+        .image-row-2 {
+          animation: containerWidthPulse2 8s ease-out infinite;
+        }
+        
+        .image-row-3 {
+          animation: containerWidthPulse3 8s ease-in infinite;
+        }
+        
+        @keyframes containerWidthPulse1 {
+          0% {
+            flex: 0 0 var(--img1-width, 162px);
+          }
+          50% {
+            flex: 0 0 195px;
+          }
+          100% {
+            flex: 0 0 var(--img1-width, 162px);
+          }
+        }
+        
+        @keyframes containerWidthPulse2 {
+          0% {
+            flex: 0 0 var(--img2-width, 192px);
+          }
+          50% {
+            flex: 0 0 235px;
+          }
+          100% {
+            flex: 0 0 var(--img2-width, 192px);
+          }
+        }
+        
+        @keyframes containerWidthPulse3 {
+          0% {
+            flex: 0 0 var(--img3-width, 170px);
+          }
+          50% {
+            flex: 0 0 205px;
+          }
+          100% {
+            flex: 0 0 var(--img3-width, 170px);
+          }
+        }
+
+        .image-row-1 img {
+          object-position: var(--img1-posX, 50%) var(--img1-posY, 9%);
+          transform: translateY(var(--img1-translateY, -4px)) scale(var(--img1-scale, 1.03));
+        }
+
+        .image-row-2 img {
+          object-position: var(--img2-posX, 67%) var(--img2-posY, 10%);
+          transform: translateY(var(--img2-translateY, -18px)) scale(var(--img2-scale, 1.1));
+        }
+
+        .image-row-3 img {
+          object-position: var(--img3-posX, 6%) var(--img3-posY, 100%);
+          transform: translateY(var(--img3-translateY, -10px)) scale(var(--img3-scale, 1.06));
+        }
+
+        @media (max-width: 900px) {
+          .vision-images-container {
+            height: 300px;
+          }
+          
+          .vision-blue-background {
+            width: var(--blue-bg-width, 300px);
+            height: var(--blue-bg-height, 300px);
+          }
+          
+          .vision-image-row {
+            height: 60px;
+          }
+        }
+
+        .vision-labels-section .section-content {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: flex;
+          justify-content: space-between;
+          align-items: start;
+          padding: 0 32px;
+          gap: var(--vision-gap, 20px);
+        }
+
+        .vision-labels-section {
+          padding-top: 8px;
+          padding-bottom: 24px;
+        }
+
+        .vision-label-cell.cell-1 {
+          flex: 0 0 var(--img1-width, 162px);
+        }
+        .vision-label-cell.cell-2 {
+          flex: 0 0 var(--img2-width, 192px);
+        }
+        .vision-label-cell.cell-3 {
+          flex: 0 0 var(--img3-width, 170px);
+        }
+
+        .vision-label-cell {
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+        }
+
+        .vision-label {
+          background: #ffffff;
+          color: #34495E;
+          font-weight: 700;
+          font-size: 1rem;
+          padding: 8px 12px;
+          border-radius: 8px;
+          box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+          white-space: nowrap;
+          border: 1px solid #e0e0e0;
+          will-change: transform, padding;
+          transition: transform 0.15s ease, padding 0.15s ease;
+        }
+
+        /* Per-label adjustable positioning and padding */
+        .vision-label-cell.cell-1 .vision-label {
+          transform: translate(var(--label1-x, 0px), var(--label1-y, 0px));
+          padding: var(--label1-padV, 8px) var(--label1-padH, 12px);
+        }
+        .vision-label-cell.cell-2 .vision-label {
+          transform: translate(var(--label2-x, 0px), var(--label2-y, 0px));
+          padding: var(--label2-padV, 8px) var(--label2-padH, 12px);
+        }
+        .vision-label-cell.cell-3 .vision-label {
+          transform: translate(var(--label3-x, 0px), var(--label3-y, 0px));
+          padding: var(--label3-padV, 8px) var(--label3-padH, 12px);
+        }
+
+        @media (max-width: 900px) {
+          .vision-labels-section .section-content {
+            grid-template-columns: 1fr;
+            gap: 10px;
+            padding: 0 8vw;
+          }
+          .vision-label {
+            font-size: 0.95rem;
+          }
+        }
+
+        .captions-grid {
+          flex: 1 1 400px;
+          min-width: 300px;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: var(--vision-gap, 20px);
+          margin-top: 0;
+        }
+        /* Reduce vertical whitespace for captions section */
+        .vision-captions-section {
+          padding-top: 0px;   /* override .wide-section default 80px */
+          padding-bottom: 24px;
+        }
+        
+        /* Vision Images Floating Over Blue Background */
+        .vision-images-wrapper {
+          position: relative;
+          flex: 1 1 600px;
+          min-width: 500px;
+          height: var(--vision-height, 500px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-left: 100px;
+        }
+        
+        .vision-blue-background {
+          position: absolute;
+          top: var(--blue-bg-top, 50%);
+          left: var(--blue-bg-left, 70%);
+          transform: translate(-50%, -50%);
+          width: var(--blue-bg-width, 889px);
+          height: var(--blue-bg-height, 435px);
+          background: #1E90FF;
+          border-radius: 12px;
+          box-shadow: 0 8px 32px rgba(30, 144, 255, 0.3);
+          z-index: 1;
+        }
+        
+        /* Captions Section Blue Background */
+        .vision-captions-section {
+          background: #1E90FF;
+          position: relative;
+          z-index: 10;
+        }
+        
+        /* Solution Section with Grey Background and Fade Effect */
+        .solution-section {
+          background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 20%, #f8f9fa 80%, #f8f9fa 100%);
+          position: relative;
+          overflow: hidden;
+          padding: 10px 0;
+        }
+        
+        /* Solution Features Section with Same Background */
+        .solution-features-section {
+          background: linear-gradient(180deg, #f8f9fa 0%, #f8f9fa 80%, #ffffff 100%);
+          position: relative;
+          overflow: hidden;
+          padding-top: 20px;
+          padding-bottom: 60px;
+        }
+        
+        .solution-section::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 100px;
+          background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+          z-index: 1;
+          pointer-events: none;
+        }
+        
+        .solution-features-section::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 100px;
+          background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+          z-index: 1;
+          pointer-events: none;
+        }
+        
+        .solution-section .section-content {
+          position: relative;
+          z-index: 2;
+        }
+        
+        .solution-top-content {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          align-items: center;
+          gap: 32px;
+          margin-bottom: 0;
+          position: relative;
+          z-index: 2;
+          max-width: 1200px;
+          margin-left: auto;
+          margin-right: auto;
+          padding: 0 40px;
+        }
+        
+        .solution-image-container {
+          width: 100%;
+          max-width: 700px;
+          margin: 0 auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 500px;
+        }
+        
+        .solution-image-container img {
+          width: 120%;
+          height: auto;
+          max-width: 120%;
+          display: block;
+          transform: scale(1.2);
+        }
+        
+        .solution-features-row {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 32px;
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 40px;
+        }
+        @media (max-width: 1100px) {
+          .solution-top-content { grid-template-columns: 1fr; }
+          .solution-features-row { grid-template-columns: 1fr; }
+        }
+
+        .solution-features {
+          flex: 0 0 320px;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          padding-top: 20px;
+        }
+        
+        .solution-section .section-text {
+          padding: 60px 0;
+          max-width: 400px;
+        }
+        
+        .solution-section .section-text h2 {
+          font-weight: 800;
+          font-size: 2.8rem;
+          background: linear-gradient(135deg, #1E90FF 0%, #0066CC 50%, #1E90FF 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          filter: drop-shadow(0 2px 4px rgba(255,255,255,0.9));
+          margin-bottom: 24px;
+          line-height: 1.2;
+        }
+        
+        .solution-section .section-text p {
+          color: #000000;
+          font-weight: 600;
+          text-shadow: 0 2px 4px rgba(255,255,255,0.9);
+          font-size: 1.1rem;
+          line-height: 1.5;
+        }
+        
+        /* Solution Feature Buttons */
+        .solution-features {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+        
+        .feature-button {
+          display: flex;
+          align-items: center;
+          gap: 18px;
+          padding: 20px 24px;
+          background: rgba(255, 255, 255, 0.95);
+          border: 2px solid rgba(255, 255, 255, 0.4);
+          border-radius: 16px;
+          transition: all 0.3s ease;
+          cursor: pointer;
+          box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+          backdrop-filter: blur(10px);
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .feature-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+          transition: left 0.5s ease;
+        }
+        
+        .feature-button:hover::before {
+          left: 100%;
+        }
+        
+        .feature-button:hover {
+          transform: translateY(-3px) scale(1.02);
+          box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+          border-color: rgba(255, 255, 255, 0.8);
+          background: rgba(255, 255, 255, 1);
+        }
+        
+        .feature-icon {
+          font-size: 26px;
+          flex-shrink: 0;
+          width: 48px;
+          height: 48px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #1E90FF 0%, #0066CC 100%);
+          border-radius: 12px;
+          color: white;
+          box-shadow: 0 4px 12px rgba(30, 144, 255, 0.4);
+          transition: all 0.3s ease;
+        }
+        
+        .feature-button:hover .feature-icon {
+          transform: scale(1.1);
+          box-shadow: 0 6px 16px rgba(30, 144, 255, 0.5);
+        }
+        
+        .feature-text {
+          font-size: 1.05rem;
+          font-weight: 600;
+          color: #2c3e50;
+          line-height: 1.5;
+          transition: color 0.3s ease;
+        }
+        
+        .feature-button:hover .feature-text {
+          color: #1E90FF;
+        }
+        
+        .captions-grid {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: var(--vision-gap, 20px);
+          margin-top: 0;
+          margin-left: 150px;
+          position: relative;
+          z-index: 11;
+        }
+        
+        .vision-images-container {
+          position: relative;
+          z-index: 2;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: stretch;
+          gap: var(--vision-gap, 8px);
+          overflow: visible;
+          margin: 0 40px 0 160px;
+          padding: 20px 0;
+        }
+        /* Pull captions closer by reducing only the vision section bottom padding */
+        .vision-section {
+          padding-bottom: 16px;
+          position: relative;
+          z-index: 5;
+        }
+        .caption-cell { flex: 0 0 auto; display: flex; justify-content: center; }
+        .caption-cell.c1 { flex: 0 0 var(--img1-width, 162px); }
+        .caption-cell.c2 { flex: 0 0 var(--img2-width, 192px); }
+        .caption-cell.c3 { flex: 0 0 var(--img3-width, 170px); }
+        .caption-text {
+          color: #ffffff;
+          font-weight: 700;
+          font-size: 1.1rem;
+          text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Timeline Visualization */
+        .timeline-section { background: #fff; }
+        .timeline-chart-container {
+          height: 600px;
+          max-width: 1100px;
+          padding: 40px;
+          background: #ECF0F1;
+          border-radius: 15px;
+          margin: 60px auto 20px auto;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          position: relative;
+          z-index: 2;
+          margin-left: -150px;
+          margin-right: -100px;
+          width: calc(100% + 250px);
+        }
+        
+        .timeline-chart-container canvas {
+          background: white;
+          border-radius: 8px;
+        }
+        
+        .timeline-background-rectangle {
+          position: absolute;
+          top: 0;
+          left: -60vw;
+          width: 220vw;
+          height: 70px;
+          background: #ECF0F1;
+          z-index: 3;
+        }
+        
+        .gradient-title {
+          background: linear-gradient(135deg, #1E90FF 0%, #0066CC 40%, #004499 70%, #003366 85%, #001F3F 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          font-weight: bold;
+        }
+        .sources-button {
+          display: inline-block;
+          padding: 4px 8px;
+          background: transparent;
+          color: #1E90FF;
+          text-decoration: underline;
+          border: none;
+          font-weight: 400;
+          font-size: 14px;
+          cursor: pointer;
+          transition: color 0.2s;
+        }
+        .sources-button:hover {
+          color: #0056b3;
+          text-decoration: none;
+        }
+        .sources-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0,0,0,0.8);
+          z-index: 1000;
+          display: none;
+          align-items: center;
+          justify-content: center;
+        }
+        .sources-content {
+          background: white;
+          border-radius: 10px;
+          padding: 24px;
+          max-width: 90vw;
+          max-height: 80vh;
+          overflow-y: auto;
+        }
+        .sources-close {
+          float: right;
+          font-size: 24px;
+          cursor: pointer;
+          color: #999;
+        }
+        
+        .tab-button {
+          background: transparent;
+          border: none;
+          padding: 10px 15px;
+          cursor: pointer;
+          border-bottom: 2px solid transparent;
+          transition: all 0.3s;
+        }
+        
+        .tab-button.active {
+          border-bottom: 2px solid #1E90FF;
+          color: #1E90FF;
+        }
+        
+        .tab-button:hover {
+          background: #f5f5f5;
+        }
+        
+        .tab-content {
+          display: none;
+        }
+        
+        .tab-content.active {
+          display: block;
+        }
+
+        /* Dashboard Styles */
+        .dashboard-modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0,0,0,0.9);
+          z-index: 2000;
+          display: none;
+          align-items: center;
+          justify-content: center;
+        }
+        .dashboard-content {
+          background: white;
+          border-radius: 12px;
+          padding: 20px;
+          width: 95vw;
+          height: 90vh;
+          overflow-y: auto;
+          display: flex;
+          gap: 20px;
+        }
+        .dashboard-sidebar {
+          flex: 0 0 300px;
+          background: #f8f9fa;
+          border-radius: 8px;
+          padding: 16px;
+          overflow-y: auto;
+        }
+        .dashboard-main {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+        .control-group {
+          background: white;
+          border: 1px solid #e0e0e0;
+          border-radius: 6px;
+          padding: 12px;
+          margin-bottom: 12px;
+        }
+        .control-group h4 {
+          margin: 0 0 8px 0;
+          color: #333;
+          font-size: 14px;
+          font-weight: 600;
+        }
+        .control-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 6px;
+        }
+        .control-row label {
+          flex: 0 0 80px;
+          font-size: 12px;
+          color: #666;
+        }
+        .control-row input {
+          flex: 1;
+          padding: 4px 8px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          font-size: 12px;
+        }
+        .data-editor {
+          background: white;
+          border: 1px solid #e0e0e0;
+          border-radius: 8px;
+          padding: 16px;
+          height: 400px;
+          overflow: auto;
+        }
+        .data-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 11px;
+        }
+        .data-table th,
+        .data-table td {
+          border: 1px solid #ddd;
+          padding: 4px 6px;
+          text-align: center;
+        }
+        .data-table th {
+          background: #f5f5f5;
+          font-weight: 600;
+          position: sticky;
+          top: 0;
+        }
+        .data-table input {
+          width: 60px;
+          padding: 2px 4px;
+          border: none;
+          background: transparent;
+          text-align: center;
+          font-size: 11px;
+        }
+        .chart-preview {
+          flex: 1;
+          background: white;
+          border: 1px solid #e0e0e0;
+          border-radius: 8px;
+          padding: 16px;
+        }
+        .dashboard-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 16px;
+        }
+        .dashboard-close {
+          background: #dc3545;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          padding: 8px 16px;
+          cursor: pointer;
+          font-weight: 600;
+        }
+        .apply-changes {
+          background: #28a745;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          padding: 8px 16px;
+          cursor: pointer;
+          font-weight: 600;
+          margin-top: 12px;
+          width: 100%;
+        }
+        .preset-buttons {
+          display: flex;
+          gap: 6px;
+          flex-wrap: wrap;
+          margin-bottom: 12px;
+        }
+        .preset-btn {
+          background: #007bff;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          padding: 4px 8px;
+          cursor: pointer;
+          font-size: 11px;
+        }
+
+        /* Mission fullscreen hero */
+        .mission-hero {
+          position: relative;
+          height: var(--mission-hero-height, 110vh);
+          width: 100%;
+          overflow: hidden;
+          background: #fff;
+          margin-top: var(--mission-hero-margin-top, 96px);
+        }
+        .mission-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: var(--mission-image-pos-x, center) var(--mission-image-pos-y, 65%);
+        }
+
+        .mission-hero .mission-content {
+          position: absolute;
+          top: var(--mission-content-top, 4vh);
+          left: var(--mission-text-left, 52vw);
+          transform: none;
+          max-width: min(700px, calc(100vw - var(--mission-text-left, 52vw) - 8vw));
+          color: #222;
+          text-align: left;
+        }
+        .mission-hero .mission-content h2 {
+          font-size: 3rem;
+          font-weight: 800;
+          margin: 0 0 18px 0;
+        }
+        .mission-hero .mission-content .mission-statement {
+          font-size: 1.25rem;
+          line-height: 1.6;
+          color: #333;
+        }
+        @media (max-width: 900px) {
+          .mission-hero { height: var(--mission-hero-height-mobile, 85vh); }
+          .mission-hero .mission-content {
+            left: 50%;
+            right: auto;
+            transform: translate(-50%, -50%);
+            padding: 0 6vw;
+            text-align: center;
+          }
+          .mission-hero .mission-content h2 { font-size: 2rem; }
+          .mission-hero .mission-content .mission-statement { font-size: 1.1rem; }
+        }
+
+        .solution-features-row {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(260px, 1fr));
+          gap: 28px;
+          max-width: 1200px;
+          margin: 24px auto 0 auto;
+          padding: 0 40px;
+        }
+        /* Speed Separator Section CSS */
+        .speed-separator-section {
+          background: #1E90FF;
+          padding: 20px 0;
+          overflow: hidden;
+          white-space: nowrap;
+          position: relative;
+        }
+        
+        .speed-message-container {
+          width: 100%;
+        }
+        
+        .speed-message {
+          display: inline-block;
+          animation: scroll-message 20s linear infinite;
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: white;
+        }
+        
+        .speed-text {
+          margin: 0 20px;
+        }
+        
+        .speed-link {
+          color: #FFD166;
+          text-decoration: none;
+          font-weight: 700;
+          margin: 0 20px;
+          transition: color 0.3s ease;
+        }
+        
+        .speed-link:hover {
+          color: white;
+          text-decoration: underline;
+        }
+        
+        @keyframes scroll-message {
+          0% {
+            transform: translateX(100%);
+          }
+          100% {
+            transform: translateX(-100%);
+          }
+        }
+
+        @media (max-width: 1100px) {
+          .solution-top-content { 
+            grid-template-columns: 1fr; 
+            gap: 32px;
+          }
+          .solution-image-container { 
+            margin: 0 auto; 
+            max-width: 100%;
+            order: -1;
+          }
+          .solution-features-row { 
+            grid-template-columns: 1fr; 
+            gap: 20px;
+          }
         }
 
     </style>
 </head>
-<body>
+<body data-dev-mode="false" oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+
+<!-- Navigation Bar -->
+<nav class="main-navbar">
+  <div class="navbar-content">
+    <a href="index.html" class="navbar-logo-link">
+      <img src="Ajax-logo-white.png" alt="AJAXdna Logo" class="navbar-logo" />
+    </a>
+    <div class="navbar-links">
+      <a href="about.html">About</a>
+      <a href="design-software.html">Design Software</a>
+      <a href="lab-workstation.html">Lab Workstation</a>
+      <a href="tech-consultory.html">Tech Consultory</a>
+      <a href="product.html">Product</a>
+      <a href="blog2/DESCRIPTION.html">Blog</a>
+    </div>
+  </div>
+</nav>
 
 <!-- Hero Section -->
 <div class="hero-section">
-    <video class="hero-video" autoplay muted loop>
-        <source src="video_promo_2.mp4" type="video/mp4">
-    </video>
-    <div class="hero-overlay"></div> <!-- Dark overlay -->
-    <div class="hero-content">
-        <h1>Take your science to the next level</h1>
-        <p>Revolutionizing your lab through our patent pending technology, fast, efficient and cost effective solutions for your biotechnological developments.</p>
-        <a href="#products" class="hero-button">Go to Products</a>
-    </div>
+  <div class="video-carousel"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+          <h1>A new era of biological engineering</h1>
+    <p>Revolutionizing your lab through our patent pending technology, fast, efficient and cost effective solutions for your biotechnological developments.</p>
+    
+  </div>
+  <div class="hero-fadeout"></div>
 </div>
 
-<div class="top-right-button">
-    <a href="about.html" class="hero-button">About Us</a>
+<!-- Vision Section -->
+<section class="wide-section vision-section">
+  <div class="section-content">
+    <div class="section-text">
+      <h2 class="gradient-title">We create and supply the tools for the fastest biological engineering</h2>
+      <p class="vision-statement">To see a world without disease, hunger or biological risk thanks to quick and inexpensive development of custom biology engineering solutions where and when they are needed.</p>
+    </div>
+    <div class="vision-images-wrapper">
+      <div class="vision-blue-background"></div>
+      <div class="vision-images-container">
+        <div class="vision-image-row image-row-1">
+          <img src="tempFileForShare_20250802-213049.jpg" alt="Vision Image 1">
+        </div>
+        <div class="vision-image-row image-row-2">
+          <img src="sketch1754836582905.png" alt="Vision Image 2">
+        </div>
+        <div class="vision-image-row image-row-3">
+          <img src="biological_weapon.jpg" alt="Vision Image 3">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="wide-section vision-captions-section">
+  <div class="section-content">
+    <div class="section-text"></div>
+    <div class="captions-grid">
+      <div class="caption-cell c1"><div class="caption-text">Personalized Medicine</div></div>
+      <div class="caption-cell c2"><div class="caption-text">New Food Development</div></div>
+      <div class="caption-cell c3"><div class="caption-text">Pharma Research &amp; disease prevention</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Problem Section -->
+<section class="wide-section problem-section">
+  <div class="section-content reverse">
+    <div class="section-text" style="margin-left: 150px; min-width: 300px;">
+      <h2 class="gradient-title">Climbing a mountain without shoes</h2>
+      <p>The world is turning bio, but no one has the tools to make it happen fast and cost effectively. We are here to change that. We make the shoes</p>
+    </div>
+    <div class="section-image" style="position: relative;">
+      <div class="timeline-background-rectangle"></div>
+      <div class="timeline-chart-container" style="position: relative;">
+        <canvas id="biotechTimelineChart"></canvas>
+        <div style="position: absolute; bottom: 10px; left: 10px;">
+          <button class="sources-button" onclick="toggleSourcesModal()">View Sources & Calculations</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sources Modal -->
+<div class="sources-modal" id="sourcesModal">
+  <div class="sources-content">
+    <span class="sources-close" onclick="toggleSourcesModal()">&times;</span>
+    
+    <!-- Tabs for different views -->
+    <div style="display: flex; border-bottom: 1px solid #ddd; margin-bottom: 20px;">
+      <button class="tab-button active" onclick="showTab('chart')">Chart View</button>
+      <button class="tab-button" onclick="showTab('data')">Data Table</button>
+      <button class="tab-button" onclick="showTab('sources')">Sources</button>
+    </div>
+    
+    <!-- Chart Tab -->
+    <div id="chartTab" class="tab-content active">
+      <h3>Industry-Specific Market Penetration</h3>
+      <div class="timeline-controls" id="timeline-toggles"></div>
+      <div style="height: 400px; margin-top: 20px;">
+        <canvas id="detailedTimelineChart"></canvas>
+      </div>
+    </div>
+    
+    <!-- Data Table Tab -->
+    <div id="dataTab" class="tab-content" style="display: none;">
+      <h3>Market Penetration Data</h3>
+      <div style="height: 400px; overflow: auto;">
+        <table id="dataDisplayTable" style="width: 100%; border-collapse: collapse; font-size: 12px;">
+          <thead style="position: sticky; top: 0; background: white;">
+            <tr>
+              <th style="border: 1px solid #ddd; padding: 8px;">Year</th>
+              <th style="border: 1px solid #ddd; padding: 8px;">Textiles (%)</th>
+              <th style="border: 1px solid #ddd; padding: 8px;">Food (%)</th>
+              <th style="border: 1px solid #ddd; padding: 8px;">Meat (%)</th>
+              <th style="border: 1px solid #ddd; padding: 8px;">Catalysts (%)</th>
+              <th style="border: 1px solid #ddd; padding: 8px;">Construction (%)</th>
+              <th style="border: 1px solid #ddd; padding: 8px;">Chemicals (%)</th>
+              <th style="border: 1px solid #ddd; padding: 8px;">Plastics (%)</th>
+              <th style="border: 1px solid #ddd; padding: 8px;">Overall (%)</th>
+              <th style="border: 1px solid #ddd; padding: 8px;">AjaxDNA (%)</th>
+            </tr>
+          </thead>
+          <tbody id="dataDisplayTableBody">
+            <!-- Data will be populated by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <!-- Sources Tab -->
+    <div id="sourcesTab" class="tab-content" style="display: none;">
+      <h3>Data Sources</h3>
+      <div style="height: 400px; overflow: auto;">
+        
+        <h4>Textile Industry</h4>
+        <ul style="font-size: 12px; margin-bottom: 15px;">
+          <li><strong>Traditional Market:</strong> $1.94 trillion (2024), CAGR: 7.40% | $1.11 trillion, CAGR: 4.20% | $867.54B, CAGR: 4.70%</li>
+          <li><strong>Bio Market (Biotextiles):</strong> $5.3B, CAGR: 7.50% | $3.1B, CAGR: 7.20% | $7.43B, CAGR: 7.62%</li>
+          <li><strong>Sources:</strong></li>
+          <li>• <a href="https://www.bing.com/search?q=bioTextiles%20market%20size%20&qs=n&form=QBRE&sp=-1&lq=0&pq=biotextiles%20market%20size%20&sc=12-24&sk=&cvid=FBC985CFD6CA408BB18264A1C6895CB5" target="_blank">Biotextiles Market Research</a></li>
+          <li>• <a href="https://www.bing.com/search?q=biotextiles+market+size" target="_blank">Biotextiles Market Report | Global Forecast From 2025 To 2033</a></li>
+          <li>• <a href="https://www.bing.com/search?q=biotextiles+market+size" target="_blank">Biotextiles Market Size, Share & Growth Report, 2033</a></li>
+        </ul>
+        
+        <h4>Food Ingredients</h4>
+        <ul style="font-size: 12px; margin-bottom: 15px;">
+          <li><strong>Traditional Market:</strong> $315.77B, CAGR: 5.20% | $84.59B, CAGR: 6.20% | $351.42B, CAGR: 4.80%</li>
+          <li><strong>Bio Market (Precision Fermentation):</strong> $3.03B, CAGR: 43.50% | $4.01B, CAGR: 43.50% | $3.03B, CAGR: 43.50%</li>
+          <li><strong>Sources:</strong></li>
+          <li>• <a href="https://www.bing.com/search?q=food%20ingredients%20market%20size%20&qs=n&form=QBRE&sp=-1&lq=0&pq=food%20ingredients%20market%20size%20&sc=12-29&sk=&cvid=E871E256B0CB4B9F9F394F7BC68E8B6A" target="_blank">Food Ingredients Market Research</a></li>
+          <li>• <a href="https://www.bing.com/search?q=food+ingredients+market+size" target="_blank">Food Ingredients Market Size, Competitors & Forecast to 2030</a></li>
+          <li>• <a href="https://www.bing.com/search?q=food+ingredients+market+size" target="_blank">Food Ingredients Market Size to Reach USD 561.61 Bn By 2034</a></li>
+          <li>• <a href="https://www.fortunebusinessinsights.com/precision-fermentation-market-109824" target="_blank">Precision Fermentation Market Size, Share | Growth Report 2032</a></li>
+        </ul>
+        
+        <h4>Meat Industry</h4>
+        <ul style="font-size: 12px; margin-bottom: 15px;">
+          <li><strong>Traditional Market:</strong> $1430B, CAGR: 1.91% | $1102.55B, CAGR: 7.10% | $1130B, CAGR: 5.50%</li>
+          <li><strong>Bio Market (Cultivated Meat):</strong> $0.86B, CAGR: 51.64% | $0.567B, CAGR: 51.60% | $2.79B, CAGR: 45.50%</li>
+          <li><strong>Sources:</strong></li>
+          <li>• <a href="https://www.bing.com/search?q=meat+market+size" target="_blank">Meat Market Size, Share, Industry Trends, and Report 2033</a></li>
+          <li>• <a href="https://www.bing.com/search?q=meat+market+size" target="_blank">Meat Market - Industry Analysis and Forecast</a></li>
+          <li>• <a href="https://www.bing.com/search?q=cultured+meat+market+size" target="_blank">Cultured Meat Market Size And Share | Industry Report, 2030</a></li>
+          <li>• <a href="https://www.bing.com/search?q=cultured+meat+market+size" target="_blank">Cultured Meat Market Size, Share | Growth & Forecast 2034</a></li>
+        </ul>
+        
+        <h4>Catalysts</h4>
+        <ul style="font-size: 12px; margin-bottom: 15px;">
+          <li><strong>Traditional Market:</strong> $37.22B, CAGR: 4.48% | $32.16B, CAGR: 4.82% | $32.24B, CAGR: 4.50%</li>
+          <li><strong>Bio Market (Industrial Enzymes):</strong> $7.53B, CAGR: 6.20% | $15.74B, CAGR: 8.60% | $10.98B, CAGR: 4.00%</li>
+          <li><strong>Sources:</strong></li>
+          <li>• <a href="https://www.bing.com/search?q=global+catalysts+market" target="_blank">Global Catalysts Market Report 2031- Size, Share & Trends</a></li>
+          <li>• <a href="https://www.bing.com/search?q=catalyst+market+size" target="_blank">Catalyst Market Size, Share, Growth & Analysis, Trends 2032</a></li>
+          <li>• <a href="https://www.bing.com/search?q=catalyst+market+size" target="_blank">Catalyst Market Size, Share, Growth | Industry Report, 2034</a></li>
+          <li>• <a href="https://www.bing.com/search?q=industrial+enzymes+market" target="_blank">Industrial Enzymes Market Size, Share | Industry Report, 2033</a></li>
+          <li>• <a href="https://www.bing.com/search?q=industrial+enzymes+market" target="_blank">Industrial Enzymes Market Revenue, Growth & Forecast Periods 2025-2033</a></li>
+          <li>• <a href="https://www.bing.com/search?q=enzymes+market+size" target="_blank">Enzymes Market Size to Surpass USD 16.26 Billion by 2034</a></li>
+        </ul>
+        
+        <h4>Construction Materials</h4>
+        <ul style="font-size: 12px; margin-bottom: 15px;">
+          <li><strong>Traditional Market:</strong> $1370B, CAGR: 3.90% | $1369.86B, CAGR: 3.90% | $1233B, CAGR: 4.90%</li>
+          <li><strong>Bio Market (Biobased Materials):</strong> $5.9B, CAGR: 7.40% | $16.4B, CAGR: 16.30% | $24.2B, CAGR: 19.00%</li>
+          <li><strong>Sources:</strong></li>
+          <li>• <a href="https://www.bing.com/search?q=construction+materials+market+size" target="_blank">Construction Materials Market Size to Surpass USD 2.01 Tn By 2034</a></li>
+          <li>• <a href="https://www.bing.com/search?q=construction+materials+market" target="_blank">Contact Us | Fortune Business Insights</a></li>
+          <li>• <a href="https://www.bing.com/search?q=construction+materials+market" target="_blank">Construction Materials Market Size, Share & Analysis 2033 Report</a></li>
+          <li>• <a href="https://www.bing.com/search?q=bio-based+composite+material" target="_blank">Bio-based Composite Material Market Report 2024: Market</a></li>
+          <li>• <a href="https://www.bing.com/search?q=bio-based+construction+polymers" target="_blank">Bio-based Construction Polymers Market Size & Competitors</a></li>
+          <li>• <a href="https://www.bing.com/search?q=bio-based+building+materials" target="_blank">Bio-Based Building Materials Market Size & Share Report - 2032</a></li>
+        </ul>
+        
+        <h4>Chemicals</h4>
+        <ul style="font-size: 12px; margin-bottom: 15px;">
+          <li><strong>Traditional Market:</strong> $6182B, CAGR: 2.30% | $5720B, CAGR: 3.40% | ~$6000B, CAGR: 2.85%</li>
+          <li><strong>Bio Market (Bio-based Chemicals):</strong> $96.39B, CAGR: 8.30% | $47B, CAGR: 11.60% | $73.16B, CAGR: 9.60%</li>
+          <li><strong>Sources:</strong></li>
+          <li>• <a href="https://www.bing.com/search?q=global+chemical+industry" target="_blank">Global Chemical Industry Outlook 2025 - MarketsandMarkets</a></li>
+          <li>• <a href="https://www.bing.com/search?q=chemical+industry+worldwide" target="_blank">Chemical industry worldwide - statistics & facts | Statista</a></li>
+          <li>• <a href="https://www.bing.com/search?q=chemical+industry+market+size" target="_blank">Chemical Industry Market Size, Share & Trends Report 2035</a></li>
+          <li>• <a href="https://www.marketresearchfuture.com/reports/bio-based-chemicals-market-5706" target="_blank">Bio-based Chemicals Market Size, Share | CAGR of 8.30%</a></li>
+          <li>• <a href="https://market.us/report/bio-based-chemicals-market/" target="_blank">Bio-based Chemicals Market Size, Share | CAGR of 11.6%</a></li>
+          <li>• <a href="https://www.bing.com/search?q=biobased+chemical+market+size" target="_blank">Biobased Chemical Market Research</a></li>
+        </ul>
+        
+        <h4>Plastics</h4>
+        <ul style="font-size: 12px; margin-bottom: 15px;">
+          <li><strong>Traditional Market:</strong> $650.92B, CAGR: 4.18% | $651.15B, CAGR: 4.20% | $524.48B, CAGR: 5.10%</li>
+          <li><strong>Bio Market (Bioplastics):</strong> $16.8B, CAGR: 19.30% | $15.57B, CAGR: 19.50% | $4.21B, CAGR: 5.80%</li>
+          <li><strong>Sources:</strong></li>
+          <li>• <a href="https://www.bing.com/search?q=plastic+market+size" target="_blank">Plastic Market Size, Share, Trends & Growth Report, 2030</a></li>
+          <li>• <a href="https://www.bing.com/search?q=plastics+market+size" target="_blank">Plastics Market Size to Hit USD 980.86 Billion by 2034</a></li>
+          <li>• <a href="https://www.bing.com/search?q=plastics+market+size&cvid=753beb432b12457da6423b8ae8a4459f&gs_lcrp=EgRlZGdlKgYIABBFGDkyBggAEEUYOTIGCAEQABhA0gEJMTA5MTdqMGo0qAIAsAIA&FORM=ANAB01&ucpdpc=UCPD&PC=HCTS" target="_blank">Plastics Market Research</a></li>
+          <li>• <a href="https://www.bing.com/search?q=bio-plastics+market" target="_blank">Bio-plastics Market Growth & Trends, 2025 to 2035</a></li>
+          <li>• <a href="https://www.bing.com/search?q=bioplastics+market+size" target="_blank">Bioplastics Market Size, Share, Growth Analysis Report 2030</a></li>
+          <li>• <a href="https://www.businessresearchinsights.com/market-reports/bio-plastics-market-107344" target="_blank">Bio-plastics Market Research</a></li>
+        </ul>
+        
+        <h4>Methodology</h4>
+        <p style="font-size: 12px; margin-top: 20px;">
+          <strong>Data Processing:</strong> For each market, we collect data from 3 different sources, calculate the average market size and average CAGR. 
+          Market penetration is calculated as: (Bio Market Size / Traditional Market Size) × 100%. 
+          Once a market reaches 100% penetration, the bio market grows at the traditional market CAGR rate to maintain 100% penetration.
+          Overall penetration is calculated as a market-size-weighted average of individual market penetrations.
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
 
+<!-- Dashboard Modal -->
+<div class="dashboard-modal" id="dashboardModal">
+  <div class="dashboard-content">
+    <div class="dashboard-sidebar">
+      <div class="dashboard-header">
+        <h3 style="margin: 0;">Chart Controls</h3>
+        <button class="dashboard-close" onclick="closeDashboard()">Close</button>
+      </div>
+      
+      <!-- Axis Controls -->
+      <div class="control-group">
+        <h4>Axis Settings</h4>
+        <div class="control-row">
+          <label>X Max:</label>
+          <input type="number" id="xMax" value="70" min="10" max="100">
+        </div>
+        <div class="control-row">
+          <label>X Step:</label>
+          <input type="number" id="xStep" value="2" min="1" max="10">
+        </div>
+        <div class="control-row">
+          <label>Y Min:</label>
+          <input type="number" id="yMin" value="0" min="0" max="50">
+        </div>
+        <div class="control-row">
+          <label>Y Max:</label>
+          <input type="number" id="yMax" value="90" min="10" max="100">
+        </div>
+      </div>
 
+      <!-- AjaxDNA Controls -->
+      <div class="control-group">
+        <h4>AjaxDNA Curve</h4>
+        <div class="control-row">
+          <label>Max (L):</label>
+          <input type="number" id="ajaxL" value="85" min="10" max="100" step="0.1">
+        </div>
+        <div class="control-row">
+          <label>Rate (k):</label>
+          <input type="number" id="ajaxK" value="0.8" min="0.1" max="2" step="0.1">
+        </div>
+        <div class="control-row">
+          <label>Inflection (x0):</label>
+          <input type="number" id="ajaxX0" value="3" min="1" max="10" step="0.5">
+        </div>
+      </div>
 
-<!-- Advantages Section -->
-<div class="advantages-section">
-    <h2>Why Choose AjaxDNA</h2>
-    <h3>Our Advantages</h3>
-    <div class="advantage-boxes">
-        <div class="advantage-box">
-            <div class="advantage-icon-container">
-                <img src="icon1.png" class="advantage-icon" alt="Icon 1">
-            </div>
-            <h4>Lab Automation</h4>
-            <p>Design and run your experiments from your computer.</p>
+      <!-- Preset Scenarios -->
+      <div class="control-group">
+        <h4>Scenarios</h4>
+        <div class="preset-buttons">
+          <button class="preset-btn" onclick="loadPreset('conservative')">Conservative</button>
+          <button class="preset-btn" onclick="loadPreset('realistic')">Realistic</button>
+          <button class="preset-btn" onclick="loadPreset('optimistic')">Optimistic</button>
+          <button class="preset-btn" onclick="loadPreset('reset')">Reset to Real Data</button>
         </div>
-        <div class="advantage-box">
-            <div class="advantage-icon-container">
-                <img src="icon2.png" class="advantage-icon" alt="Icon 2">
-            </div>
-            <h4>Instant Development</h4>
-            <p>From mind to wet lab testing in seconds thanks to our patent-pending DNA technology.</p>
+      </div>
+
+      <!-- CAGR Controls -->
+      <div class="control-group">
+        <h4>Industry Growth Rates (CAGR %)</h4>
+        <div class="control-row">
+          <label>Textile:</label>
+          <input type="number" id="textileCagr" value="2" min="0" max="20" step="0.5">
         </div>
-        <div class="advantage-box">
-            <div class="advantage-icon-container">
-                <img src="icon3.png" class="advantage-icon" alt="Icon 3">
-            </div>
-            <h4>Lab Miniaturization</h4>
-            <p>Produce at the scale you need while saving maximum space.</p>
+        <div class="control-row">
+          <label>Food:</label>
+          <input type="number" id="foodCagr" value="8" min="0" max="30" step="0.5">
         </div>
-        <div class="advantage-box">
-            <div class="advantage-icon-container">
-                <img src="icon4.png" class="advantage-icon" alt="Icon 4">
-            </div>
-            <h4>Cost Reductions</h4>
-            <p>Minimize expenses while maximizing product development.</p>
+        <div class="control-row">
+          <label>Meat:</label>
+          <input type="number" id="meatCagr" value="15" min="0" max="50" step="0.5">
         </div>
+        <div class="control-row">
+          <label>Catalysts:</label>
+          <input type="number" id="catalystsCagr" value="1.5" min="0" max="10" step="0.1">
+        </div>
+        <div class="control-row">
+          <label>Construction:</label>
+          <input type="number" id="constructionCagr" value="5" min="0" max="20" step="0.5">
+        </div>
+      </div>
+
+      <button class="apply-changes" onclick="updateChart()">Apply Changes</button>
     </div>
+
+    <div class="dashboard-main">
+      <!-- Data Editor -->
+      <div class="data-editor">
+        <h4 style="margin-top: 0;">Data Points Editor (First 20 Years)</h4>
+        <table class="data-table" id="dataTable">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Textile</th>
+              <th>Food</th>
+              <th>Meat</th>
+              <th>Catalysts</th>
+              <th>Construction</th>
+              <th>AjaxDNA</th>
+            </tr>
+          </thead>
+          <tbody id="dataTableBody">
+            <!-- Data rows will be populated by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Chart Preview -->
+      <div class="chart-preview">
+        <h4 style="margin-top: 0;">Live Preview</h4>
+        <canvas id="previewChart" style="width: 100%; height: 300px;"></canvas>
+      </div>
+    </div>
+  </div>
 </div>
-<!-- Products section -->
-<div class="products-section" id="products">
-    <!-- Product 1 -->
-    <div class="product">
-        <a href="design-software.html">
-            <img src="icons/design_tool.png" alt="AjaxDNA Design Software">
-        </a>
-        <div class="product-description">
-            <h3>AjaxDNA Design Software</h3>
-            <ul>
-                <li>From concept to DNA in just a few clicks</li>
-                <li>Automated digital twin modeling and optimization of your system</li>
-                <li>Standalone software for experimental design or integrated with Lab on a Cell workstation as the miniaturized lab management tool</li>
-            </ul>
-            <a href="design-software.html" class="learn-more-button">Learn More</a>
-        </div>
-    </div>
 
-    <!-- Product 2 -->
-    <div class="product reverse">
-        <a href="lab-workstation.html">
-            <img src="icons/cell_testing.png" alt="Lab on a Cell Workstation">
-        </a>
-        <div class="product-description">
-            <h3>Lab on a Cell Workstation</h3>
-            <ul>
-                <li>Thousands of miniaturized labs that fit inside a cell working in parallel</li>
-                <li>Powered by patent-pending in vivo and in situ DNA synthesis method</li>
-                <li>Lab on a chip technology scaled to your needs</li>
-            </ul>
-            <a href="lab-workstation.html" class="learn-more-button">Learn More</a>
-        </div>
+<!-- Speed Separator Section -->
+<section class="speed-separator-section">
+  <div class="speed-message-container">
+    <div class="speed-message">
+      <span class="speed-text">There is a whole new speed for you.</span>
+      <a href="product.html" class="speed-link">Speed for you</a>
+      <span class="speed-text">There is a whole new speed for you.</span>
+      <a href="product.html" class="speed-link">Speed for you</a>
+      <span class="speed-text">There is a whole new speed for you.</span>
+      <a href="product.html" class="speed-link">Speed for you</a>
+      <span class="speed-text">There is a whole new speed for you.</span>
+      <a href="product.html" class="speed-link">Speed for you</a>
     </div>
+  </div>
+</section>
 
-    <!-- Product 3 -->
-    <div class="product">
-        <a href="tech-consultory.html">
-            <img src="icons/tech_consultory.png" alt="Technical Consultory and Product Development">
-        </a>
-        <div class="product-description">
-            <h3>Technical Consultory and Product Development</h3>
-            <ul>
-                <li>Metabolic modeling service on request</li>
-                <li>Protein design through AI</li>
-                <li>Biotechnology trend reports</li>
-            </ul>
-            <a href="tech-consultory.html" class="learn-more-button">Learn More</a>
-        </div>
+<!-- Solution Section -->
+<section class="wide-section solution-section">
+  <div class="section-content">
+    <div class="solution-top-content">
+      <div class="section-text">
+        <h2 class="gradient-title">Our platform builds and tests millions of cell lines in hours</h2>
+        <p>Not just the first fully automated and AI powered cell factory, but a full lab on your workbench thanks to our patented protocols</p>
+      </div>
+      <div class="solution-image-container">
+        <img id="solutionImageSequence" src="video/0001.png" alt="Our Solution Animation" style="width: 100%; height: auto;">
+      </div>
     </div>
-</div>
+  </div>
+</section>
+
+<!-- Solution Features Section -->
+<section class="wide-section solution-features-section">
+  <div class="section-content">
+    <div class="solution-features-row">
+      <div class="feature-button">
+        <div class="feature-icon">🔬</div>
+        <div class="feature-text">Real time metabolomic, transcriptomics and proteomic analysis</div>
+      </div>
+      <div class="feature-button">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-text">Accelerated & automated cell line screening</div>
+      </div>
+      <div class="feature-button">
+        <div class="feature-icon">🚀</div>
+        <div class="feature-text">Quickly swifting from prototyping to bioproduction of any discovered compound</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Solution Section -->
+<section class="mission-hero">
+  <img src="imagen_mision.png" alt="Mission Background" class="mission-bg">
+  <div class="mission-content">
+          <h2 class="gradient-title">Our Mission, today & tomorrow</h2>
+    <p class="mission-statement">Today we accelerate drug discovery times and drop the costs by a 50000x factor during preclinical trials for pharmaceutical and biotech companies using our LabOnaCell workstation. Tomorrow, to extend this benefits to all other industries making use of biotech</p>
+  </div>
+</section>
 
 <!-- Carousel Section -->
 <div class="carousel-section">
-    <h2>Recognitions and awards</h2>
+          <h2 class="gradient-title">Recognitions and awards</h2>
     <div class="carousel-container">
         <img src="agrotec.png" alt="Agrotec Logo">
         <img src="upv_ideas.png" alt="UPV Ideas Logo">
@@ -619,35 +2455,69 @@
     </div>
 </div>
 <!-- Contact Section -->
-<div class="contact-section">
-    <div class="contact-content">
+<section class="wide-section contact-section">
+    <div class="section-content">
         <div class="contact-text">
-            <h2>Contact to explore how we can help you</h2>
-            <p>Fill in your details and one of our product experts will contact you shortly to schedule a demo call.</p>
-            <h3>Here's what you can expect:</h3>
-            <ul class="expectation-list">
-                <li>A no-commitment product walkthrough</li>
-                <li>A discussion about your specific needs</li>
-                <li>Answers to your questions</li>
-            </ul>
+            <h2 class="gradient-title">Ready to accelerate your biotech development?</h2>
+            <p>Connect with our team to explore how our LabOnaCell workstation can transform your research and development process.</p>
+            <div class="contact-benefits">
+                <div class="benefit-item">
+                    <div class="benefit-icon">🎯</div>
+                    <div class="benefit-content">
+                        <h4>Personalized Demo</h4>
+                        <p>See our platform in action with a tailored demonstration</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">💡</div>
+                    <div class="benefit-content">
+                        <h4>Expert Consultation</h4>
+                        <p>Discuss your specific needs with our biotech specialists</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🚀</div>
+                    <div class="benefit-content">
+                        <h4>Implementation Plan</h4>
+                        <p>Get a roadmap for integrating our solution into your workflow</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="contact-form">
-            <input type="text" placeholder="First Name">
-            <input type="text" placeholder="Last Name">
-            <input type="text" placeholder="Position">
-            <input type="text" placeholder="Company Name">
-            <select>
-                <option>1-10</option>
-                <option>11-25</option>
-                <option>26-50</option>
-                <option>51-100</option>
-                <option>100+</option>
-            </select>
-            <input type="email" placeholder="Institution Email">
-            <button type="submit">Send</button>
+        <div class="contact-form-container">
+            <div class="contact-form">
+                <h3>Get Started Today</h3>
+                <form>
+                    <div class="form-row">
+                        <input type="text" placeholder="First Name" required>
+                        <input type="text" placeholder="Last Name" required>
+                    </div>
+                    <div class="form-row">
+                        <input type="text" placeholder="Position" required>
+                        <input type="text" placeholder="Company Name" required>
+                    </div>
+                    <div class="form-row">
+                        <select required>
+                            <option value="">Company Size</option>
+                            <option value="1-10">1-10 employees</option>
+                            <option value="11-25">11-25 employees</option>
+                            <option value="26-50">26-50 employees</option>
+                            <option value="51-100">51-100 employees</option>
+                            <option value="100+">100+ employees</option>
+                        </select>
+                        <input type="email" placeholder="Work Email" required>
+                    </div>
+                    <button type="submit" class="contact-submit-btn">
+                        <span>Schedule Demo</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- Footer -->
 <footer class="footer-section">
@@ -679,10 +2549,1505 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>© 2025 All Rights Reserved</p>
+w        <p>© 2025 All Rights Reserved</p>
     </div>
 </footer>
 
+<div id="vision-controls" style="position:fixed; bottom:16px; right:16px; width:340px; max-height:70vh; overflow:auto; padding:12px; background:#ffffffee; border:1px solid #ddd; border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,0.15); z-index:9999; font-family:'Raleway', Arial, sans-serif; font-size:14px; display:none;">
+  <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px;">
+    <strong>Vision Controls</strong>
+    <button id="vision-controls-toggle" style="background:#1E90FF; color:#fff; border:none; border-radius:6px; padding:4px 8px; cursor:pointer;">Hide</button>
+  </div>
+  <div id="vision-controls-body">
+    <div style="margin:8px 0;">
+      <label>Container Height: <span id="vch-val">500</span>px</label>
+      <input id="vch" type="range" min="260" max="700" value="500" style="width:100%">
+    </div>
+    <div style="margin:8px 0;">
+      <label>Gap: <span id="vgap-val">8</span>px</label>
+      <input id="vgap" type="range" min="0" max="80" value="8" style="width:100%">
+    </div>
+    <hr/>
+    <div style="font-weight:600; margin-top:12px; color:#1E90FF;">Blue Background Controls</div>
+    <div style="margin:6px 0;">
+      <label>Width: <span id="bbw-val">889</span>px</label>
+      <input id="bbw" type="range" min="200" max="1200" value="889" style="width:100%">
+    </div>
+    <div style="margin:6px 0;">
+      <label>Height: <span id="bbh-val">565</span>px</label>
+      <input id="bbh" type="range" min="200" max="600" value="565" style="width:100%">
+    </div>
+    <div style="margin:6px 0;">
+      <label>Position X: <span id="bbx-val">70</span>%</label>
+      <input id="bbx" type="range" min="0" max="100" value="70" style="width:100%">
+    </div>
+    <div style="margin:6px 0;">
+      <label>Position Y: <span id="bby-val">50</span>%</label>
+      <input id="bby" type="range" min="0" max="100" value="50" style="width:100%">
+    </div>
+    <hr/>
+    <div style="font-weight:600; margin-top:12px;">Labels</div>
+    <div style="margin:6px 0;">
+      <label>Label 1 X (px): <span id="l1x-val">0</span></label>
+      <input id="l1x" type="range" min="-200" max="200" value="0" style="width:100%">
+    </div>
+    <div style="margin:6px 0;">
+      <label>Label 1 Y (px): <span id="l1y-val">0</span></label>
+      <input id="l1y" type="range" min="-200" max="200" value="0" style="width:100%">
+    </div>
+    <div style="display:flex; gap:8px;">
+      <div style="flex:1;">
+        <label>Label 1 Pad H: <span id="l1ph-val">12</span>px</label>
+        <input id="l1ph" type="range" min="0" max="40" value="12" style="width:100%">
+      </div>
+      <div style="flex:1;">
+        <label>Label 1 Pad V: <span id="l1pv-val">8</span>px</label>
+        <input id="l1pv" type="range" min="0" max="30" value="8" style="width:100%">
+      </div>
+    </div>
+
+    <div style="margin:10px 0 0 0; font-weight:600;">Label 2</div>
+    <div style="margin:6px 0;">
+      <label>Label 2 X (px): <span id="l2x-val">0</span></label>
+      <input id="l2x" type="range" min="-200" max="200" value="0" style="width:100%">
+    </div>
+    <div style="margin:6px 0;">
+      <label>Label 2 Y (px): <span id="l2y-val">0</span></label>
+      <input id="l2y" type="range" min="-200" max="200" value="0" style="width:100%">
+    </div>
+    <div style="display:flex; gap:8px;">
+      <div style="flex:1;">
+        <label>Label 2 Pad H: <span id="l2ph-val">12</span>px</label>
+        <input id="l2ph" type="range" min="0" max="40" value="12" style="width:100%">
+      </div>
+      <div style="flex:1;">
+        <label>Label 2 Pad V: <span id="l2pv-val">8</span>px</label>
+        <input id="l2pv" type="range" min="0" max="30" value="8" style="width:100%">
+      </div>
+    </div>
+
+    <div style="margin:10px 0 0 0; font-weight:600;">Label 3</div>
+    <div style="margin:6px 0;">
+      <label>Label 3 X (px): <span id="l3x-val">0</span></label>
+      <input id="l3x" type="range" min="-200" max="200" value="0" style="width:100%">
+    </div>
+    <div style="margin:6px 0;">
+      <label>Label 3 Y (px): <span id="l3y-val">0</span></label>
+      <input id="l3y" type="range" min="-200" max="200" value="0" style="width:100%">
+    </div>
+    <div style="display:flex; gap:8px;">
+      <div style="flex:1;">
+        <label>Label 3 Pad H: <span id="l3ph-val">12</span>px</label>
+        <input id="l3ph" type="range" min="0" max="40" value="12" style="width:100%">
+      </div>
+      <div style="flex:1;">
+        <label>Label 3 Pad V: <span id="l3pv-val">8</span>px</label>
+        <input id="l3pv" type="range" min="0" max="30" value="8" style="width:100%">
+      </div>
+    </div>
+
+    <div style="font-weight:600; margin-top:6px;">Image 1</div>
+    <div style="margin:6px 0;">
+      <label>Width: <span id="i1w-val">162</span>px</label>
+      <input id="i1w" type="range" min="120" max="480" value="162" style="width:100%">
+    </div>
+    <div style="margin:6px 0;">
+      <label>Offset Y: <span id="i1y-val">-4</span>px</label>
+      <input id="i1y" type="range" min="-400" max="400" value="-4" style="width:100%">
+    </div>
+    <div style="margin:6px 0;">
+      <label>Scale: <span id="i1s-val">1.03</span>x</label>
+      <input id="i1s" type="range" min="1" max="3" step="0.01" value="1.03" style="width:100%">
+    </div>
+    <div style="display:flex; gap:8px;">
+      <div style="flex:1;">
+        <label>Pos X: <span id="i1px-val">50</span>%</label>
+        <input id="i1px" type="range" min="0" max="100" value="50" style="width:100%">
+      </div>
+      <div style="flex:1;">
+        <label>Pos Y: <span id="i1py-val">9</span>%</label>
+        <input id="i1py" type="range" min="0" max="100" value="9" style="width:100%">
+      </div>
+    </div>
+
+    <div style="font-weight:600; margin-top:12px;">Image 2</div>
+    <div style="margin:6px 0;">
+      <label>Width: <span id="i2w-val">192</span>px</label>
+      <input id="i2w" type="range" min="120" max="480" value="192" style="width:100%">
+    </div>
+    <div style="margin:6px 0;">
+      <label>Offset Y: <span id="i2y-val">-18</span>px</label>
+      <input id="i2y" type="range" min="-400" max="400" value="-18" style="width:100%">
+    </div>
+    <div style="margin:6px 0;">
+      <label>Scale: <span id="i2s-val">1.1</span>x</label>
+      <input id="i2s" type="range" min="1" max="3" step="0.01" value="1.1" style="width:100%">
+    </div>
+    <div style="display:flex; gap:8px;">
+      <div style="flex:1;">
+        <label>Pos X: <span id="i2px-val">67</span>%</label>
+        <input id="i2px" type="range" min="0" max="100" value="67" style="width:100%">
+      </div>
+      <div style="flex:1;">
+        <label>Pos Y: <span id="i2py-val">10</span>%</label>
+        <input id="i2py" type="range" min="0" max="100" value="10" style="width:100%">
+      </div>
+    </div>
+
+    <div style="font-weight:600; margin-top:12px;">Image 3</div>
+    <div style="margin:6px 0;">
+      <label>Width: <span id="i3w-val">170</span>px</label>
+      <input id="i3w" type="range" min="120" max="480" value="170" style="width:100%">
+    </div>
+    <div style="margin:6px 0;">
+      <label>Offset Y: <span id="i3y-val">-10</span>px</label>
+      <input id="i3y" type="range" min="-400" max="400" value="-10" style="width:100%">
+    </div>
+    <div style="margin:6px 0;">
+      <label>Scale: <span id="i3s-val">1.06</span>x</label>
+      <input id="i3s" type="range" min="1" max="3" step="0.01" value="1.06" style="width:100%">
+    </div>
+    <div style="display:flex; gap:8px;">
+      <div style="flex:1;">
+        <label>Pos X: <span id="i3px-val">6</span>%</label>
+        <input id="i3px" type="range" min="0" max="100" value="6" style="width:100%">
+      </div>
+      <div style="flex:1;">
+        <label>Pos Y: <span id="i3py-val">100</span>%</label>
+        <input id="i3py" type="range" min="0" max="100" value="100" style="width:100%">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// === VIDEO CAROUSEL CONTROL PANEL ===
+const videoCarouselConfig = [
+  {
+    src: "videos_webpage/protein_folding.mp4",
+    duration: 9,
+    zoom: 3,
+    objectPosition: "100% 50%", // top-left
+    startTime: 0,
+    playbackRate: 0.6
+  },
+
+  {
+    src: "videos_webpage/videomatrix.mp4",
+    duration: 4,
+    zoom: 1.5,
+    objectPosition: "center center",
+    startTime: 0,
+    playbackRate: 1
+  },
+  {
+    src: "videos_webpage/Video_Ready_Bacteria_Mentioned.mp4",
+    duration: 7,
+    zoom: 1.1,
+    objectPosition: "center center",
+    startTime: 0,
+    playbackRate: 1.0
+  },
+
+  {
+    src: "videos_webpage/Metabolic_Model_Animation_Ready.mp4",
+    duration: 4,
+    zoom: 3,
+    objectPosition: "top center",
+    startTime: 3,
+    playbackRate: 1 // 1.5x speed
+  },
+
+  {
+    src: "videos_webpage/construcción de proteina.mp4",
+    duration: 5,
+    zoom: 1,
+    objectPosition: "100% 50%",
+    startTime: 3,
+    playbackRate: 0.3
+  },
+  {
+    src: "videos_webpage/Digital_Cell_Twin_Video_Ready.mp4",
+    duration: 3,
+    zoom: 1.1,
+    objectPosition: "center center",
+    startTime: 0,
+    playbackRate: 1.0
+  } 
+
+
+];
+
+// Dynamically create video elements
+const carouselContainer = document.querySelector('.video-carousel');
+carouselContainer.innerHTML = '';
+videoCarouselConfig.forEach((cfg, idx) => {
+  const v = document.createElement('video');
+  v.className = 'carousel-video';
+  v.src = cfg.src;
+  v.muted = true;
+  v.loop = true;
+  v.playsInline = true;
+  v.style.objectPosition = cfg.objectPosition || "center center";
+  carouselContainer.appendChild(v);
+});
+
+const videos = document.querySelectorAll('.carousel-video');
+let current = 0;
+
+function setZoomAnimation(video, idx) {
+  video.style.animation = 'none';
+  const prevId = video.getAttribute('data-zoom-keyframes');
+  if (prevId) {
+    const prevStyle = document.getElementById(prevId);
+    if (prevStyle) prevStyle.remove();
+  }
+  const animName = `videoZoom${idx}`;
+  const styleId = `zoom-style-${idx}`;
+  const style = document.createElement('style');
+  style.id = styleId;
+  style.innerHTML = `@keyframes ${animName} { from { transform: scale(1); } to { transform: scale(${videoCarouselConfig[idx].zoom}); } }`;
+  document.head.appendChild(style);
+  video.setAttribute('data-zoom-keyframes', styleId);
+  video.style.animation = `${animName} ${videoCarouselConfig[idx].duration}s linear forwards`;
+}
+
+function showVideo(idx) {
+  videos.forEach((v, i) => {
+    v.classList.toggle('active', i === idx);
+    if (i === idx) {
+      v.currentTime = videoCarouselConfig[i].startTime || 0;
+      v.playbackRate = videoCarouselConfig[i].playbackRate || 1.0;
+      v.style.objectPosition = videoCarouselConfig[i].objectPosition || "center center";
+      v.style.transform = `scale(${videoCarouselConfig[i].zoom || 1})`;
+      v.play();
+    } else {
+      v.pause();
+      v.style.animation = '';
+      v.style.transform = 'scale(1)';
+      const prevId = v.getAttribute('data-zoom-keyframes');
+      if (prevId) {
+        const prevStyle = document.getElementById(prevId);
+        if (prevStyle) prevStyle.remove();
+        v.removeAttribute('data-zoom-keyframes');
+      }
+    }
+  });
+}
+
+function nextVideo() {
+  current = (current + 1) % videos.length;
+  showVideo(current);
+  setTimeout(nextVideo, (videoCarouselConfig[current].duration || 15) * 1000);
+}
+
+// Start carousel
+showVideo(current);
+setTimeout(nextVideo, (videoCarouselConfig[current].duration || 15) * 1000);
+
+// Dev-only Vision Controls wiring
+(function() {
+  const controls = document.getElementById('vision-controls');
+  const toggleBtn = document.getElementById('vision-controls-toggle');
+  const body = document.body;
+  if (!controls || !body) return;
+  if (body.getAttribute('data-dev-mode') === 'true') {
+    controls.style.display = 'block';
+  }
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      controls.style.display = 'none';
+    });
+  }
+  function setVar(name, value) { document.documentElement.style.setProperty(name, value); }
+  function bindRange(id, unit, varName, valOutId) {
+    const el = document.getElementById(id);
+    const out = document.getElementById(valOutId);
+    if (!el) return;
+    const update = () => { const v = el.value; if (out) out.textContent = v; setVar(varName, unit ? `${v}${unit}` : v); };
+    el.addEventListener('input', update);
+    update();
+  }
+  bindRange('vch','px','--vision-height','vch-val');
+  bindRange('vgap','px','--vision-gap','vgap-val');
+  bindRange('i1w','px','--img1-width','i1w-val');
+  bindRange('i1y','px','--img1-translateY','i1y-val');
+  bindRange('i1s','',  '--img1-scale','i1s-val');
+  bindRange('i1px','%','--img1-posX','i1px-val');
+  bindRange('i1py','%','--img1-posY','i1py-val');
+  bindRange('i2w','px','--img2-width','i2w-val');
+  bindRange('i2y','px','--img2-translateY','i2y-val');
+  bindRange('i2s','',  '--img2-scale','i2s-val');
+  bindRange('i2px','%','--img2-posX','i2px-val');
+  bindRange('i2py','%','--img2-posY','i2py-val');
+  bindRange('i3w','px','--img3-width','i3w-val');
+  bindRange('i3y','px','--img3-translateY','i3y-val');
+  bindRange('i3s','',  '--img3-scale','i3s-val');
+  bindRange('i3px','%','--img3-posX','i3px-val');
+  bindRange('i3py','%','--img3-posY','i3py-val');
+  bindRange('l1x','px','--label1-x','l1x-val');
+  bindRange('l1y','px','--label1-y','l1y-val');
+  bindRange('l1ph','px','--label1-padH','l1ph-val');
+  bindRange('l1pv','px','--label1-padV','l1pv-val');
+  bindRange('l2x','px','--label2-x','l2x-val');
+  bindRange('l2y','px','--label2-y','l2y-val');
+  bindRange('l2ph','px','--label2-padH','l2ph-val');
+  bindRange('l2pv','px','--label2-padV','l2pv-val');
+  bindRange('l3x','px','--label3-x','l3x-val');
+  bindRange('l3y','px','--label3-y','l3y-val');
+  bindRange('l3ph','px','--label3-padH','l3ph-val');
+  bindRange('l3pv','px','--label3-padV','l3pv-val');
+  
+  // Blue Background Controls
+  bindRange('bbw','px','--blue-bg-width','bbw-val');
+  bindRange('bbh','px','--blue-bg-height','bbh-val');
+  bindRange('bbx','%','--blue-bg-left','bbx-val');
+  bindRange('bby','%','--blue-bg-top','bby-val');
+})();
+</script>
+
+<!-- Chart.js for timeline -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+(function(){
+  
+  // ====================================================================
+  // 🎛️ CONFIGURATION DASHBOARD - EDIT ALL SETTINGS HERE
+  // ====================================================================
+  
+  const CONFIG = {
+    
+    // 📊 CHART DISPLAY SETTINGS
+    CHART: {
+      maxYears:70,           // Total years to display (increased to capture 100%)
+      xAxisStep: 2,           // X-axis tick interval (1, 2, 5, 10)
+      yAxisMin: 0,            // Y-axis minimum (0-50)
+      yAxisMax: 110,           // Y-axis maximum (50-100)
+      showGridLines: true,    // Show/hide grid lines
+      chartHeight: 500        // Chart height in pixels
+    },
+    
+    // 🎨 VISUAL STYLING
+    COLORS: {
+      textile: '#FF6B6B',      // Red
+      food: '#4ECDC4',         // Teal
+      meat: '#45B7D1',         // Blue
+      catalysts: '#96CEB4',    // Green
+      construction: '#FFEAA7', // Yellow
+      chemicals: '#E67E22',    // Orange
+      plastics: '#9B59B6',     // Purple
+      overall: '#95A5A6',      // Grey (Business as Usual)
+      ajaxdna: '#1E90FF'       // Ajax Blue
+    },
+    
+    NAMES: {
+      textile: 'Textile Industry',
+      food: 'Food Ingredients', 
+      meat: 'Meat Industry',
+      catalysts: 'Catalysts',
+      construction: 'Construction Materials',
+      chemicals: 'Chemicals Industry',
+      plastics: 'Plastics Industry',
+      overall: 'Business as Usual (Overall)',
+      ajaxdna: 'AjaxDNA Technology'
+    },
+    
+    // 🎯 AJAXDNA SIGMOID CURVE PARAMETERS
+    AJAXDNA: {
+      maxPenetration: 100,     // Maximum market penetration % (L parameter)
+      growthRate: 0.8,        // Growth steepness (k parameter: 0.1=slow, 2.0=steep)
+      inflectionYear: 6,      // Year of steepest growth (x0 parameter)
+      startYear: 4,           // Year AjaxDNA starts (usually 1)
+      capAtMax: 100           // Hard cap for penetration %
+    },
+    
+    // 📈 INDUSTRY GROWTH RATES (CAGR %)
+    GROWTH_RATES: {
+      textile: 2.0,           // Annual growth % (2% = moderate)
+      food: 8.0,              // Annual growth % (8% = high)
+      meat: 15.0,             // Annual growth % (15% = very high)
+      catalysts: 1.5,         // Annual growth % (1.5% = slow)
+      construction: 5.0       // Annual growth % (5% = moderate-high)
+    },
+    
+    // 📊 REAL MARKET DATA - YOUR 3-SOURCE METHODOLOGY
+    MARKET_DATA: {
+      // Traditional Markets (3 sources each)
+      traditional: {
+        textile: {
+          sizes: [1940, 1110, 867.5442],           // Billion USD (2023/2024)
+          cagrs: [7.40, 4.20, 4.70],               // Annual growth %
+          year: 2023
+        },
+        food: {
+          sizes: [315.77, 84.59, 351.42],          // Billion USD
+          cagrs: [5.20, 6.20, 4.80],               // Annual growth %
+          year: 2023
+        },
+        meat: {
+          sizes: [1430, 1102.55, 1130],            // Billion USD
+          cagrs: [1.91, 7.10, 5.50],               // Annual growth %
+          year: 2023
+        },
+        catalysts: {
+          sizes: [37.22, 32.16, 32.24],            // Billion USD
+          cagrs: [4.48, 4.82, 4.50],               // Annual growth %
+          year: 2023
+        },
+        construction: {
+          sizes: [1370, 1369.86, 1233],            // Billion USD
+          cagrs: [3.90, 3.90, 4.90],               // Annual growth %
+          year: 2023
+        },
+        chemicals: {
+          sizes: [6182, 5720, 6000],               // Billion USD (estimated 3rd)
+          cagrs: [2.30, 3.40, 2.85],               // Annual growth %
+          year: 2023
+        },
+        plastics: {
+          sizes: [650.91664, 651.15, 524.48],      // Billion USD
+          cagrs: [4.18, 4.20, 5.10],               // Annual growth %
+          year: 2023
+        }
+      },
+      
+      // Bio Markets (3 sources each)
+      bio: {
+        textile: {
+          sizes: [5.3, 3.1, 7.43],                 // Billion USD (biotextiles)
+          cagrs: [7.50, 7.20, 7.62],               // Annual growth %
+          year: 2023
+        },
+        food: {
+          sizes: [3.03, 4.01, 3.03],               // Billion USD (precision fermentation)
+          cagrs: [43.50, 43.50, 43.50],            // Annual growth %
+          year: 2023
+        },
+        meat: {
+          sizes: [0.86, 0.567439406, 2.79],        // Billion USD (cultivated meat)
+          cagrs: [51.64, 51.60, 45.50],            // Annual growth %
+          year: 2023
+        },
+        catalysts: {
+          sizes: [7.53, 15.74, 10.98],             // Billion USD (industrial enzymes)
+          cagrs: [6.20, 8.60, 4.00],               // Annual growth %
+          year: 2023
+        },
+        construction: {
+          sizes: [5.9, 16.4, 24.2],                // Billion USD (biobased materials)
+          cagrs: [7.40, 16.30, 19.00],             // Annual growth %
+          year: 2023
+        },
+        chemicals: {
+          sizes: [96.39, 47, 73.16],               // Billion USD (bio-based chemicals)
+          cagrs: [8.30, 11.60, 9.60],              // Annual growth %
+          year: 2023
+        },
+        plastics: {
+          sizes: [16.8, 15.57, 4.21],              // Billion USD (bioplastics)
+          cagrs: [19.30, 19.50, 5.80],             // Annual growth %
+          year: 2023
+        }
+      }
+    },
+    
+    // 🎛️ CHART BEHAVIOR
+    DISPLAY: {
+      mainChartLines: ['overall', 'ajaxdna'],  // Lines shown on main chart
+      detailedChartLines: ['textile', 'food', 'meat', 'catalysts', 'construction', 'chemicals', 'plastics', 'overall', 'ajaxdna'], // All lines in modal
+      smoothLines: ['overall', 'ajaxdna'],     // Which lines get smooth curves
+      dashedLines: ['textile', 'food', 'meat', 'catalysts', 'construction', 'chemicals', 'plastics'], // Which lines are dashed
+      hidePoints: ['overall', 'ajaxdna'],      // Which lines hide individual points
+      thickLines: ['overall', 'ajaxdna']       // Which lines are thicker
+    }
+  };
+  
+  // ====================================================================
+  // 🔧 ADVANCED SETTINGS (modify with caution)
+  // ====================================================================
+  
+  const ADVANCED = {
+    // Custom data override - set years manually (leave empty to use calculated data)
+    CUSTOM_YEARS: {
+      // Example: {year: 15, textile: 1.5, food: 5.2, meat: 8.1, catalysts: 45.2, construction: 3.8}
+      // Add more objects here to override specific years
+    },
+    
+    // Alternative sigmoid functions for AjaxDNA
+    SIGMOID_TYPE: 'standard', // 'standard', 'logistic', 'exponential'
+    
+    // Data processing
+    CONVERT_TO_PERCENTAGE: true,  // Convert decimal data to percentages
+    CAP_ALL_VALUES: true,         // Cap all values at yAxisMax
+    USE_REAL_CAGR: true          // Use CAGR for years beyond base data
+  };
+  
+  // ====================================================================
+  // 📊 END OF CONFIGURATION - CODE EXECUTION STARTS HERE
+  // ====================================================================
+
+  // Apply configuration
+  const colors = CONFIG.COLORS;
+  const names = CONFIG.NAMES;
+
+  // Generate data using YOUR ACTUAL METHODOLOGY
+  function generateTimelineData() {
+    console.log('CONFIG.MARKET_DATA:', CONFIG.MARKET_DATA);
+    
+    const data = [];
+    const baseYear = 2023; // Your data base year
+    
+    // Calculate averages for each market from 3 sources
+    function calculateAverages(marketData) {
+      if (!marketData || !marketData.sizes || !marketData.cagrs || marketData.sizes.length === 0) {
+        console.error('Invalid market data:', marketData);
+        return { avgSize: 0, avgCagr: 1 };
+      }
+      
+      const avgSize = marketData.sizes.reduce((sum, size) => sum + (size || 0), 0) / marketData.sizes.length;
+      const avgCagr = marketData.cagrs.reduce((sum, cagr) => sum + (cagr || 0), 0) / marketData.cagrs.length;
+      
+      if (isNaN(avgSize) || isNaN(avgCagr)) {
+        console.error('NaN in averages calculation:', { avgSize, avgCagr, marketData });
+        return { avgSize: 0, avgCagr: 1 };
+      }
+      
+      return { avgSize, avgCagr: avgCagr / 100 + 1 }; // Convert CAGR to multiplier
+    }
+    
+    // Calculate market penetration for each year using your methodology
+    const markets = ['textile', 'food', 'meat', 'catalysts', 'construction', 'chemicals', 'plastics'];
+    const marketAverages = {};
+    
+    // Pre-calculate averages for all markets
+    markets.forEach(market => {
+      if (CONFIG.MARKET_DATA.traditional[market] && CONFIG.MARKET_DATA.bio[market]) {
+        marketAverages[market] = {
+          traditional: calculateAverages(CONFIG.MARKET_DATA.traditional[market]),
+          bio: calculateAverages(CONFIG.MARKET_DATA.bio[market])
+        };
+        
+        // Debug CAGR calculations for first few markets
+        if (market === 'textile' || market === 'food') {
+          console.log(`${market} averages:`, {
+            traditional: {
+              avgSize: marketAverages[market].traditional.avgSize.toFixed(6),
+              avgCagr: marketAverages[market].traditional.avgCagr.toFixed(6)
+            },
+            bio: {
+              avgSize: marketAverages[market].bio.avgSize.toFixed(6),
+              avgCagr: marketAverages[market].bio.avgCagr.toFixed(6)
+            }
+          });
+        }
+      }
+    });
+    
+    // Calculate when each market reaches 100% penetration
+    console.log('\n=== MARKET PENETRATION TIMELINE ===');
+    markets.forEach(market => {
+      if (marketAverages[market]) {
+        const trad = marketAverages[market].traditional;
+        const bio = marketAverages[market].bio;
+        
+        // Solve for year when bioSize = tradSize (100% penetration)
+        // bio.avgSize * (bio.avgCagr)^year = trad.avgSize * (trad.avgCagr)^year
+        // (bio.avgCagr / trad.avgCagr)^year = trad.avgSize / bio.avgSize
+        // year = log(trad.avgSize / bio.avgSize) / log(bio.avgCagr / trad.avgCagr)
+        
+        const ratio = trad.avgSize / bio.avgSize;
+        const growthRatio = bio.avgCagr / trad.avgCagr;
+        
+        if (growthRatio > 1) {
+          const yearTo100 = Math.log(ratio) / Math.log(growthRatio);
+          const actualYear = 2023 + yearTo100;
+          console.log(`${market}: Reaches 100% in year ${yearTo100.toFixed(1)} (${actualYear.toFixed(0)})`);
+        } else {
+          console.log(`${market}: Never reaches 100% (bio CAGR ≤ traditional CAGR)`);
+        }
+      }
+    });
+    console.log('=====================================\n');
+    
+    // Find when the last market reaches 100% (for future features)
+    let lastMarketToReach100 = 0;
+    let lastMarketName = '';
+    markets.forEach(market => {
+      if (marketAverages[market]) {
+        const trad = marketAverages[market].traditional;
+        const bio = marketAverages[market].bio;
+        const ratio = trad.avgSize / bio.avgSize;
+        const growthRatio = bio.avgCagr / trad.avgCagr;
+        
+        if (growthRatio > 1) {
+          const yearTo100 = Math.log(ratio) / Math.log(growthRatio);
+          if (yearTo100 > lastMarketToReach100) {
+            lastMarketToReach100 = yearTo100;
+            lastMarketName = market;
+          }
+        }
+      }
+    });
+    console.log(`Last market to reach 100%: ${lastMarketName} in year ${lastMarketToReach100.toFixed(1)}`);
+    
+    for(let year = 1; year <= CONFIG.CHART.maxYears; year++) {
+      const yearData = { year };
+      const yearsFromBase = year - 1; // Year 1 = 2023, Year 2 = 2024, etc.
+      
+      // Calculate penetration for each market
+      markets.forEach(market => {
+        if (marketAverages[market]) {
+          const trad = marketAverages[market].traditional;
+          const bio = marketAverages[market].bio;
+          
+          // Project market sizes to this year (from base year 2023)
+          const tradSize = trad.avgSize * Math.pow(trad.avgCagr, yearsFromBase);
+          
+          // Check if this market has already reached 100% penetration in previous years
+          const prevYear = year - 1;
+          const prevTradSize = trad.avgSize * Math.pow(trad.avgCagr, prevYear - 1);
+          const prevBioSize = bio.avgSize * Math.pow(bio.avgCagr, prevYear - 1);
+          const prevPenetration = prevYear > 0 ? (prevBioSize / prevTradSize) * 100 : 0;
+          
+          let bioSize;
+          if (prevPenetration >= 100) {
+            // If already at 100%, bio market grows at traditional CAGR rate to maintain 100%
+            bioSize = tradSize; // This ensures bioSize = tradSize, so penetration = 100%
+          } else {
+            // Normal bio growth
+            bioSize = bio.avgSize * Math.pow(bio.avgCagr, yearsFromBase);
+          }
+          
+          // Calculate market penetration: bio / traditional * 100, capped at 100%
+          if (tradSize > 0) {
+            const penetrationRaw = (bioSize / tradSize) * 100;
+            const penetration = Math.max(0, Math.min(penetrationRaw, 100));
+            yearData[market] = isFinite(penetration) ? penetration : 0;
+          } else {
+            console.warn(`Traditional market size is 0 for ${market} in year ${year}`);
+            yearData[market] = 0;
+          }
+        }
+      });
+      
+      // Calculate overall "Business as Usual" WEIGHTED by market size
+      // All markets are always present in the calculation
+      let totalWeightedPenetration = 0;
+      let totalMarketSize = 0;
+      
+      // Debug: Log market data for years around the decrease
+      if (year >= 65 && year <= 75) {
+        console.log(`Year ${year} market data:`);
+        console.log(`  yearsFromBase: ${yearsFromBase}`);
+      }
+      
+      markets.forEach(market => {
+        const trad = marketAverages[market].traditional;
+        const tradSize = trad.avgSize * Math.pow(trad.avgCagr, yearsFromBase);
+        const penetration = yearData[market];
+        
+        // Weight penetration by market size (simple weighted average)
+        totalWeightedPenetration += (penetration / 100) * tradSize; // Convert % to decimal first
+        totalMarketSize += tradSize; // Total traditional market size
+        
+        // Debug: Log individual market data
+        if (year >= 65 && year <= 75) {
+          console.log(`  ${market}: ${penetration.toFixed(6)}% penetration, ${tradSize.toFixed(2)}B market size, contribution: ${((penetration / 100) * tradSize).toFixed(2)}`);
+        }
+      });
+      
+      // Calculate overall penetration, capped at 100%
+      const overallRaw = totalMarketSize > 0 ? (totalWeightedPenetration / totalMarketSize) * 100 : 0;
+      yearData.overall = Math.max(0, Math.min(overallRaw, 100));
+      
+      // Debug: Log overall calculation (extended range to see plateau behavior)
+      if ((year >= 65 && year <= 85) || year % 20 === 0) {
+        console.log(`  Overall: ${overallRaw.toFixed(6)}% (${totalWeightedPenetration.toFixed(2)} / ${totalMarketSize.toFixed(2)})`);
+        console.log('---');
+      }
+      
+      // Track when markets reach 100% for the first time
+      markets.forEach(market => {
+        if (yearData[market] >= 100 && !yearData[`${market}_reached_100`]) {
+          yearData[`${market}_reached_100`] = year;
+          console.log(`🎯 ${market} reached 100% penetration in year ${year} (${2023 + year - 1})`);
+        }
+      });
+      
+      // AjaxDNA sigmoid using configuration
+      const L = CONFIG.AJAXDNA.maxPenetration;
+      const k = CONFIG.AJAXDNA.growthRate;
+      const x0 = CONFIG.AJAXDNA.inflectionYear;
+      yearData.ajaxdna = Math.min(L / (1 + Math.exp(-k * (year - x0))), CONFIG.AJAXDNA.capAtMax);
+      
+      data.push(yearData);
+    }
+    
+    return data;
+  }
+
+  // Add error handling for data generation
+  let rows;
+  let generationError = null;
+  try {
+    console.log('Starting data generation with new logic...');
+    console.log('CONFIG.CHART.maxYears:', CONFIG.CHART.maxYears);
+    rows = generateTimelineData();
+    console.log('Data generated successfully:', rows.slice(0, 3)); // Show first 3 years
+    console.log('Total rows generated:', rows.length);
+    console.log('Sample data from middle and end:', rows.slice(50, 53), rows.slice(-3));
+    
+    // Check for empty data
+    if (!rows || rows.length === 0) {
+      throw new Error('No data generated');
+    }
+    
+    // Check for NaN or invalid values
+    const firstYear = rows[0];
+    Object.keys(firstYear).forEach(key => {
+      if (key !== 'year' && (isNaN(firstYear[key]) || !isFinite(firstYear[key]))) {
+        throw new Error(`Invalid value for ${key}: ${firstYear[key]}`);
+      }
+    });
+    
+    // Make rows globally accessible for the populateDataTable function
+    window.timelineRows = rows;
+    console.log('Rows made globally accessible as window.timelineRows');
+  } catch (error) {
+    console.error('Error generating data:', error);
+    generationError = error;
+    
+    // Generate fallback data if the main generation fails
+    console.log('Generating fallback data...');
+    const fallbackData = [];
+    for (let year = 1; year <= CONFIG.CHART.maxYears; year++) {
+      fallbackData.push({
+        year: year,
+        textile: Math.min(10 * Math.pow(1.02, year - 1), 50),
+        food: Math.min(15 * Math.pow(1.08, year - 1), 80),
+        meat: Math.min(20 * Math.pow(1.15, year - 1), 90),
+        catalysts: Math.min(30 * Math.pow(1.015, year - 1), 60),
+        construction: Math.min(8 * Math.pow(1.05, year - 1), 40),
+        chemicals: Math.min(12 * Math.pow(1.03, year - 1), 70),
+        plastics: Math.min(25 * Math.pow(1.04, year - 1), 85),
+        overall: Math.min(15 * Math.pow(1.06, year - 1), 75),
+        ajaxdna: Math.min(100 / (1 + Math.exp(-0.8 * (year - 6))), 100)
+      });
+    }
+    
+    rows = fallbackData;
+    window.timelineRows = fallbackData;
+    console.log('Fallback data generated:', fallbackData.length, 'rows');
+  }
+
+  const togglesContainer = document.getElementById('timeline-toggles');
+  if(!togglesContainer) return;
+  const keys = CONFIG.DISPLAY.detailedChartLines;
+  const mainKeys = CONFIG.DISPLAY.mainChartLines;
+  keys.forEach(k=>{
+    const lab = document.createElement('label');
+    const chk = document.createElement('input'); chk.type='checkbox'; chk.checked = true; chk.dataset.key = k;
+    const swatch = document.createElement('span'); swatch.style.width='10px'; swatch.style.height='10px'; swatch.style.borderRadius='50%'; swatch.style.background=colors[k];
+    lab.appendChild(chk); lab.appendChild(swatch); lab.appendChild(document.createTextNode(' '+names[k]));
+    togglesContainer.appendChild(lab);
+  });
+
+  const ctx = document.getElementById('biotechTimelineChart');
+  if(!ctx) return;
+  
+  const labels = rows.map(r => r.year);
+  
+  function datasetOf(key, extra){
+    const isSmooth = CONFIG.DISPLAY.smoothLines.includes(key);
+    const isDashed = CONFIG.DISPLAY.dashedLines.includes(key);
+    const hidePoints = CONFIG.DISPLAY.hidePoints.includes(key);
+    const isThick = CONFIG.DISPLAY.thickLines.includes(key);
+    
+    // Ensure data exists and handle missing values
+    const data = rows.map(r => {
+      const value = r[key];
+      return (value !== undefined && isFinite(value)) ? value : 0;
+    });
+    
+    console.log(`Dataset for ${key}:`, data.slice(0, 5)); // Debug first 5 values
+    
+    return {
+      label: names[key] || key,
+      data: data,
+      borderColor: colors[key] || '#999999',
+      backgroundColor: colors[key] || '#999999',
+      pointRadius: hidePoints ? 0 : 3,
+      pointHoverRadius: hidePoints ? 0 : 4,
+      showLine: true,
+      borderWidth: isThick ? 3 : 1,
+      borderDash: isDashed ? [2,4] : [],
+      tension: isSmooth ? 0.25 : 0,
+      // Add progressive animation
+      segment: {
+        borderColor: function(ctx) {
+          const progress = ctx.p1DataIndex / (data.length - 1);
+          return progress < 0.3 ? colors[key] + '40' : colors[key];
+        }
+      },
+      ...extra
+    };
+  }
+  // If generation failed, render an inline error card instead of an empty chart
+  if (generationError || rows.length === 0) {
+    const container = document.querySelector('.timeline-chart-container');
+    if (container) {
+      const warn = document.createElement('div');
+      warn.style.cssText = 'padding:12px;border:1px solid #f5c2c7;background:#f8d7da;color:#842029;border-radius:8px;font-family:Raleway, Arial, sans-serif;';
+      warn.innerHTML = `<strong>Data generation error:</strong> ${generationError ? generationError.message : 'no rows created'}<br/><small>Open the browser console for details. Check CONFIG.MARKET_DATA formatting and values.</small>`;
+      container.appendChild(warn);
+    }
+  }
+  
+
+  
+  // Custom animation plugin for progressive line drawing (one-time)
+  const progressiveLinePlugin = {
+    id: 'progressiveLine',
+    beforeDraw: function(chart, args, options) {
+      // Hide lines during animation by setting showLine to false
+      if (!chart.animationComplete) {
+        chart.data.datasets.forEach(dataset => {
+          if (dataset.showLine) {
+            dataset._originalShowLine = dataset.showLine;
+            dataset.showLine = false;
+          }
+        });
+      }
+    },
+    afterDraw: function(chart, args, options) {
+      const ctx = chart.ctx;
+      const datasets = chart.data.datasets;
+      
+      // Check if animation is complete
+      if (chart.animationComplete) {
+        // Draw the complete lines to ensure they stay visible
+        datasets.forEach((dataset, datasetIndex) => {
+          if (dataset._originalShowLine && dataset.data.length > 0) {
+            const meta = chart.getDatasetMeta(datasetIndex);
+            if (meta.visible) {
+              const points = meta.data;
+              if (points.length > 1) {
+                ctx.save();
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.strokeStyle = dataset.borderColor;
+                ctx.lineWidth = dataset.borderWidth || 1;
+                ctx.beginPath();
+                
+                for (let i = 0; i < points.length - 1; i++) {
+                  const currentPoint = points[i];
+                  const nextPoint = points[i + 1];
+                  
+                  if (i === 0) {
+                    ctx.moveTo(currentPoint.x, currentPoint.y);
+                  }
+                  ctx.lineTo(nextPoint.x, nextPoint.y);
+                }
+                ctx.stroke();
+                ctx.restore();
+              }
+            }
+          }
+        });
+        return; // Let Chart.js handle normal drawing
+      }
+      
+      const startTime = chart.animationStartTime || Date.now();
+      chart.animationStartTime = startTime;
+      
+      const animationDuration = 4000; // 4 seconds
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / animationDuration, 1);
+      
+      if (progress >= 1) {
+        chart.animationComplete = true;
+        // Restore original showLine settings
+        datasets.forEach(dataset => {
+          if (dataset._originalShowLine !== undefined) {
+            dataset.showLine = dataset._originalShowLine;
+            delete dataset._originalShowLine;
+          }
+        });
+        // Force chart update to ensure lines are drawn
+        chart.update('none');
+        return; // Animation complete
+      }
+      
+      datasets.forEach((dataset, datasetIndex) => {
+        if (dataset._originalShowLine && dataset.data.length > 0) {
+          const meta = chart.getDatasetMeta(datasetIndex);
+          if (meta.visible) {
+            const points = meta.data;
+            if (points.length > 1) {
+              ctx.save();
+              ctx.lineCap = 'round';
+              ctx.lineJoin = 'round';
+              
+              // Staggered animation - each line starts at different times
+              const staggerDelay = datasetIndex * 0.5; // 0.5 second delay between lines
+              const adjustedProgress = Math.max(0, (progress - staggerDelay) / (1 - staggerDelay));
+              const lineProgress = Math.min(adjustedProgress, 1);
+              
+              // Progressive drawing animation
+              const pointsToDraw = Math.floor(points.length * lineProgress);
+              
+              if (pointsToDraw > 0) {
+                // Draw the main line
+                ctx.strokeStyle = dataset.borderColor;
+                ctx.lineWidth = dataset.borderWidth || 1;
+                ctx.beginPath();
+                
+                for (let i = 0; i < Math.min(pointsToDraw, points.length - 1); i++) {
+                  const currentPoint = points[i];
+                  const nextPoint = points[i + 1];
+                  
+                  if (i === 0) {
+                    ctx.moveTo(currentPoint.x, currentPoint.y);
+                  }
+                  ctx.lineTo(nextPoint.x, nextPoint.y);
+                }
+                ctx.stroke();
+                
+                // Draw trailing effect
+                if (pointsToDraw > 0 && pointsToDraw < points.length) {
+                  const trailLength = Math.min(8, points.length - pointsToDraw);
+                  ctx.strokeStyle = dataset.borderColor + '30'; // Semi-transparent
+                  ctx.lineWidth = (dataset.borderWidth || 1) * 1.5;
+                  ctx.beginPath();
+                  
+                  
+                  for (let i = Math.max(0, pointsToDraw - trailLength); i < pointsToDraw; i++) {
+                    const currentPoint = points[i];
+                    const nextPoint = points[i + 1];
+                    
+                    if (i === Math.max(0, pointsToDraw - trailLength)) {
+                      ctx.moveTo(currentPoint.x, currentPoint.y);
+                    }
+                    ctx.lineTo(nextPoint.x, nextPoint.y);
+                  }
+                  ctx.stroke();
+                }
+              }
+              
+              ctx.restore();
+            }
+          }
+        }
+      });
+    }
+  };
+
+  // Main chart with only overall and ajaxdna
+  let chart = new Chart(ctx, {
+    type:'line',
+    data:{ labels, datasets: mainKeys.map(k=> datasetOf(k)) },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      animation: {
+        duration: 0,
+        easing: 'linear'
+      },
+      scales:{
+        x:{ title:{ display:true, text:'Years' }, ticks:{ stepSize: CONFIG.CHART.xAxisStep } },
+        y:{ min:CONFIG.CHART.yAxisMin, max:CONFIG.CHART.yAxisMax, title:{ display:true, text:'Bio Penetration in Markets (%)' } }
+      },
+      plugins:{ 
+        legend:{ display:true }, 
+        tooltip:{ 
+          enabled:true,
+          callbacks: {
+            title: function(context) {
+              const year = context[0].label;
+              return `Year ${year} (${2023 + parseInt(year) - 1})`;
+            }
+          }
+        },
+        progressiveLine: {
+          enabled: true
+        }
+      }
+    },
+    plugins: [progressiveLinePlugin]
+  });
+
+  // One-time animation loop for the main chart
+  function animateChart() {
+    if (!chart.animationComplete) {
+      chart.update('none'); // Update without animation
+      // Use higher frame rate for smoother animation
+      setTimeout(() => requestAnimationFrame(animateChart), 4); // ~240fps
+    }
+  }
+  animateChart();
+
+  // Detailed chart for modal
+  const detailedCtx = document.getElementById('detailedTimelineChart');
+  let detailedChart = null;
+  if(detailedCtx) {
+    detailedChart = new Chart(detailedCtx, {
+      type:'line',
+      data:{ labels, datasets: keys.map(k=> datasetOf(k)) },
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        animation: {
+          duration: 0,
+          easing: 'linear'
+        },
+        scales:{
+          x:{ title:{ display:true, text:'Years' }, ticks:{ stepSize: CONFIG.CHART.xAxisStep } },
+          y:{ min:CONFIG.CHART.yAxisMin, max:CONFIG.CHART.yAxisMax, title:{ display:true, text:'Bio Penetration in Markets (%)' } }
+        },
+        plugins:{ 
+          legend:{ display:true }, 
+          tooltip:{ enabled:true },
+          progressiveLine: {
+            enabled: true
+          }
+        }
+      },
+      plugins: [progressiveLinePlugin]
+    });
+  }
+
+  // One-time animation loop for the detailed chart
+  function animateDetailedChart() {
+    if (detailedChart && !detailedChart.animationComplete) {
+      detailedChart.update('none'); // Update without animation
+      // Use higher frame rate for smoother animation
+      setTimeout(() => requestAnimationFrame(animateDetailedChart), 4); // ~240fps
+    }
+  }
+  animateDetailedChart();
+
+  togglesContainer.addEventListener('change', (e)=>{
+    const key = e.target?.dataset?.key; if(!key) return;
+    if(detailedChart) {
+      const dsIndex = detailedChart.data.datasets.findIndex(d=> d.label===names[key]);
+      if(dsIndex>=0){
+        const ds = detailedChart.data.datasets[dsIndex];
+        ds.hidden = !e.target.checked;
+        detailedChart.update();
+      }
+    }
+  });
+
+  // Modal functions
+  window.toggleSourcesModal = function() {
+    console.log('toggleSourcesModal called');
+    const modal = document.getElementById('sourcesModal');
+    if(modal.style.display === 'flex') {
+      modal.style.display = 'none';
+    } else {
+      modal.style.display = 'flex';
+      console.log('Modal opened, calling populateDataTable...');
+      setTimeout(() => populateDataTable(), 100); // Small delay to ensure modal is visible
+    }
+  };
+  
+  // Tab switching function
+  window.showTab = function(tabName) {
+    console.log('Switching to tab:', tabName);
+    
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.classList.remove('active');
+      tab.style.display = 'none';
+    });
+    
+    // Remove active class from all buttons
+    document.querySelectorAll('.tab-button').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    // Show selected tab
+    const targetTab = document.getElementById(tabName + 'Tab');
+    if (targetTab) {
+      targetTab.classList.add('active');
+      targetTab.style.display = 'block';
+    }
+    
+    // Add active class to clicked button
+    event.target.classList.add('active');
+    
+    // Populate data table when Data Table tab is clicked
+    if (tabName === 'data') {
+      console.log('Data tab clicked, populating table...');
+      setTimeout(() => populateDataTable(), 100); // Small delay to ensure tab is visible
+    }
+  };
+  
+  // Populate data table
+  function populateDataTable() {
+    console.log('=== POPULATE DATA TABLE CALLED ===');
+    
+    // Check if we're in the right context
+    console.log('Current window.timelineRows:', window.timelineRows);
+    console.log('Current rows variable:', rows);
+    
+    const tableBody = document.getElementById('dataDisplayTableBody');
+    if (!tableBody) {
+      console.error('dataDisplayTableBody not found - checking all table elements');
+      const allTables = document.querySelectorAll('table');
+      console.log('All tables found:', allTables.length);
+      allTables.forEach((table, index) => {
+        console.log(`Table ${index}:`, table.id, table.className);
+      });
+      return;
+    }
+    console.log('Found table body element:', tableBody);
+    console.log('Table body innerHTML before:', tableBody.innerHTML);
+    
+    // Use globally accessible rows data
+    const dataRows = window.timelineRows || rows;
+    console.log('Data rows available:', dataRows ? dataRows.length : 0);
+    console.log('Window timeline rows:', window.timelineRows ? window.timelineRows.length : 0);
+    console.log('Local rows:', rows ? rows.length : 0);
+    
+    if (!dataRows || dataRows.length === 0) {
+      console.error('No rows data available - generating test data');
+      
+      // Generate some test data to verify table population works
+      const testData = [];
+      for (let year = 1; year <= 70; year += 5) {
+        testData.push({
+          year: year,
+          textile: Math.random() * 10,
+          food: Math.random() * 15,
+          meat: Math.random() * 20,
+          catalysts: Math.random() * 30,
+          construction: Math.random() * 8,
+          chemicals: Math.random() * 12,
+          plastics: Math.random() * 25,
+          overall: Math.random() * 15,
+          ajaxdna: Math.min(100 / (1 + Math.exp(-0.8 * (year - 6))), 100)
+        });
+      }
+      
+      console.log('Using test data:', testData.length, 'rows');
+      populateTableWithData(testData);
+      return;
+    }
+    
+    console.log('Using real data, first row:', dataRows[0]);
+    populateTableWithData(dataRows);
+  }
+  
+  function populateTableWithData(dataRows) {
+    console.log('=== POPULATE TABLE WITH DATA CALLED ===');
+    const tableBody = document.getElementById('dataDisplayTableBody');
+    if (!tableBody) {
+      console.error('tableBody not found in populateTableWithData');
+      return;
+    }
+    
+    console.log('Clearing table body...');
+    tableBody.innerHTML = '';
+    console.log('Table body cleared, innerHTML after:', tableBody.innerHTML);
+    
+    // Force visible text color and add debugging
+    console.log('Starting to populate table with data:', dataRows.length, 'rows');
+    console.log('First row sample:', dataRows[0]);
+    
+    let rowsAdded = 0;
+    
+    // Show every 5th year for readability
+    for (let i = 0; i < dataRows.length; i += 5) {
+      const row = dataRows[i];
+      if (!row) {
+        console.error('Row is undefined at index:', i);
+        continue;
+      }
+      
+      console.log(`Creating row ${rowsAdded + 1} for year ${row.year}`);
+      
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="border: 1px solid #ddd; padding: 4px; text-align: center; color: #000000 !important; background: #ffffff;">${row.year || 'N/A'}</td>
+        <td style="border: 1px solid #ddd; padding: 4px; text-align: center; color: #000000 !important; background: #ffffff;">${(row.textile || 0).toFixed(2)}</td>
+        <td style="border: 1px solid #ddd; padding: 4px; text-align: center; color: #000000 !important; background: #ffffff;">${(row.food || 0).toFixed(2)}</td>
+        <td style="border: 1px solid #ddd; padding: 4px; text-align: center; color: #000000 !important; background: #ffffff;">${(row.meat || 0).toFixed(2)}</td>
+        <td style="border: 1px solid #ddd; padding: 4px; text-align: center; color: #000000 !important; background: #ffffff;">${(row.catalysts || 0).toFixed(2)}</td>
+        <td style="border: 1px solid #ddd; padding: 4px; text-align: center; color: #000000 !important; background: #ffffff;">${(row.construction || 0).toFixed(2)}</td>
+        <td style="border: 1px solid #ddd; padding: 4px; text-align: center; color: #000000 !important; background: #ffffff;">${(row.chemicals || 0).toFixed(2)}</td>
+        <td style="border: 1px solid #ddd; padding: 4px; text-align: center; color: #000000 !important; background: #ffffff;">${(row.plastics || 0).toFixed(2)}</td>
+        <td style="border: 1px solid #ddd; padding: 4px; text-align: center; color: #000000 !important; background: #ffffff; font-weight: bold;">${(row.overall || 0).toFixed(2)}</td>
+        <td style="border: 1px solid #ddd; padding: 4px; text-align: center; color: #1E90FF !important; background: #ffffff; font-weight: bold;">${(row.ajaxdna || 0).toFixed(2)}</td>
+      `;
+      tableBody.appendChild(tr);
+      rowsAdded++;
+    }
+    
+    console.log('Data table populated with', rowsAdded, 'rows');
+    
+
+    
+    console.log('Final table body innerHTML length:', tableBody.innerHTML.length);
+    console.log('Final table body children count:', tableBody.children.length);
+  }
+
+  // Dashboard functionality
+  let dashboardData = [...rows]; // Copy of current data
+  let previewChart = null;
+
+  window.openDashboard = function() {
+    const modal = document.getElementById('dashboardModal');
+    modal.style.display = 'flex';
+    initializeDashboard();
+  };
+
+  window.closeDashboard = function() {
+    const modal = document.getElementById('dashboardModal');
+    modal.style.display = 'none';
+  };
+
+  function initializeDashboard() {
+    dashboardData = [...rows];
+    populateDataTable();
+    createPreviewChart();
+  }
+
+
+
+  window.updateDataPoint = function(index, field, value) {
+    dashboardData[index][field] = parseFloat(value) || 0;
+    updatePreviewChart();
+  };
+
+  function createPreviewChart() {
+    const ctx = document.getElementById('previewChart');
+    if(!ctx) return;
+    
+    if(previewChart) previewChart.destroy();
+    
+    const labels = dashboardData.slice(0, 30).map(r => r.year); // Show first 30 years in preview
+    previewChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          datasetOf('overall', {}, dashboardData.slice(0, 30)),
+          datasetOf('ajaxdna', {}, dashboardData.slice(0, 30))
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { title: { display: true, text: 'Years' } },
+          y: { min: 0, max: 90, title: { display: true, text: 'Market Penetration (%)' } }
+        },
+        plugins: { legend: { display: true }, tooltip: { enabled: true } }
+      }
+    });
+  }
+
+  function updatePreviewChart() {
+    if(!previewChart) return;
+    const labels = dashboardData.slice(0, 30).map(r => r.year);
+    previewChart.data.labels = labels;
+    previewChart.data.datasets = [
+      datasetOf('overall', {}, dashboardData.slice(0, 30)),
+      datasetOf('ajaxdna', {}, dashboardData.slice(0, 30))
+    ];
+    previewChart.update();
+  }
+
+  window.loadPreset = function(preset) {
+    const ajaxL = document.getElementById('ajaxL');
+    const ajaxK = document.getElementById('ajaxK');
+    const ajaxX0 = document.getElementById('ajaxX0');
+    
+    switch(preset) {
+      case 'conservative':
+        ajaxL.value = 70; ajaxK.value = 0.5; ajaxX0.value = 5;
+        break;
+      case 'realistic':
+        ajaxL.value = 85; ajaxK.value = 0.8; ajaxX0.value = 3;
+        break;
+      case 'optimistic':
+        ajaxL.value = 95; ajaxK.value = 1.2; ajaxX0.value = 2;
+        break;
+      case 'reset':
+        // Reset to original data
+        initializeDashboard();
+        return;
+    }
+    updateChart();
+  };
+
+  window.updateChart = function() {
+    // Get control values
+    const xMax = parseInt(document.getElementById('xMax').value);
+    const xStep = parseInt(document.getElementById('xStep').value);
+    const yMin = parseInt(document.getElementById('yMin').value);
+    const yMax = parseInt(document.getElementById('yMax').value);
+    const ajaxL = parseFloat(document.getElementById('ajaxL').value);
+    const ajaxK = parseFloat(document.getElementById('ajaxK').value);
+    const ajaxX0 = parseFloat(document.getElementById('ajaxX0').value);
+    
+    // Get CAGR values
+    const cagrs = {
+      textile: parseFloat(document.getElementById('textileCagr').value) / 100 + 1,
+      food: parseFloat(document.getElementById('foodCagr').value) / 100 + 1,
+      meat: parseFloat(document.getElementById('meatCagr').value) / 100 + 1,
+      catalysts: parseFloat(document.getElementById('catalystsCagr').value) / 100 + 1,
+      construction: parseFloat(document.getElementById('constructionCagr').value) / 100 + 1
+    };
+
+    // Regenerate data with new parameters
+    const baseData = [
+      {year: 1, textile: 0.004040797, food: 0.005334007, meat: 0.001151504, catalysts: 0.337039953, construction: 0.011704414},
+      {year: 2, textile: 0.004117704, food: 0.006528339, meat: 0.001642955, catalysts: 0.342410252, construction: 0.01282732},
+      // ... use existing first 10 years, then apply CAGR
+    ];
+
+    dashboardData = [];
+    for(let year = 1; year <= xMax; year++) {
+      let baseYear = year <= 10 ? rawData[year-1] : rawData[9]; // Use year 10 as base for extrapolation
+      
+      if(year > 10) {
+        // Apply CAGR from year 10
+        const growth = year - 10;
+        baseYear = {
+          year,
+          textile: rawData[9].textile * Math.pow(cagrs.textile, growth),
+          food: rawData[9].food * Math.pow(cagrs.food, growth),
+          meat: rawData[9].meat * Math.pow(cagrs.meat, growth),
+          catalysts: rawData[9].catalysts * Math.pow(cagrs.catalysts, growth),
+          construction: rawData[9].construction * Math.pow(cagrs.construction, growth)
+        };
+      }
+
+      const textile = Math.min(baseYear.textile * 100, 90);
+      const food = Math.min(baseYear.food * 100, 90);
+      const meat = Math.min(baseYear.meat * 100, 90);
+      const catalysts = Math.min(baseYear.catalysts * 100, 90);
+      const construction = Math.min(baseYear.construction * 100, 90);
+      const overall = Math.min((textile + food + meat + catalysts + construction) / 5, 90);
+      const ajaxdna = Math.min(ajaxL / (1 + Math.exp(-ajaxK * (year - ajaxX0))), 90);
+
+      dashboardData.push({year, textile, food, meat, catalysts, construction, overall, ajaxdna});
+    }
+
+    // Update main charts
+    rows.splice(0, rows.length, ...dashboardData);
+    
+    // Update main chart
+    chart.data.labels = rows.map(r => r.year);
+    chart.data.datasets = mainKeys.map(k => datasetOf(k));
+    chart.options.scales.x.ticks.stepSize = xStep;
+    chart.options.scales.y.min = yMin;
+    chart.options.scales.y.max = yMax;
+    chart.update();
+
+    // Update detailed chart
+    if(detailedChart) {
+      detailedChart.data.labels = rows.map(r => r.year);
+      detailedChart.data.datasets = keys.map(k => datasetOf(k));
+      detailedChart.options.scales.x.ticks.stepSize = xStep;
+      detailedChart.options.scales.y.min = yMin;
+      detailedChart.options.scales.y.max = yMax;
+      detailedChart.update();
+    }
+
+    // Update data table and preview
+    populateDataTable();
+    updatePreviewChart();
+  };
+
+  function datasetOf(key, extra = {}, data = rows){
+    const isSmooth = CONFIG.DISPLAY.smoothLines.includes(key);
+    const isDashed = CONFIG.DISPLAY.dashedLines.includes(key);
+    const hidePoints = CONFIG.DISPLAY.hidePoints.includes(key);
+    const isThick = CONFIG.DISPLAY.thickLines.includes(key);
+    
+    return {
+      label: names[key],
+      data: data.map(r=> r[key]),
+      borderColor: colors[key],
+      backgroundColor: colors[key],
+      pointRadius: hidePoints ? 0 : 3,
+      pointHoverRadius: hidePoints ? 0 : 4,
+      showLine: true,
+      borderWidth: isThick ? 3 : 1,
+      borderDash: isDashed ? [2,4] : [],
+      tension: isSmooth ? 0.25 : 0,
+      ...extra
+    };
+  }
+})();
+
+// Image Sequence Animation for Solution Section
+(function() {
+  const solutionImage = document.getElementById('solutionImageSequence');
+  if (!solutionImage) {
+    console.error('Solution image element not found');
+    return;
+  }
+  
+  let currentFrame = 1;
+  const totalFrames = 100; // You have 100 images (0001.png to 0100.png)
+  const fps = 24; // 24 frames per second
+  const frameInterval = 1000 / fps; // Time between frames in milliseconds
+  let animationInterval = null;
+  
+  function updateFrame() {
+    // Format frame number with leading zeros (0001, 0002, etc.)
+    const frameNumber = currentFrame.toString().padStart(4, '0');
+    const imagePath = `video/${frameNumber}.png`;
+    solutionImage.src = imagePath;
+    
+    // Debug: log every 10th frame
+    if (currentFrame % 10 === 0) {
+      console.log('Current frame:', currentFrame, 'Image path:', imagePath);
+    }
+    
+    // Move to next frame
+    currentFrame = (currentFrame % totalFrames) + 1;
+  }
+  
+  function startAnimation() {
+    if (animationInterval) {
+      clearInterval(animationInterval);
+    }
+    
+    console.log('Starting image sequence animation at', fps, 'fps');
+    animationInterval = setInterval(updateFrame, frameInterval);
+  }
+  
+  // Start animation immediately
+  console.log('Solution image element found, starting animation...');
+  startAnimation();
+  
+  // Simple preloading in background (optional, for smoother playback)
+  function preloadImages() {
+    for (let i = 1; i <= totalFrames; i++) {
+      const frameNumber = i.toString().padStart(4, '0');
+      const img = new Image();
+      img.src = `video/${frameNumber}.png`;
+    }
+  }
+  
+  // Start preloading after a short delay
+  setTimeout(preloadImages, 1000);
+  
+  // Add error handling for the main image
+  solutionImage.onerror = function() {
+    console.error('Failed to load image:', this.src);
+  };
+  
+  solutionImage.onload = function() {
+    console.log('Image loaded successfully:', this.src);
+  };
+})();
+</script>
+
 </body>
 </html>
-
