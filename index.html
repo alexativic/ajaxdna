@@ -465,6 +465,320 @@
           }
         }
         
+        /* Solutions Section */
+        .solutions-section {
+          height: 100vh;
+          background: #ffffff;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .solutions-container {
+          display: grid;
+          grid-template-columns: 2fr 1fr 1fr;
+          height: 100vh;
+          position: relative;
+        }
+        
+        /* Left Column: Triggers */
+        .solutions-left-column {
+          background: #ffffff;
+          padding: 60px 40px;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        
+        .solutions-main-heading {
+          font-size: 2.5rem;
+          font-weight: 800;
+          color: #007BFF;
+          margin-bottom: 60px;
+          line-height: 1.2;
+          font-family: 'Raleway', Arial, sans-serif;
+          position: relative;
+          z-index: 10;
+        }
+        
+        .vertical-connector {
+          position: absolute;
+          left: 40px;
+          top: 240px;
+          bottom: 80px;
+          width: 4px;
+          z-index: 2;
+        }
+        
+        .connector-line {
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 4px;
+          background: #007BFF;
+        }
+        
+        .connector-circle {
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          background: #007BFF;
+          border-radius: 50%;
+          left: -10px;
+          z-index: 3;
+        }
+        
+        .circle-1 {
+          top: 20%;
+        }
+        
+        .circle-2 {
+          top: 60%;
+        }
+        
+        .content-blocks {
+          margin-left: 60px;
+        }
+        
+        .content-block-link {
+          text-decoration: none;
+          color: inherit;
+          display: block;
+          transition: all 0.3s ease;
+        }
+        
+        .content-block-link:hover {
+          transform: translateX(10px);
+        }
+        
+        .content-block {
+          margin-bottom: 80px;
+          cursor: pointer;
+        }
+        
+        .content-block h3 {
+          font-size: 2rem;
+          font-weight: 700;
+          color: #333;
+          margin-bottom: 16px;
+          font-family: 'Raleway', Arial, sans-serif;
+        }
+        
+        .content-block .primary-description {
+          font-size: 1.1rem;
+          color: #333;
+          line-height: 1.6;
+          margin-bottom: 12px;
+          font-family: 'Raleway', Arial, sans-serif;
+        }
+        
+        .content-block .secondary-benefit {
+          font-size: 1rem;
+          color: #666;
+          line-height: 1.5;
+          font-family: 'Raleway', Arial, sans-serif;
+        }
+        
+        /* Center Column: Software Solutions */
+        .solutions-center-column {
+          background: #1e1e1e;
+          position: relative;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          cursor: pointer;
+        }
+        
+        .column-heading {
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: #ffffff;
+          text-align: center;
+          padding: 40px 20px 20px;
+          margin: 0;
+          font-family: 'Raleway', Arial, sans-serif;
+          position: relative;
+          z-index: 5;
+        }
+        
+        .code-background {
+          flex: 1;
+          overflow: hidden;
+          position: relative;
+        }
+        
+        .code-background pre {
+          margin: 0;
+          padding: 20px;
+          height: 200%;
+          overflow: hidden;
+          animation: scrollCode 30s linear infinite;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+        }
+        
+        .code-background code {
+          font-family: 'Courier New', monospace;
+          font-size: 0.9rem;
+          line-height: 1.6;
+          color: #ffffff;
+          display: block;
+        }
+        
+        .code-background .variable { color: #ff79c6; }
+        .code-background .keyword { color: #8be9fd; }
+        .code-background .string { color: #f1fa8c; }
+        .code-background .comment { color: #6272a4; }
+        .code-background .function { color: #50fa7b; }
+        
+        @keyframes scrollCode {
+          0% { transform: translateY(0); }
+          100% { transform: translateY(-50%); }
+        }
+        
+        /* Right Column: Hardware Solutions */
+        .solutions-right-column {
+          background: #2c3e50;
+          position: relative;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          cursor: pointer;
+        }
+        
+        .hardware-background {
+          flex: 1;
+          background-image: url('microfluidic_column.png');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          position: relative;
+        }
+        
+        /* Column Hover Overlay */
+        .column-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0, 123, 255, 0.85);
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s ease-in-out;
+          z-index: 8;
+        }
+        
+        /* Overlay Content */
+        .overlay-content {
+          position: absolute;
+          top: 50%;
+          left: 20px;
+          right: 20px;
+          transform: translateY(-50%);
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s ease-in-out;
+          z-index: 10;
+        }
+        
+        .overlay-item {
+          color: #ffffff;
+          font-size: 1.2rem;
+          font-weight: 600;
+          margin-bottom: 16px;
+          padding: 12px 0;
+          border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
+          font-family: 'Raleway', Arial, sans-serif;
+        }
+        
+        .overlay-item:last-child {
+          border-bottom: none;
+        }
+        
+        /* Hover Effects */
+        .solutions-center-column:hover .column-overlay,
+        .solutions-center-column:hover .overlay-content {
+          opacity: 1;
+          visibility: visible;
+        }
+        
+        .solutions-right-column:hover .column-overlay,
+        .solutions-right-column:hover .overlay-content {
+          opacity: 1;
+          visibility: visible;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+          .solutions-container {
+            grid-template-columns: 1fr;
+            height: auto;
+            min-height: 100vh;
+          }
+          
+          .solutions-left-column {
+            padding: 40px 20px;
+            min-height: 50vh;
+          }
+          
+          .solutions-center-column,
+          .solutions-right-column {
+            min-height: 25vh;
+          }
+          
+          .solutions-main-heading {
+            font-size: 2rem;
+            margin-bottom: 40px;
+          }
+          
+          .content-block h3 {
+            font-size: 1.5rem;
+          }
+          
+          .vertical-connector {
+            left: 20px;
+          }
+          
+          .content-blocks {
+            margin-left: 40px;
+          }
+        }
+        
+        @media (max-width: 768px) {
+          .solutions-left-column {
+            padding: 30px 15px;
+          }
+          
+          .solutions-main-heading {
+            font-size: 1.8rem;
+          }
+          
+          .content-block {
+            margin-bottom: 40px;
+          }
+          
+          .content-block h3 {
+            font-size: 1.3rem;
+          }
+          
+          .content-block .primary-description {
+            font-size: 1rem;
+          }
+          
+          .column-heading {
+            font-size: 1.5rem;
+            padding: 30px 15px 15px;
+          }
+          
+          .overlay-item {
+            font-size: 1rem;
+          }
+        }
+        
         /* Footer Section */
         .footer-section {
             background: #ECF0F1;
@@ -1348,7 +1662,7 @@
           transform: translate(-50%, -50%);
           width: var(--blue-bg-width, 889px);
           height: var(--blue-bg-height, 435px);
-          background: #ECF0F1;
+          background: #1E90FF;
           border-radius: 12px;
           box-shadow: 0 8px 32px rgba(30, 144, 255, 0.3);
           z-index: 1;
@@ -1356,7 +1670,7 @@
         
         /* Captions Section Blue Background */
         .vision-captions-section {
-          background: #ECF0F1;
+          background: #1E90FF;
           position: relative;
           z-index: 10;
         }
@@ -1596,7 +1910,7 @@
         .caption-cell.c2 { flex: 0 0 var(--img2-width, 192px); }
         .caption-cell.c3 { flex: 0 0 var(--img3-width, 170px); }
         .caption-text {
-          color: #1E90FF;
+          color: #ffffff;
           font-weight: 700;
           font-size: 1.1rem;
           text-shadow: 0 2px 4px rgba(0,0,0,0.3);
@@ -1608,7 +1922,7 @@
           height: 600px;
           max-width: 1100px;
           padding: 40px;
-          background: #1E90FF;
+          background: #ECF0F1;
           border-radius: 15px;
           margin: 60px auto 20px auto;
           box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -1630,7 +1944,7 @@
           left: -60vw;
           width: 220vw;
           height: 70px;
-          background: #1E90FF;
+          background: #ECF0F1;
           z-index: 3;
         }
         
@@ -1918,52 +2232,6 @@
           margin: 24px auto 0 auto;
           padding: 0 40px;
         }
-        /* Speed Separator Section CSS */
-        .speed-separator-section {
-          background: #1E90FF;
-          padding: 20px 0;
-          overflow: hidden;
-          white-space: nowrap;
-          position: relative;
-        }
-        
-        .speed-message-container {
-          width: 100%;
-        }
-        
-        .speed-message {
-          display: inline-block;
-          animation: scroll-message 20s linear infinite;
-          font-size: 1.2rem;
-          font-weight: 600;
-          color: white;
-        }
-        
-        .speed-text {
-          margin: 0 20px;
-        }
-        
-        .speed-link {
-          color: #FFD166;
-          text-decoration: none;
-          font-weight: 700;
-          margin: 0 20px;
-          transition: color 0.3s ease;
-        }
-        
-        .speed-link:hover {
-          color: white;
-          text-decoration: underline;
-        }
-        
-        @keyframes scroll-message {
-          0% {
-            transform: translateX(100%);
-          }
-          100% {
-            transform: translateX(-100%);
-          }
-        }
 
         @media (max-width: 1100px) {
           .solution-top-content { 
@@ -2007,19 +2275,146 @@
   <div class="video-carousel"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-          <h1>A new era of biological engineering</h1>
+          <h1>State of the art tech for R&D in biological processes</h1>
     <p>Revolutionizing your lab through our patent pending technology, fast, efficient and cost effective solutions for your biotechnological developments.</p>
     
   </div>
   <div class="hero-fadeout"></div>
 </div>
 
+<!-- Solutions Section -->
+<section class="solutions-section">
+  <div class="solutions-container">
+    <!-- Left Column: Triggers -->
+    <div class="solutions-left-column">
+      <h2 class="solutions-main-heading">Remove unnecessary costs and doubts in your biological engineering</h2>
+      
+      <div class="vertical-connector">
+        <div class="connector-line"></div>
+        <div class="connector-circle circle-1"></div>
+        <div class="connector-circle circle-2"></div>
+      </div>
+      
+      <div class="content-blocks">
+        <a href="lab-workstation.html" class="content-block-link">
+          <div class="content-block">
+            <h3>Drug discovery</h3>
+            <p class="primary-description">Discover any disease cause and solution in hours with up to 95% in cost reduction.</p>
+            <p class="secondary-benefit">Save billions by preventing clinical trial failure.</p>
+          </div>
+        </a>
+        
+        <a href="lab-workstation.html" class="content-block-link">
+          <div class="content-block">
+            <h3>New foods</h3>
+            <p class="primary-description">Make bioreactor produced ingredients by 0,45-3€/kg for any product, in hours.</p>
+            <p class="secondary-benefit">Save millions by optimizing production yields and fermenter conditions.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+    
+    <!-- Center Column: Software Solutions -->
+    <div class="solutions-center-column" onclick="window.location.href='design-software.html'" style="cursor: pointer;">
+      <h2 class="column-heading">Software solutions</h2>
+      <div class="code-background">
+        <pre><code><span class="comment">// Drug discovery optimization</span>
+<span class="keyword">function</span> <span class="function">optimizeDrugDiscovery</span>() {
+  <span class="keyword">var</span> <span class="variable">target</span> = <span class="function">getDiseaseTarget</span>();
+  <span class="keyword">var</span> <span class="variable">compounds</span> = <span class="function">screenCompounds</span>(<span class="variable">target</span>);
+  
+  <span class="keyword">if</span> (<span class="variable">compounds</span>.<span class="function">length</span> > <span class="string">0</span>) {
+    <span class="keyword">var</span> <span class="variable">bestCompound</span> = <span class="function">findBestCompound</span>(<span class="variable">compounds</span>);
+    <span class="keyword">return</span> <span class="function">validateCompound</span>(<span class="variable">bestCompound</span>);
+  }
+  
+  <span class="comment">// Metabolic modeling</span>
+  <span class="keyword">var</span> <span class="variable">model</span> = <span class="function">createMetabolicModel</span>();
+  <span class="variable">model</span>.<span class="function">optimizePathways</span>();
+  
+  <span class="comment">// Protein discovery</span>
+  <span class="keyword">var</span> <span class="variable">proteins</span> = <span class="function">discoverProteins</span>();
+  <span class="variable">proteins</span>.<span class="function">forEach</span>(<span class="keyword">function</span>(<span class="variable">protein</span>) {
+    <span class="keyword">if</span> (<span class="variable">protein</span>.<span class="variable">efficacy</span> > <span class="string">0.95</span>) {
+      <span class="function">triggerCustomEvent</span>(<span class="string">'proteinFound'</span>, <span class="variable">protein</span>);
+    }
+  });
+  
+  <span class="keyword">return</span> <span class="variable">model</span>.<span class="function">getResults</span>();
+}
+
+<span class="comment">// New foods development</span>
+<span class="keyword">function</span> <span class="function">developNewFoods</span>() {
+  <span class="keyword">var</span> <span class="variable">ingredients</span> = <span class="function">getBioreactorIngredients</span>();
+  <span class="keyword">var</span> <span class="variable">cost</span> = <span class="function">calculateProductionCost</span>(<span class="variable">ingredients</span>);
+  
+  <span class="keyword">if</span> (<span class="variable">cost</span> <= <span class="string">3.0</span>) {
+    <span class="function">optimizeFermentation</span>(<span class="variable">ingredients</span>);
+    <span class="keyword">return</span> <span class="function">scaleProduction</span>(<span class="variable">ingredients</span>);
+  }
+  
+  <span class="comment">// Plasmid design for food production</span>
+  <span class="keyword">var</span> <span class="variable">plasmid</span> = <span class="function">designPlasmid</span>();
+  <span class="variable">plasmid</span>.<span class="function">insertGene</span>(<span class="string">'foodProduction'</span>);
+  
+  <span class="keyword">return</span> <span class="variable">plasmid</span>.<span class="function">express</span>();
+}
+
+<span class="comment">// Advanced analytics</span>
+<span class="keyword">function</span> <span class="function">analyzeData</span>(<span class="variable">dataset</span>) {
+  <span class="keyword">var</span> <span class="variable">results</span> = [];
+  <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="string">0</span>; <span class="variable">i</span> < <span class="variable">dataset</span>.<span class="function">length</span>; <span class="variable">i</span>++) {
+    <span class="keyword">var</span> <span class="variable">item</span> = <span class="variable">dataset</span>[<span class="variable">i</span>];
+    <span class="keyword">if</span> (<span class="variable">item</span>.<span class="variable">confidence</span> > <span class="string">0.8</span>) {
+      <span class="variable">results</span>.<span class="function">push</span>(<span class="variable">item</span>);
+    }
+  }
+  <span class="keyword">return</span> <span class="variable">results</span>;
+}
+
+<span class="comment">// Machine learning integration</span>
+<span class="keyword">function</span> <span class="function">trainModel</span>(<span class="variable">trainingData</span>) {
+  <span class="keyword">var</span> <span class="variable">model</span> = <span class="keyword">new</span> <span class="function">NeuralNetwork</span>();
+  <span class="variable">model</span>.<span class="function">train</span>(<span class="variable">trainingData</span>);
+  <span class="keyword">return</span> <span class="variable">model</span>.<span class="function">predict</span>();
+}</code></pre>
+      </div>
+      
+      <!-- Column Overlay -->
+      <div class="column-overlay"></div>
+      
+      <!-- Overlay Content -->
+      <div class="overlay-content">
+        <div class="overlay-item">Whole cell digital twin</div>
+        <div class="overlay-item">Metabolic Modeling</div>
+        <div class="overlay-item">Plasmid design</div>
+        <div class="overlay-item">Protein discovery solutions</div>
+      </div>
+    </div>
+    
+    <!-- Right Column: Hardware Solutions -->
+    <div class="solutions-right-column" onclick="window.location.href='lab-workstation.html'" style="cursor: pointer;">
+      <h2 class="column-heading">Hardware solutions</h2>
+      <div class="hardware-background"></div>
+      
+      <!-- Column Overlay -->
+      <div class="column-overlay"></div>
+      
+      <!-- Overlay Content -->
+      <div class="overlay-content">
+        <div class="overlay-item">LabOnACell Platform</div>
+        <div class="overlay-item">Lab kit devices</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Vision Section -->
 <section class="wide-section vision-section">
   <div class="section-content">
     <div class="section-text">
       <h2 class="gradient-title">We create and supply the tools for the fastest biological engineering</h2>
-      <p class="vision-statement">To see a world without disease, hunger or unsustainable chemistry thanks to quick and inexpensive development of custom bioproduction strategies where and when they are needed.</p>
+      <p class="vision-statement">To see a world without disease, hunger or biological risk thanks to quick and inexpensive development of custom biology engineering solutions where and when they are needed.</p>
     </div>
     <div class="vision-images-wrapper">
       <div class="vision-blue-background"></div>
@@ -2046,29 +2441,11 @@
     <div class="captions-grid">
       <div class="caption-cell c1"><div class="caption-text">Personalized Medicine</div></div>
       <div class="caption-cell c2"><div class="caption-text">New Food Development</div></div>
-      <div class="caption-cell c3"><div class="caption-text">Biomaterial production </div></div>
+      <div class="caption-cell c3"><div class="caption-text">Pharma Research &amp; disease prevention</div></div>
     </div>
   </div>
 </section>
 
-<!-- Problem Section -->
-<section class="wide-section problem-section">
-  <div class="section-content reverse">
-    <div class="section-text" style="margin-left: 150px; min-width: 300px;">
-      <h2 class="gradient-title">Climbing a mountain without shoes</h2>
-      <p>The world is turning bio, but no one has the tools to make it happen fast and cost effectively. We are here to change that. We make the shoes</p>
-    </div>
-    <div class="section-image" style="position: relative;">
-      <div class="timeline-background-rectangle"></div>
-      <div class="timeline-chart-container" style="position: relative;">
-        <canvas id="biotechTimelineChart"></canvas>
-        <div style="position: absolute; bottom: 10px; left: 10px;">
-          <button class="sources-button" onclick="toggleSourcesModal()">View Sources & Calculations</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- Sources Modal -->
 <div class="sources-modal" id="sourcesModal">
@@ -2335,66 +2712,9 @@
   </div>
 </div>
 
-<!-- Speed Separator Section -->
-<section class="speed-separator-section">
-  <div class="speed-message-container">
-    <div class="speed-message">
-      <span class="speed-text">There is a whole new speed for you.</span>
-      <a href="product.html" class="speed-link">Speed for you</a>
-      <span class="speed-text">There is a whole new speed for you.</span>
-      <a href="product.html" class="speed-link">Speed for you</a>
-      <span class="speed-text">There is a whole new speed for you.</span>
-      <a href="product.html" class="speed-link">Speed for you</a>
-      <span class="speed-text">There is a whole new speed for you.</span>
-      <a href="product.html" class="speed-link">Speed for you</a>
-    </div>
-  </div>
-</section>
 
-<!-- Solution Section -->
-<section class="wide-section solution-section">
-  <div class="section-content">
-    <div class="solution-top-content">
-      <div class="section-text">
-        <h2 class="gradient-title">Our platform builds and tests millions of cell lines in hours</h2>
-        <p>Not just the first fully automated and AI powered cell factory, but a full lab on your workbench thanks to our patented protocols</p>
-      </div>
-      <div class="solution-image-container">
-        <img id="solutionImageSequence" src="video/0001.png" alt="Our Solution Animation" style="width: 100%; height: auto;">
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- Solution Features Section -->
-<section class="wide-section solution-features-section">
-  <div class="section-content">
-    <div class="solution-features-row">
-      <div class="feature-button">
-        <div class="feature-icon">🔬</div>
-        <div class="feature-text">Real time metabolomic, transcriptomics and proteomic analysis</div>
-      </div>
-      <div class="feature-button">
-        <div class="feature-icon">⚡</div>
-        <div class="feature-text">Accelerated & automated cell line screening</div>
-      </div>
-      <div class="feature-button">
-        <div class="feature-icon">🚀</div>
-        <div class="feature-text">Quickly swifting from prototyping to bioproduction of any discovered compound</div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- 
-<section class="mission-hero">
-  <img src="imagen_mision.png" alt="Mission Background" class="mission-bg">
-  <div class="mission-content">
-          <h2 class="gradient-title">Our Mission, today & tomorrow</h2>
-    <p class="mission-statement">We accelerate bioproduction discovery times for pharmaceutical, agro and biochemical companies using our LabOnaCell workstation nanotechnology. Tomorrow, to extend this benefits to all other industries making use of biotech</p>
-  </div>
-</section>
--->
 <!-- Carousel Section -->
 <div class="carousel-section">
           <h2 class="gradient-title">Recognitions and awards</h2>
@@ -4047,6 +4367,7 @@ setTimeout(nextVideo, (videoCarouselConfig[current].duration || 15) * 1000);
     console.log('Image loaded successfully:', this.src);
   };
 })();
+
 </script>
 
 </body>
