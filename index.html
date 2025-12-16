@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AJAXdna</title>
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/common.css">
     <style>
         body, html {
             margin: 0;
@@ -651,7 +652,7 @@
         
         .hardware-background {
           flex: 1;
-          background-image: url('microfluidic_column.png');
+          background-image: url('assets/images/microfluidic_column.png');
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
@@ -779,73 +780,7 @@
           }
         }
         
-        /* Footer Section */
-        .footer-section {
-            background: #ECF0F1;
-            padding: 44px 20px 20px 20px;
-            text-align: center;
-        }
-        
-        .footer-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 24px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .footer-column {
-            flex: 1;
-            min-width: 200px;
-            text-align: left;
-        }
-        
-        .footer-column h3 {
-            font-size: 1.2rem;
-            color: #1E90FF;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-        
-        .footer-column ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .footer-column ul li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-column ul li a {
-            color: #34495E;
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.2s;
-        }
-        
-        .footer-column ul li a:hover {
-            text-decoration: underline;
-            color: #1E90FF;
-        }
-        
-        .social-icons a img {
-            width: 24px;
-            height: auto;
-            margin-right: 10px;
-            transition: transform 0.2s;
-        }
-        
-        .social-icons a img:hover {
-            transform: scale(1.2);
-        }
-        
-        .footer-bottom {
-            margin-top: 20px;
-            font-size: 0.95rem;
-            color: #95A5A6;
-        }
+        /* Footer styling is now in common.css */
         
         
         /* Products Section Styling */
@@ -984,69 +919,7 @@
           }
         }
 
-        .main-navbar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 10;
-            background: none;
-            padding: 0;
-            margin: 0;
-        }
-        .navbar-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 24px 40px 0 40px;
-        }
-        .navbar-logo-link {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-        .navbar-logo {
-            height: 48px;
-            width: auto;
-            display: block;
-            filter: drop-shadow(0 2px 8px #0008);
-        }
-        .navbar-links {
-            display: flex;
-            gap: 36px;
-        }
-        .navbar-links a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.08rem;
-            font-weight: 600;
-            letter-spacing: 0.01em;
-            padding: 6px 0;
-            border-bottom: 2px solid transparent;
-            transition: color 0.18s, border-bottom 0.18s;
-            background: none;
-        }
-        .navbar-links a:hover, .navbar-links a:focus {
-            color: #FFD166;
-            border-bottom: 2px solid #FFD166;
-        }
-        @media (max-width: 900px) {
-            .navbar-content {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 18px 16px 0 16px;
-            }
-            .navbar-links {
-                gap: 18px;
-                margin-top: 10px;
-                flex-wrap: wrap;
-            }
-            .navbar-logo {
-                height: 36px;
-            }
-        }
+        /* Navbar styling is now in common.css */
 
         .presentation-section {
           background: #fff;
@@ -2257,15 +2130,16 @@
 <nav class="main-navbar">
   <div class="navbar-content">
     <a href="index.html" class="navbar-logo-link">
-      <img src="Ajax-logo-white.png" alt="AJAXdna Logo" class="navbar-logo" />
+      <img src="assets/images/logos/Ajax-logo-white.png" alt="AJAXdna Logo" class="navbar-logo" />
     </a>
     <div class="navbar-links">
-      <a href="about.html">About</a>
-      <a href="design-software.html">Design Software</a>
-      <a href="lab-workstation.html">Lab Workstation</a>
-      <a href="tech-consultory.html">Tech Consultory</a>
-      <a href="product.html">Product</a>
-      <a href="blog2/DESCRIPTION.html">Blog</a>
+      <a href="index.html" class="active">Home</a>
+      <a href="pages/about.html">About</a>
+      <a href="pages/design-software.html">Design Software</a>
+      <a href="pages/lab-workstation.html">Lab Workstation</a>
+      <a href="pages/tech-consultory.html">Tech Consultory</a>
+      <a href="pages/product.html">Product</a>
+      <a href="blog/DESCRIPTION.html">Blog</a>
     </div>
   </div>
 </nav>
@@ -2296,7 +2170,7 @@
       </div>
       
       <div class="content-blocks">
-        <a href="lab-workstation.html" class="content-block-link">
+        <a href="pages/lab-workstation.html" class="content-block-link">
           <div class="content-block">
             <h3>Drug discovery</h3>
             <p class="primary-description">Discover any disease cause and solution in hours with up to 95% in cost reduction.</p>
@@ -2304,7 +2178,7 @@
           </div>
         </a>
         
-        <a href="lab-workstation.html" class="content-block-link">
+        <a href="pages/lab-workstation.html" class="content-block-link">
           <div class="content-block">
             <h3>New foods</h3>
             <p class="primary-description">Make bioreactor produced ingredients by 0,45-3€/kg for any product, in hours.</p>
@@ -2420,13 +2294,13 @@
       <div class="vision-blue-background"></div>
       <div class="vision-images-container">
         <div class="vision-image-row image-row-1">
-          <img src="tempFileForShare_20250802-213049.jpg" alt="Vision Image 1">
+          <img src="assets/images/backgrounds/biological_weapon.jpg" alt="Vision Image 1">
         </div>
         <div class="vision-image-row image-row-2">
-          <img src="sketch1754836582905.png" alt="Vision Image 2">
+          <img src="assets/images/sketch1754836582905.png" alt="Vision Image 2">
         </div>
         <div class="vision-image-row image-row-3">
-          <img src="biological_weapon.jpg" alt="Vision Image 3">
+          <img src="assets/images/backgrounds/biological_weapon.jpg" alt="Vision Image 3">
         </div>
       </div>
     </div>
@@ -2719,9 +2593,9 @@
 <div class="carousel-section">
           <h2 class="gradient-title">Recognitions and awards</h2>
     <div class="carousel-container">
-        <img src="agrotec.png" alt="Agrotec Logo">
-        <img src="upv_ideas.png" alt="UPV Ideas Logo">
-        <img src="bioval.webp" alt="Bioval Logo">
+        <img src="assets/images/partners/agrotec.png" alt="Agrotec Logo">
+        <img src="assets/images/partners/upv_ideas.png" alt="UPV Ideas Logo">
+        <img src="assets/images/partners/bioval.webp" alt="Bioval Logo">
     </div>
 </div>
 
@@ -2732,7 +2606,7 @@
     <!-- Las Provincias -->
     <div class="news-article">
         <p class="news-source">
-            <img src="las_provincias.png" alt="Las Provincias" class="news-icon">
+            <img src="assets/images/partners/las_provincias.png" alt="Las Provincias" class="news-icon">
             <span class="news-date">25.11.2024</span> |
             <span class="news-tag">PRESS RELEASE</span>
         </p>
@@ -2747,7 +2621,7 @@
     <!-- ValenciaPlaza -->
     <div class="news-article">
         <p class="news-source">
-            <img src="valenciaplaza.png" alt="Valencia Plaza" class="news-icon">
+            <img src="assets/images/partners/valenciaplaza.png" alt="Valencia Plaza" class="news-icon">
             <span class="news-date">15.11.2024</span> |
             <span class="news-tag">PRESS RELEASE</span>
         </p>
@@ -2762,7 +2636,7 @@
     <!-- À Punt -->
     <div class="news-article">
         <p class="news-source">
-            <img src="apunt.png" alt="À Punt" class="news-icon">
+            <img src="assets/images/partners/apunt.png" alt="À Punt" class="news-icon">
             <span class="news-date">28.10.2024</span> |
             <span class="news-tag">PRESS RELEASE</span>
         </p>
@@ -2863,13 +2737,13 @@
         <div class="footer-column">
             <h3>Connect With Us</h3>
             <div class="social-icons">
-                <a href="https://www.linkedin.com/in/alejandro-atienza-vicedo-963242190/" target="_blank"><img src="linkedin.png" alt="LinkedIn"></a>
+                <a href="https://www.linkedin.com/in/alejandro-atienza-vicedo-963242190/" target="_blank"><img src="assets/images/partners/linkedin.png" alt="LinkedIn"></a>
                
             </div>
         </div>
     </div>
     <div class="footer-bottom">
-w        <p>© 2025 All Rights Reserved</p>
+        <p>© 2025 All Rights Reserved</p>
     </div>
 </footer>
 
@@ -3044,7 +2918,7 @@ w        <p>© 2025 All Rights Reserved</p>
 // === VIDEO CAROUSEL CONTROL PANEL ===
 const videoCarouselConfig = [
   {
-    src: "videos_webpage/protein_folding.mp4",
+    src: "assets/videos/promo_videos/protein_folding.mp4",
     duration: 9,
     zoom: 3,
     objectPosition: "100% 50%", // top-left
@@ -3053,7 +2927,7 @@ const videoCarouselConfig = [
   },
 
   {
-    src: "videos_webpage/videomatrix.mp4",
+    src: "assets/videos/promo_videos/videomatrix.mp4",
     duration: 4,
     zoom: 1.5,
     objectPosition: "center center",
@@ -3061,7 +2935,7 @@ const videoCarouselConfig = [
     playbackRate: 1
   },
   {
-    src: "videos_webpage/Video_Ready_Bacteria_Mentioned.mp4",
+    src: "assets/videos/promo_videos/Video_Ready_Bacteria_Mentioned.mp4",
     duration: 7,
     zoom: 1.1,
     objectPosition: "center center",
@@ -3070,7 +2944,7 @@ const videoCarouselConfig = [
   },
 
   {
-    src: "videos_webpage/Metabolic_Model_Animation_Ready.mp4",
+    src: "assets/videos/promo_videos/Metabolic_Model_Animation_Ready.mp4",
     duration: 4,
     zoom: 3,
     objectPosition: "top center",
@@ -3079,7 +2953,7 @@ const videoCarouselConfig = [
   },
 
   {
-    src: "videos_webpage/construcción de proteina.mp4",
+    src: "assets/videos/promo_videos/construcción de proteina.mp4",
     duration: 5,
     zoom: 1,
     objectPosition: "100% 50%",
@@ -3087,7 +2961,7 @@ const videoCarouselConfig = [
     playbackRate: 0.3
   },
   {
-    src: "videos_webpage/Digital_Cell_Twin_Video_Ready.mp4",
+    src: "assets/videos/promo_videos/Digital_Cell_Twin_Video_Ready.mp4",
     duration: 3,
     zoom: 1.1,
     objectPosition: "center center",
@@ -4321,7 +4195,7 @@ setTimeout(nextVideo, (videoCarouselConfig[current].duration || 15) * 1000);
   function updateFrame() {
     // Format frame number with leading zeros (0001, 0002, etc.)
     const frameNumber = currentFrame.toString().padStart(4, '0');
-    const imagePath = `video/${frameNumber}.png`;
+    const imagePath = `assets/videos/video_frames/${frameNumber}.png`;
     solutionImage.src = imagePath;
     
     // Debug: log every 10th frame
@@ -4351,7 +4225,7 @@ setTimeout(nextVideo, (videoCarouselConfig[current].duration || 15) * 1000);
     for (let i = 1; i <= totalFrames; i++) {
       const frameNumber = i.toString().padStart(4, '0');
       const img = new Image();
-      img.src = `video/${frameNumber}.png`;
+      img.src = `assets/videos/video_frames/${frameNumber}.png`;
     }
   }
   

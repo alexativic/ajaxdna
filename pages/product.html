@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - AJAX DNA</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Full Height for HTML and Body */
+        html, body {
+            height: 100%;
+        }
+
+        /* Body Styling */
+        body {
+            background: url('../assets/images/backgrounds/background1.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        /* Main Content */
+        .content-box {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            min-height: calc(100vh - 150px); /* Adjust height excluding header and footer */
+            padding: 120px 20px 40px;
+            gap: 10px; /* Space between product boxes */
+        }
+
+        /* Product Icon Buttons */
+        .product-icon {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            text-align: center;
+            flex: 1; /* Each product takes equal space */
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: #222;
+        }
+
+        .product-icon:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-icon img {
+            width: 150px; /* Larger icon */
+            height: auto; /* Maintain aspect ratio */
+            max-height: 200px; /* Prevent it from getting too large */
+            margin-bottom: 10px;
+        }
+
+        .product-icon h3 {
+            font-size: 24px;
+            margin: 5px 0;
+        }
+
+        .product-icon p {
+            font-size: 16px;
+            color: #444;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="main-navbar">
+  <div class="navbar-content">
+    <a href="../index.html" class="navbar-logo-link">
+      <img src="../assets/images/logos/Ajax-logo-white.png" alt="AJAXdna Logo" class="navbar-logo" />
+    </a>
+    <div class="navbar-links">
+      <a href="../index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="design-software.html">Design Software</a>
+      <a href="lab-workstation.html">Lab Workstation</a>
+      <a href="tech-consultory.html">Tech Consultory</a>
+      <a href="product.html" class="active">Product</a>
+      <a href="../blog/DESCRIPTION.html">Blog</a>
+    </div>
+  </div>
+</nav>
+
+    <div class="content-box">
+        <!-- Product Icons -->
+        <a href="contact_us.html" class="product-icon">
+            <img src="../assets/images/icons/consulting.png" alt="Consulting">
+            <h3>Consulting</h3>
+            <p>Professional guidance for optimizing your industrial or medical cell production systems.</p>
+        </a>
+        <a href="step1.html" class="product-icon">
+            <img src="../assets/images/icons/design_tool.png" alt="Design Tool">
+            <h3>Design Tool</h3>
+            <p>A web platform for identifying the optimal genetic network for your cell’s production.</p>
+        </a>
+        <a href="contact_us2.html" class="product-icon">
+            <img src="../assets/images/icons/cell_testing.png" alt="Cell Testing">
+            <h3>Cell Testing</h3>
+            <p>End-to-end solutions to build, test, and deliver your production-ready cells.</p>
+        </a>
+    </div>
+
+<!-- Footer -->
+<footer class="footer-section">
+    <div class="footer-container">
+        <!-- About Us -->
+        <div class="footer-column">
+            <h3>About Us</h3>
+            <ul>
+                <li><a href="about.html">Our Team</a></li>
+            </ul>
+        </div>
+
+        <!-- Product -->
+        <div class="footer-column">
+            <h3>Product</h3>
+            <ul>
+                <li><a href="../index.html#product-section">Our Solution</a></li>
+            </ul>
+        </div>
+
+        <!-- Connect With Us -->
+        <div class="footer-column">
+            <h3>Connect With Us</h3>
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/alejandro-atienza-vicedo-963242190/" target="_blank"><img src="../assets/images/partners/linkedin.png" alt="LinkedIn"></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 All Rights Reserved</p>
+    </div>
+</footer>
+
+</body>
+</html>
+
