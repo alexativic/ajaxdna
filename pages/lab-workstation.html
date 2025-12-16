@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AjaxDNA Lab</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <style>
+        /* Product Section */
+        .product-section {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 30px;
+            padding: 120px 50px 50px;
+            margin-top: 0;
+            background: linear-gradient(-30deg, #FFFFFF, #A6CAEC)
+        }
+
+        .product-image {
+            width: 40%;
+            border-radius: 10px;
+        }
+
+        .product-description {
+            width: 50%;
+            text-align: left;
+        }
+
+        .product-description h1 {
+            font-size: 2.5rem;
+            color: #083A47;
+        }
+
+        .product-description p {
+            font-size: 1rem;
+            color: #4A5568;
+            line-height: 1.6;
+        }
+
+        /* Slider Section */
+        .slider-container {
+            position: relative;
+            width: 80%;
+            margin: 50px auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slides img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 10px;
+            font-size: 1.5rem;
+            z-index: 2;
+        }
+
+        .arrow.left {
+            left: 10px;
+        }
+
+        .arrow.right {
+            right: 10px;
+        }
+
+        /* Contact Section */
+        .cta-section {
+            padding: 50px 20px;
+            background: linear-gradient(30deg, #FFFFFF, #A6CAEC);
+            text-align: left;
+        }
+
+        .cta-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .cta-section p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: #4A5568;
+        }
+
+        .cta-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cta-form input, .cta-form select, .cta-form button {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .cta-form button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="main-navbar">
+  <div class="navbar-content">
+    <a href="../index.html" class="navbar-logo-link">
+      <img src="../assets/images/logos/Ajax-logo-white.png" alt="AJAXdna Logo" class="navbar-logo" />
+    </a>
+    <div class="navbar-links">
+      <a href="../index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="design-software.html">Design Software</a>
+      <a href="lab-workstation.html" class="active">Lab Workstation</a>
+      <a href="tech-consultory.html">Tech Consultory</a>
+      <a href="product.html">Product</a>
+      <a href="../blog/DESCRIPTION.html">Blog</a>
+    </div>
+  </div>
+</nav>
+
+    <!-- Product Section -->
+    <section class="product-section">
+        <img src="../assets/images/icons/cell_testing.png" alt="AjaxDNA Lab" class="product-image">
+        <div class="product-description">
+            <h1>AjaxDNA Lab</h1>
+            <p>
+                AjaxDNA Lab represents the future of biotechnology with thousands of miniaturized labs working in parallele 
+                each one integrated into a single cell. Powered by our patent-pending in vivo and in situ DNA synthesis method, 
+                it leverages Lab-on-a-Chip and the new Lab-on-a-cell technology to revolutionize the way experiments are conducted at scale.
+            </p>
+        </div>
+    </section>
+
+    <!-- Slider Section -->
+    <section class="slider-container">
+        <button class="arrow left" onclick="prevSlide()">&#8249;</button>
+        <div class="slides">
+            <img src="../assets/images/slide1.png" alt="Slide 1">
+            <img src="../assets/images/slide2.png" alt="Slide 2">
+            <img src="../assets/images/slide3.png" alt="Slide 3">
+            <img src="../assets/images/slide4.png" alt="Slide 4">
+            <img src="../assets/images/slide5.png" alt="Slide 5">
+            <img src="../assets/images/slide6.png" alt="Slide 6">
+
+        </div>
+        <button class="arrow right" onclick="nextSlide()">&#8250;</button>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="cta-section">
+        <h2>Contact Us to See Our Development Stage</h2>
+        <p>Learn how AjaxDNA Lab can advance your research and development capabilities.</p>
+        <form action="book_meeting.php" method="POST" class="cta-form">
+            <input type="text" name="name" placeholder="First Name" required>
+            <input type="text" name="last_name" placeholder="Last Name" required>
+            <input type="text" name="position" placeholder="Position" required>
+            <input type="text" name="company_name" placeholder="Company Name" required>
+            <select name="company_size" required>
+                <option value="1-10">1-10</option>
+                <option value="11-25">11-25</option>
+                <option value="26-50">26-50</option>
+                <option value="51-100">51-100</option>
+                <option value="100+">100+</option>
+            </select>
+            <input type="email" name="email" placeholder="Institution Email" required>
+            <button type="submit">Schedule a Meeting</button>
+        </form>
+    </section>
+
+    <script>
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            const slides = document.querySelector('.slides');
+            const totalSlides = slides.children.length;
+            if (index >= totalSlides) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = totalSlides - 1;
+            } else {
+                currentSlide = index;
+            }
+            slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+    </script>
+
+<!-- Footer -->
+<footer class="footer-section">
+    <div class="footer-container">
+        <!-- About Us -->
+        <div class="footer-column">
+            <h3>About Us</h3>
+            <ul>
+                <li><a href="about.html">Our Team</a></li>
+            </ul>
+        </div>
+
+        <!-- Product -->
+        <div class="footer-column">
+            <h3>Product</h3>
+            <ul>
+                <li><a href="../index.html#product-section">Our Solution</a></li>
+            </ul>
+        </div>
+
+        <!-- Connect With Us -->
+        <div class="footer-column">
+            <h3>Connect With Us</h3>
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/alejandro-atienza-vicedo-963242190/" target="_blank"><img src="../assets/images/partners/linkedin.png" alt="LinkedIn"></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 All Rights Reserved</p>
+    </div>
+</footer>
+
+</body>
+</html>

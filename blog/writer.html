@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhereStartup?</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #a8d5ba; /* Fallback color */
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            background-image: url('background0.jpg'); /* Header background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Dark overlay for better text visibility */
+            z-index: 1;
+        }
+        header h1, header p {
+            position: relative;
+            z-index: 2;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        header p {
+            margin: 10px 0 0;
+            font-size: 1.2em;
+        }
+
+        /* Content Section Styles */
+        .content-section {
+            position: relative;
+            background-image: url('background1.webp'); /* Second background image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Parallax effect */
+            padding: 60px 20px; /* Space around the article */
+        }
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3); /* Light overlay */
+            z-index: 1;
+        }
+
+        article {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Floating effect */
+            backdrop-filter: blur(5px); /* Optional: subtle blur */
+            text-align: center;
+        }
+
+        /* Circular Photo Style */
+        .photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background-color: #ddd;
+            background-image: url('alejandro.png'); /* Replace with the path to your image */
+            background-size: cover;
+            background-position: center;
+            display: block;
+        }
+
+        h2, h3 {
+            color: #2c3e50;
+        }
+        p {
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #2c3e50;
+            color: white;
+            margin-top: 20px;
+        }
+        a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Button Styles */
+        .button-container {
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        .button-container a button {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .button-container a {
+            text-decoration: none;
+        }
+        .button-container a + a {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>WhereStartup?</h1>
+        <p>Exploring challenges and solutions for a sustainable future </p>
+        <div class="button-container">
+            <a href="description.html">
+                <button>Blog Description</button>
+            </a>
+            <a href="blog1.2.html">
+                <button>article</button>
+            </a>
+        </div>
+    </header>
+
+    <div class="content-section">
+        <article>
+            <div class="photo"></div>
+            <h2>Hello there!</h2>
+            <p>
+                I’m Alejandro Atienza Vicedo, and it's great to see you here! I am the founder and CEO of AJAX DNA, and as part of my journey, I started writing this blog 
+                <strong>WhereStartup?</strong>. Here, I’ve combined my passion for innovation and entrepreneurship with my scientific background, hoping 
+                to inspire people like you to make a difference in the world. As a side note, I am a big hiking and Star Wars fan, so expect to see some metaphors and pop culture references!
+            </p>
+
+            <h3>Let’s Connect</h3>
+            <p>
+                If you’ve got an idea, a question, a collaboration in mind, want to execute a project inside your company or make it more sustainable—or you just need a biotech guy in your life—I’d love to hear from you! 
+                Feel free to connect with me on <a href="https://www.linkedin.com/in/alejandro-atienza-vicedo/" target="_blank">LinkedIn</a>. 
+                Let’s explore how we can create meaningful change together.
+            </p>
+
+            <h3>A Little About Me</h3>
+            <p>
+                People who know me say I’m chaotic, but I prefer to say that I’m never bored. I’ve always been fascinated by how science and technology can solve real-world 
+                problems. As a kid, I was captivated by Leonardo da Vinci’s inventions and how they still impact the world we live in today. Along my pathway into innovation, entrepreneurship, and invention, I’ve received the <strong>Bioval Young Award in Biotechnology in 2024</strong>. I was also granted entry to the <strong>AgrotecUV incubator</strong>, where I collaborate with amazing minds to develop high-tech solutions for agriculture and industry. Most recently, our work at AJAX DNA was awarded the <strong>First Prize at the UPV Ideas XVIII Entrepreneurship 
+                Competition</strong>. I want to thank all the previous collaborators and you, the reader, for the confidence you’re placing in me.
+            </p>
+
+            <h3>My Academic Background</h3>
+            <p>
+                None of this would have been possible without the people and institutions that helped me during my education. I studied at the <strong>Technical University of Valencia (UPV)</strong>, where I developed my passion for biotechnology. Later, I did my Erasmus at the <strong>École supérieure de biotechnologie de Strasbourg (ESBS)</strong>, where I rediscovered synthetic biology and entrepreneurship. Back in Valencia, and thanks to UPV, I was selected as part of the first class of <strong>CDTM VLC</strong> (Center for Digital Technology 
+                and Management in Valencia) students, a community that has taught me how to turn ideas into impactful projects. I’m now a second-year master’s student in the CSIC Master’s program on Synthetic Biology, which provided me with both the time and tools to pursue my scientific and entrepreneurial career.
+            </p>
+        </article>
+    </div>
+
+    <footer>
+        <p>&copy; AJAX DNA 2024 Divulgation Blog. All rights reserved.</p>
+    </footer>
+</body>
+</html>
