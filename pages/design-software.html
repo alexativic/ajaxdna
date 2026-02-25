@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,8 @@
         /* Product Section */
         .product-section {
             display: flex;
-            align-items: flex-start; /* Aligns image and text at the top */
+            align-items: flex-start;
+            /* Aligns image and text at the top */
             justify-content: space-between;
             gap: 30px;
             padding: 120px 50px 50px;
@@ -70,7 +72,8 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .features-table th, .features-table td {
+        .features-table th,
+        .features-table td {
             border: 1px solid #ddd;
             padding: 12px;
             text-align: left;
@@ -105,7 +108,9 @@
             gap: 10px;
         }
 
-        .cta-form input, .cta-form select, .cta-form button {
+        .cta-form input,
+        .cta-form select,
+        .cta-form button {
             padding: 10px;
             font-size: 1rem;
             border: 1px solid #ccc;
@@ -136,46 +141,46 @@
             cursor: pointer;
             font-size: 1rem;
         }
-        
+
         .toggle-btn:hover {
             background-color: #0056b3;
         }
-        
+
         /* Optional: Add a subtle highlight for collapsible rows */
         .collapsible-row {
             background-color: #f9f9f9;
         }
-        
     </style>
 </head>
+
 <body>
 
-<!-- Navigation Bar -->
-<nav class="main-navbar">
-  <div class="navbar-content">
-    <a href="../index.html" class="navbar-logo-link">
-      <img src="../assets/images/logos/Ajax-logo-white.png" alt="AJAXdna Logo" class="navbar-logo" />
-    </a>
-    <div class="navbar-links">
-      <a href="../index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="design-software.html" class="active">Design Software</a>
-      <a href="lab-workstation.html">Lab Workstation</a>
-      <a href="tech-consultory.html">Tech Consultory</a>
-      <a href="product.html">Product</a>
-      <a href="../blog/DESCRIPTION.html">Blog</a>
-    </div>
-  </div>
-</nav>
+    <!-- Navigation Bar -->
+    <nav class="main-navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="navbar-logo-link">
+                <img src="../assets/images/logos/Ajax-logo-white.png" alt="AJAXdna Logo" class="navbar-logo" />
+            </a>
+            <div class="navbar-links">
+                <a href="../index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="design-software.html" class="active">Design Software</a>
+                <a href="lab-workstation.html">Lab Workstation</a>
+
+                <a href="product.html">Product</a>
+                <a href="../blog/DESCRIPTION.html">Blog</a>
+            </div>
+        </div>
+    </nav>
 
     <section class="product-section">
         <img src="../assets/images/icons/design_tool.png" alt="AjaxDNA Design Software" class="product-image">
         <div class="product-description">
             <h1>AjaxDNA Design Software</h1>
             <p>
-                Our design software allows you to go from a experiment in mind to DNA in your lab in just a few clicks. 
-                Automate digital twin modeling and optimize your systems seamlessly. This software 
-                can operate as a standalone experimental design tool or integrated with Lab on a Cell 
+                Our design software allows you to go from a experiment in mind to DNA in your lab in just a few clicks.
+                Automate digital twin modeling and optimize your systems seamlessly. This software
+                can operate as a standalone experimental design tool or integrated with Lab on a Cell
                 workstations for advanced management capabilities.
             </p>
             <!-- Features Table -->
@@ -237,7 +242,7 @@
             <button class="toggle-btn" onclick="toggleRows()">Show Future features</button>
         </div>
     </section>
-        
+
     <!-- Video Section -->
     <section class="video-section">
         <h2>See AjaxDNA in Action</h2>
@@ -269,56 +274,58 @@
         </form>
     </section>
 
-<script>
-    function toggleRows() {
-        const rows = document.querySelectorAll('.collapsible-row');
-        const button = document.querySelector('.toggle-btn');
-        rows.forEach(row => {
-            row.style.display = row.style.display === 'none' || row.style.display === '' ? 'table-row' : 'none';
+    <script>
+        function toggleRows() {
+            const rows = document.querySelectorAll('.collapsible-row');
+            const button = document.querySelector('.toggle-btn');
+            rows.forEach(row => {
+                row.style.display = row.style.display === 'none' || row.style.display === '' ? 'table-row' : 'none';
+            });
+            button.textContent = button.textContent === 'Show Future features' ? 'Show Less' : 'Show Future features';
+        }
+
+        // Initialize rows to be hidden
+        document.addEventListener('DOMContentLoaded', () => {
+            const rows = document.querySelectorAll('.collapsible-row');
+            rows.forEach(row => {
+                row.style.display = 'none';
+            });
         });
-        button.textContent = button.textContent === 'Show Future features' ? 'Show Less' : 'Show Future features';
-    }
+    </script>
 
-    // Initialize rows to be hidden
-    document.addEventListener('DOMContentLoaded', () => {
-        const rows = document.querySelectorAll('.collapsible-row');
-        rows.forEach(row => {
-            row.style.display = 'none';
-        });
-    });
-</script>
+    <!-- Footer -->
+    <footer class="footer-section">
+        <div class="footer-container">
+            <!-- About Us -->
+            <div class="footer-column">
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="about.html">Our Team</a></li>
+                </ul>
+            </div>
 
-<!-- Footer -->
-<footer class="footer-section">
-    <div class="footer-container">
-        <!-- About Us -->
-        <div class="footer-column">
-            <h3>About Us</h3>
-            <ul>
-                <li><a href="about.html">Our Team</a></li>
-            </ul>
-        </div>
+            <!-- Product -->
+            <div class="footer-column">
+                <h3>Product</h3>
+                <ul>
+                    <li><a href="../index.html#product-section">Our Solution</a></li>
+                </ul>
+            </div>
 
-        <!-- Product -->
-        <div class="footer-column">
-            <h3>Product</h3>
-            <ul>
-                <li><a href="../index.html#product-section">Our Solution</a></li>
-            </ul>
-        </div>
-
-        <!-- Connect With Us -->
-        <div class="footer-column">
-            <h3>Connect With Us</h3>
-            <div class="social-icons">
-                <a href="https://www.linkedin.com/in/alejandro-atienza-vicedo-963242190/" target="_blank"><img src="../assets/images/partners/linkedin.png" alt="LinkedIn"></a>
+            <!-- Connect With Us -->
+            <div class="footer-column">
+                <h3>Connect With Us</h3>
+                <div class="social-icons">
+                    <a href="https://www.linkedin.com/in/alejandro-atienza-vicedo-963242190/" target="_blank"><img
+                            src="../assets/images/partners/linkedin.png" alt="LinkedIn"></a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="footer-bottom">
-        <p>© 2025 All Rights Reserved</p>
-    </div>
-</footer>
+        <div class="footer-bottom">
+            <p>© 2025 All Rights Reserved</p>
+        </div>
+    </footer>
 
 </body>
+
 </html>
