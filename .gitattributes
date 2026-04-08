@@ -2,6 +2,8 @@
 # Override: these specific videos are served via GitHub Pages (under 100 MB)
 assets/videos/lab_on_aCell_compressed.mp4 !filter !merge !diff -text
 assets/images/modules/protein_motion.mp4 !filter !merge !diff -text
+assets/videos/promo_video_software.mp4 !filter !merge !diff -text
+assets/videos/promo_videos/** !filter !merge !diff -text
 *.png !text !filter !merge !diff
 *.jpg !text !filter !merge !diff
 *.jpeg !text !filter !merge !diff
