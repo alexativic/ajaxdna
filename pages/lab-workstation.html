@@ -1,257 +1,1423 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AjaxDNA Lab</title>
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/common.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <style>
-        /* Product Section */
-        .product-section {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 30px;
-            padding: 120px 50px 50px;
-            margin-top: 0;
-            background: linear-gradient(-30deg, #FFFFFF, #A6CAEC)
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab Workstation — AjaxDNA | Validation & Hardware Platform</title>
+  <meta name="description"
+    content="AjaxDNA Lab: rigorous 3-tier validation methodology — chemostats, designed microcosms, and real-world field data — proving our Digital Twin before LabOnAcell automates the loop at industrial scale.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <style>
+    body,
+    html {
+      font-family: 'Inter', Arial, sans-serif;
+      background: #060F2B;
+      color: #fff;
+    }
 
-        .product-image {
-            width: 40%;
-            border-radius: 10px;
-        }
+    /* ── PAGE HERO ── */
+    .page-hero {
+      position: relative;
+      min-height: 60vh;
+      background: linear-gradient(135deg, #060F2B 0%, #0A2540 100%);
+      display: flex;
+      align-items: center;
+      padding: 140px 8vw 80px;
+      overflow: hidden;
+    }
 
-        .product-description {
-            width: 50%;
-            text-align: left;
-        }
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      top: -150px;
+      right: -100px;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
 
-        .product-description h1 {
-            font-size: 2.5rem;
-            color: #083A47;
-        }
+    .page-hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
 
-        .product-description p {
-            font-size: 1rem;
-            color: #4A5568;
-            line-height: 1.6;
-        }
+    .page-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 28px;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #60A5FA;
+    }
 
-        /* Slider Section */
-        .slider-container {
-            position: relative;
-            width: 80%;
-            margin: 50px auto;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
+    .page-hero h1 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      margin: 0 0 20px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
 
-        .slides {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
+    .page-hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #60A5FA, #00D4FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-        .slides img {
-            width: 100%;
-            border-radius: 10px;
-        }
+    .page-hero p {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 36px;
+    }
 
-        .arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            padding: 10px;
-            font-size: 1.5rem;
-            z-index: 2;
-        }
+    .page-hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
 
-        .arrow.left {
-            left: 10px;
-        }
+    .btn-primary {
+      padding: 14px 32px;
+      background: #3B82F6;
+      color: #fff;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
 
-        .arrow.right {
-            right: 10px;
-        }
+    .btn-primary:hover {
+      background: #2563EB;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(59, 130, 246, 0.4);
+    }
 
-        /* Contact Section */
-        .cta-section {
-            padding: 50px 20px;
-            background: linear-gradient(30deg, #FFFFFF, #A6CAEC);
-            text-align: left;
-        }
+    .btn-ghost {
+      padding: 14px 32px;
+      background: transparent;
+      color: #fff;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+    }
 
-        .cta-section h2 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-        }
+    .btn-ghost:hover {
+      border-color: #60A5FA;
+      color: #60A5FA;
+    }
 
-        .cta-section p {
-            margin-bottom: 20px;
-            font-size: 1rem;
-            color: #4A5568;
-        }
+    /* Hero KPIs */
+    .hero-kpis {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
 
-        .cta-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+    .hero-kpi {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+      transition: border-color 0.3s;
+    }
 
-        .cta-form input, .cta-form select, .cta-form button {
-            padding: 10px;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 100%;
-            max-width: 400px;
-        }
+    .hero-kpi:hover {
+      border-color: rgba(59, 130, 246, 0.5);
+    }
 
-        .cta-form button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
+    .kpi-num {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #60A5FA;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
 
-        .cta-form button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    .kpi-label {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.4;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 600;
+    }
+
+    /* ── SHARED ── */
+    .section-label-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      color: #60A5FA;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* ── DECIDER STRIP ── */
+    .decider-strip {
+      background: #fff;
+      padding: 60px 8vw;
+    }
+
+    .decider-strip-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .decider-strip-label {
+      display: block;
+      color: #2563EB;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .decider-strip-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .decider-item {
+      padding: 36px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-right: 1px solid #EFF2F8;
+    }
+
+    .decider-item:last-child {
+      border-right: none;
+    }
+
+    .decider-item-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #9CA3AF;
+    }
+
+    .decider-item-val {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #060F2B;
+      line-height: 1.15;
+    }
+
+    .decider-item-desc {
+      font-size: 0.88rem;
+      color: #6B7280;
+      line-height: 1.55;
+    }
+
+    /* ── VALIDATION TIERS ── */
+    .validation-section {
+      background: #060F2B;
+      padding: 100px 8vw;
+    }
+
+    .validation-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .validation-section h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      color: #fff;
+      max-width: 700px;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .validation-section .section-sub {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 1.05rem;
+      max-width: 640px;
+      line-height: 1.7;
+      margin-bottom: 64px;
+    }
+
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .tier-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .tier-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--tc1), var(--tc2));
+      z-index: 2;
+    }
+
+    .tier-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(59, 130, 246, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tier-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .tier-content {
+      padding: 28px 24px;
+    }
+
+    .tier-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .tier-content h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .tier-content p {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    .tier-proof {
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .tier-proof strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── PREDICTION LOOP ── */
+    .loop-section {
+      background: linear-gradient(135deg, #070F2E 0%, #0C1A45 100%);
+      padding: 80px 8vw;
+    }
+
+    .loop-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .loop-inner h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .loop-inner .section-sub {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+    }
+
+    .loop-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+
+    .loop-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 16px;
+      max-width: 180px;
+    }
+
+    .loop-step-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .loop-step-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    .loop-step-sub {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.4);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .loop-arrow {
+      color: rgba(59, 130, 246, 0.5);
+      font-size: 1.6rem;
+      font-weight: 300;
+      flex-shrink: 0;
+    }
+
+    .loop-return {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: rgba(0, 212, 255, 0.5);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── LABONACELL FUTURE ── */
+    .future-section {
+      background: #060F2B;
+      padding: 100px 8vw;
+    }
+
+    .future-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .future-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 60px;
+      align-items: center;
+      margin-top: 48px;
+    }
+
+    .future-section h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      color: #fff;
+      max-width: 700px;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .future-section .section-sub {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 1.05rem;
+      max-width: 640px;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .future-features {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .future-feature {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 18px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      transition: all 0.3s;
+    }
+
+    .future-feature:hover {
+      border-color: rgba(59, 130, 246, 0.2);
+      background: rgba(59, 130, 246, 0.03);
+    }
+
+    .future-feature .ff-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .future-feature strong {
+      font-size: 0.92rem;
+      color: #fff;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .future-feature p {
+      font-size: 0.83rem;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .future-video-wrap {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2), 0 24px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .future-video-wrap video {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+    }
+
+    .patent-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(245, 158, 11, 0.1);
+      color: #FBBF24;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      margin-bottom: 20px;
+    }
+
+    /* ── CAPABILITIES ── */
+    .capabilities-section {
+      background: #fff;
+      padding: 100px 8vw;
+    }
+
+    .capabilities-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .capabilities-section .section-label-row {
+      color: #2563EB;
+    }
+
+    .capabilities-section h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      color: #060F2B;
+      max-width: 640px;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 60px;
+    }
+
+    .cap-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .cap-group h4 {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      border-radius: 999px;
+      margin-bottom: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cap-group.for-users h4 {
+      background: rgba(0, 212, 255, 0.08);
+      color: #00A8CC;
+      border: 1px solid rgba(0, 212, 255, 0.2);
+    }
+
+    .cap-group.for-deciders h4 {
+      background: rgba(16, 185, 129, 0.08);
+      color: #059669;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .cap-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .cap-list li {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .cap-list li .cap-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .for-users .cap-icon {
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid rgba(0, 212, 255, 0.15);
+    }
+
+    .for-deciders .cap-icon {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.15);
+    }
+
+    .cap-list .cap-text h5 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #060F2B;
+      margin-bottom: 4px;
+    }
+
+    .cap-list .cap-text p {
+      font-size: 0.88rem;
+      color: #6B7280;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: linear-gradient(135deg, #060F2B 0%, #0A2540 100%);
+      padding: 100px 8vw;
+    }
+
+    .cta-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .cta-info .section-label-row {
+      color: #60A5FA;
+    }
+
+    .cta-info h2 {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .cta-info p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .cta-form-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 44px;
+    }
+
+    .cta-form-box h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 13px 18px;
+      font-size: 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      transition: all 0.2s;
+      font-family: 'Inter', Arial, sans-serif;
+      outline: none;
+    }
+
+    .form-group input::placeholder {
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .form-group select {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .form-group select option {
+      color: #000;
+      background: #fff;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: rgba(59, 130, 246, 0.4);
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 15px 24px;
+      margin-top: 8px;
+      background: linear-gradient(135deg, #3B82F6, #00D4FF);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+
+    .form-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(59, 130, 246, 0.3);
+    }
+
+    @media(max-width: 1024px) {
+      .tier-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .loop-flow {
+        gap: 8px;
+      }
+    }
+
+    @media(max-width: 900px) {
+      .page-hero-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-kpis {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .decider-strip-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .decider-item {
+        border-right: none;
+        border-bottom: 1px solid #EFF2F8;
+      }
+
+      .decider-item:last-child {
+        border-bottom: none;
+      }
+
+      .tier-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .future-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cap-cols {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .loop-flow {
+        flex-direction: column;
+      }
+
+      .loop-arrow {
+        transform: rotate(90deg);
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- Navigation Bar -->
-<nav class="main-navbar">
-  <div class="navbar-content">
-    <a href="../index.html" class="navbar-logo-link">
-      <img src="../assets/images/logos/Ajax-logo-white.png" alt="AJAXdna Logo" class="navbar-logo" />
-    </a>
-    <div class="navbar-links">
-      <a href="../index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="design-software.html">Design Software</a>
-      <a href="lab-workstation.html" class="active">Lab Workstation</a>
-
-      <a href="product.html">Product</a>
-      <a href="../blog/DESCRIPTION.html">Blog</a>
+  <!-- Navigation Bar -->
+  <nav class="main-navbar">
+    <div class="navbar-content">
+      <a href="../index.html" class="navbar-logo-link">
+        <img src="../assets/images/logos/Ajax-logo-white.png" alt="AjaxDNA Logo" class="navbar-logo" />
+      </a>
+      <div class="navbar-links">
+        <a href="../index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="design-software.html">Design Software</a>
+        <a href="lab-workstation.html" class="active">Lab Workstation</a>
+        <a href="#demo" class="nav-cta">Request Demo</a>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-    <!-- Product Section -->
-    <section class="product-section">
-        <img src="../assets/images/icons/cell_testing.png" alt="AjaxDNA Lab" class="product-image">
-        <div class="product-description">
-            <h1>AjaxDNA Lab</h1>
-            <p>
-                AjaxDNA Lab represents the future of biotechnology with thousands of miniaturized labs working in parallele 
-                each one integrated into a single cell. Powered by our patent-pending in vivo and in situ DNA synthesis method, 
-                it leverages Lab-on-a-Chip and the new Lab-on-a-cell technology to revolutionize the way experiments are conducted at scale.
-            </p>
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <div class="page-hero-text">
+        <div class="page-eyebrow">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path
+              d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z">
+            </path>
+          </svg>
+          Validation & Hardware · Closing the Digital–Physical Gap
         </div>
-    </section>
-
-    <!-- Slider Section -->
-    <section class="slider-container">
-        <button class="arrow left" onclick="prevSlide()">&#8249;</button>
-        <div class="slides">
-            <img src="../assets/images/slide1.png" alt="Slide 1">
-            <img src="../assets/images/slide2.png" alt="Slide 2">
-            <img src="../assets/images/slide3.png" alt="Slide 3">
-            <img src="../assets/images/slide4.png" alt="Slide 4">
-            <img src="../assets/images/slide5.png" alt="Slide 5">
-            <img src="../assets/images/slide6.png" alt="Slide 6">
-
+        <h1>From prediction <em>to proof.</em></h1>
+        <p>A Digital Twin is only as credible as its validation. We prove our models through a rigorous 3-tier
+          methodology — from controlled kinetics to real-world stress tests — building the evidence base that
+          industrial bioprocessing demands.</p>
+        <div class="page-hero-actions">
+          <a href="#demo" class="btn-primary">Request a Demo →</a>
+          <a href="#validation" class="btn-ghost">Our Methodology</a>
         </div>
-        <button class="arrow right" onclick="nextSlide()">&#8250;</button>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="cta-section">
-        <h2>Contact Us to See Our Development Stage</h2>
-        <p>Learn how AjaxDNA Lab can advance your research and development capabilities.</p>
-        <form action="book_meeting.php" method="POST" class="cta-form">
-            <input type="text" name="name" placeholder="First Name" required>
-            <input type="text" name="last_name" placeholder="Last Name" required>
-            <input type="text" name="position" placeholder="Position" required>
-            <input type="text" name="company_name" placeholder="Company Name" required>
-            <select name="company_size" required>
-                <option value="1-10">1-10</option>
-                <option value="11-25">11-25</option>
-                <option value="26-50">26-50</option>
-                <option value="51-100">51-100</option>
-                <option value="100+">100+</option>
-            </select>
-            <input type="email" name="email" placeholder="Institution Email" required>
-            <button type="submit">Schedule a Meeting</button>
-        </form>
-    </section>
-
-    <script>
-        let currentSlide = 0;
-
-        function showSlide(index) {
-            const slides = document.querySelector('.slides');
-            const totalSlides = slides.children.length;
-            if (index >= totalSlides) {
-                currentSlide = 0;
-            } else if (index < 0) {
-                currentSlide = totalSlides - 1;
-            } else {
-                currentSlide = index;
-            }
-            slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-        }
-
-        function nextSlide() {
-            showSlide(currentSlide + 1);
-        }
-
-        function prevSlide() {
-            showSlide(currentSlide - 1);
-        }
-    </script>
-
-<!-- Footer -->
-<footer class="footer-section">
-    <div class="footer-container">
-        <!-- About Us -->
-        <div class="footer-column">
-            <h3>About Us</h3>
-            <ul>
-                <li><a href="about.html">Our Team</a></li>
-            </ul>
+      </div>
+      <div class="hero-kpis" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="hero-kpi">
+          <div class="kpi-num">3</div>
+          <div class="kpi-label">Validation tiers</div>
         </div>
-
-        <!-- Product -->
-        <div class="footer-column">
-            <h3>Product</h3>
-            <ul>
-                <li><a href="../index.html#product-section">Our Solution</a></li>
-            </ul>
+        <div class="hero-kpi">
+          <div class="kpi-num">✓</div>
+          <div class="kpi-label">Mechanistic, not correlative</div>
         </div>
+        <div class="hero-kpi">
+          <div class="kpi-num">QbD</div>
+          <div class="kpi-label">Quality by Design compatible</div>
+        </div>
+        <div class="hero-kpi">
+          <div class="kpi-num">10⁶+</div>
+          <div class="kpi-label">Parallel iterations per run</div>
+        </div>
+        <div class="hero-kpi">
+          <div class="kpi-num">→</div>
+          <div class="kpi-label">Transferable across scales</div>
+        </div>
+        <div class="hero-kpi">
+          <div class="kpi-num">DT</div>
+          <div class="kpi-label">Digital Twin drives every experiment</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <!-- Connect With Us -->
-        <div class="footer-column">
-            <h3>Connect With Us</h3>
-            <div class="social-icons">
-                <a href="https://www.linkedin.com/in/alejandro-atienza-vicedo-963242190/" target="_blank"><img src="../assets/images/partners/linkedin.png" alt="LinkedIn"></a>
+  <!-- Decider Value Strip -->
+  <section class="decider-strip">
+    <div class="decider-strip-inner">
+      <span class="decider-strip-label">Why this methodology matters</span>
+      <div class="decider-strip-grid">
+        <div class="decider-item">
+          <div class="decider-item-label">Certainty</div>
+          <div class="decider-item-val">Mechanistic Explanations</div>
+          <div class="decider-item-desc">Our Digital Twin doesn't just correlate — it explains. Every prediction
+            traces back to validated biological constants and causal mechanisms, not statistical coincidence.</div>
+        </div>
+        <div class="decider-item">
+          <div class="decider-item-label">Compliance</div>
+          <div class="decider-item-val">Pharma-Ready Methodology</div>
+          <div class="decider-item-desc">Our validation follows Quality by Design principles. Controlled experiments
+            generate auditable data trails that meet the rigor expected by regulated industries.</div>
+        </div>
+        <div class="decider-item">
+          <div class="decider-item-label">Robustness</div>
+          <div class="decider-item-val">Transferable Confidence</div>
+          <div class="decider-item-desc">If the model's logic survives the chaos of an open environment, it won't
+            break under the controlled conditions of your industrial bioreactor.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3-Tier Validation Section -->
+  <section class="validation-section" id="validation">
+    <div class="validation-inner">
+      <div class="section-label-row" style="color:#60A5FA;">What we're validating now</div>
+      <h2>Three tiers of proof. Zero black boxes.</h2>
+      <p class="section-sub">We don't ask you to trust a model. We show you the evidence hierarchy that
+        proves it — from pure kinetics to real-world chaos. Each tier validates a different layer of biological
+        truth.</p>
+
+      <div class="tier-grid">
+        <!-- Tier 1: Chemostats -->
+        <div class="tier-card"
+          style="--tc1:#00D4FF;--tc2:#3B82F6; background-image: linear-gradient(to bottom, rgba(6,15,43,0.7), rgba(6,15,43,0.95)), url('../assets/images/lab/tier_chemostat.png'); background-size: cover; background-position: center;">
+          <img src="../assets/images/bioreactor.jpg" alt="Chemostat validation" class="tier-img">
+          <div class="tier-content">
+            <div class="tier-badge"
+              style="background: rgba(0,212,255,0.1); color: #00D4FF; border: 1px solid rgba(0,212,255,0.2);">
+              Tier 1 · Kinetic Engine
             </div>
+            <h3>Controlled Steady-State Cultures</h3>
+            <p>Chemostat cultures isolate individual biological actors under precisely controlled conditions. We extract
+              validated kinetic constants — substrate affinity, growth rates, metabolic yields — with no environmental
+              noise. This is the mathematical foundation of every prediction.</p>
+            <div class="tier-proof"
+              style="background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.12); color: rgba(255,255,255,0.7);">
+              <strong style="color:#00D4FF;">What we prove</strong>
+              The causal laws of biology. If the constants are wrong, nothing downstream works.
+            </div>
+          </div>
         </div>
+
+        <!-- Tier 2: Microcosms -->
+        <div class="tier-card"
+          style="--tc1:#8B5CF6;--tc2:#3B82F6; background-image: linear-gradient(to bottom, rgba(6,15,43,0.7), rgba(6,15,43,0.95)), url('../assets/images/lab/tier_microcosm.png'); background-size: cover; background-position: center;">
+          <img src="../assets/images/pexels-thirdman-8940515.jpg" alt="Microcosm validation" class="tier-img">
+          <div class="tier-content">
+            <div class="tier-badge"
+              style="background: rgba(139,92,246,0.1); color: #A78BFA; border: 1px solid rgba(139,92,246,0.2);">
+              Tier 2 · Interaction Bridge
+            </div>
+            <h3>Designed Microbial Communities</h3>
+            <p>Synthetic communities in controlled environments where we know the inputs but let the biology
+              self-organize.
+              Competition, cross-feeding, biofilm dynamics — we validate that the Digital Twin understands emergent
+              behavior, and perturbance based behaviours, not just isolated growth.</p>
+            <div class="tier-proof"
+              style="background: rgba(139,92,246,0.05); border: 1px solid rgba(139,92,246,0.12); color: rgba(255,255,255,0.7);">
+              <strong style="color:#A78BFA;">What we prove</strong>
+              The interaction logic. Can the model predict what happens when species compete and cooperate?
+            </div>
+          </div>
+        </div>
+
+        <!-- Tier 3: Field Data -->
+        <div class="tier-card"
+          style="--tc1:#10B981;--tc2:#00D4FF; background-image: linear-gradient(to bottom, rgba(6,15,43,0.7), rgba(6,15,43,0.95)), url('../assets/images/lab/tier_fielddata.png'); background-size: cover; background-position: center;">
+          <img src="../assets/images/natural_space.jpg" alt="Field data validation" class="tier-img">
+          <div class="tier-content">
+            <div class="tier-badge"
+              style="background: rgba(16,185,129,0.1); color: #10B981; border: 1px solid rgba(16,185,129,0.2);">
+              Tier 3 · Stress Test
+            </div>
+            <h3>Real-World Environmental Data</h3>
+            <p>We feed real perturbation events into the model — nutrient pulses, temperature shifts, seasonal
+              transitions — and compare the predicted community response against observed reality. This validates
+              the model's explanatory power under maximum uncertainty.</p>
+            <div class="tier-proof"
+              style="background: rgba(16,185,129,0.05); border: 1px solid rgba(16,185,129,0.12); color: rgba(255,255,255,0.7);">
+              <strong style="color:#10B981;">What we prove</strong>
+              Resilience under chaos. If the model explains reality here, it's ready for any industrial condition.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Prediction → Validation Loop -->
+  <section class="loop-section">
+    <div class="loop-inner">
+      <div class="section-label-row" style="justify-content: center; color: #60A5FA;">The closed loop</div>
+      <h2>Prediction. Validation. Refinement.</h2>
+      <p class="section-sub">Every iteration makes the Digital Twin more accurate. The loop never stops.</p>
+
+      <div class="loop-flow">
+        <div class="loop-step">
+          <div class="loop-step-icon" style="background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2);">
+            <svg width="24" height="24" fill="none" stroke="#00D4FF" stroke-width="2" viewBox="0 0 24 24">
+              <path
+                d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+              </path>
+            </svg>
+          </div>
+          <div class="loop-step-label">Digital Twin Predicts</div>
+          <div class="loop-step-sub">In silico hypothesis</div>
+        </div>
+
+        <div class="loop-arrow">→</div>
+
+        <div class="loop-step">
+          <div class="loop-step-icon" style="background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2);">
+            <svg width="24" height="24" fill="none" stroke="#60A5FA" stroke-width="2" viewBox="0 0 24 24">
+              <path
+                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z">
+              </path>
+            </svg>
+          </div>
+          <div class="loop-step-label">Chemostat Validates</div>
+          <div class="loop-step-sub">Kinetic constants</div>
+        </div>
+
+        <div class="loop-arrow">→</div>
+
+        <div class="loop-step">
+          <div class="loop-step-icon" style="background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2);">
+            <svg width="24" height="24" fill="none" stroke="#A78BFA" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M8 12h8m-4-4v8"></path>
+            </svg>
+          </div>
+          <div class="loop-step-label">Microcosm Validates</div>
+          <div class="loop-step-sub">Community interactions</div>
+        </div>
+
+        <div class="loop-arrow">→</div>
+
+        <div class="loop-step">
+          <div class="loop-step-icon" style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2);">
+            <svg width="24" height="24" fill="none" stroke="#10B981" stroke-width="2" viewBox="0 0 24 24">
+              <path
+                d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064">
+              </path>
+              <circle cx="12" cy="12" r="10"></circle>
+            </svg>
+          </div>
+          <div class="loop-step-label">Field Data Validates</div>
+          <div class="loop-step-sub">Real-world robustness</div>
+        </div>
+
+        <div class="loop-arrow">→</div>
+
+        <div class="loop-step">
+          <div class="loop-step-icon" style="background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2);">
+            <svg width="24" height="24" fill="none" stroke="#FBBF24" stroke-width="2" viewBox="0 0 24 24">
+              <path
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+              </path>
+            </svg>
+          </div>
+          <div class="loop-step-label">Model Refines</div>
+          <div class="loop-step-sub">Loop repeats</div>
+        </div>
+      </div>
+
+      <div class="loop-return">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+          </path>
+        </svg>
+        Every iteration increases prediction accuracy — the twin gets smarter with every experiment
+      </div>
+    </div>
+  </section>
+
+  <!-- The Future: LabOnAcell -->
+  <section class="future-section" id="labonacell">
+    <div class="future-inner">
+      <div class="section-label-row" style="color:#FBBF24;">The next step</div>
+      <h2>Where this is going: LabOnAcell.</h2>
+      <p class="section-sub">Today we validate with chemostats and field data. Tomorrow, LabOnAcell automates millions
+        of
+        parallel iterations per run — driven entirely by the Digital Twin. The simplicity is the power: one loop,
+        millions of behaviours tested, zero guesswork.</p>
+
+      <!-- LabOnAcell Layout -->
+      <div
+        style="display: grid; grid-template-columns: 200px 1fr; gap: 60px; align-items: center; margin: 48px 0 24px;">
+
+        <!-- Left: Vertical Loop -->
+        <div class="loop-flow"
+          style="display: flex; flex-direction: column; gap: 16px; align-items: center; padding: 0;">
+          <div class="loop-step">
+            <div class="loop-step-icon"
+              style="background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2);">
+              <svg width="24" height="24" fill="none" stroke="#FBBF24" stroke-width="2" viewBox="0 0 24 24">
+                <path
+                  d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                </path>
+              </svg>
+            </div>
+            <div class="loop-step-label">Digital Twin Designs</div>
+            <div class="loop-step-sub" style="font-size: 0.65rem;">10⁶+ variants generated in silico</div>
+          </div>
+
+          <div class="loop-arrow" style="transform: rotate(90deg); margin: -4px 0;">→</div>
+
+          <div class="loop-step">
+            <div class="loop-step-icon"
+              style="background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2);">
+              <svg width="24" height="24" fill="none" stroke="#60A5FA" stroke-width="2" viewBox="0 0 24 24">
+                <path
+                  d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z">
+                </path>
+              </svg>
+            </div>
+            <div class="loop-step-label">LabOnAcell Tests</div>
+            <div class="loop-step-sub" style="font-size: 0.65rem;">Millions of parallel experiments</div>
+          </div>
+
+          <div class="loop-arrow" style="transform: rotate(90deg); margin: -4px 0;">→</div>
+
+          <div class="loop-step">
+            <div class="loop-step-icon"
+              style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2);">
+              <svg width="24" height="24" fill="none" stroke="#10B981" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div class="loop-step-label">Winner Identified</div>
+            <div class="loop-step-sub" style="font-size: 0.65rem;">Validated, production-ready</div>
+          </div>
+
+          <!-- Back arrow implicitly connecting bottom to top (conceptual) -->
+        </div>
+
+        <!-- Right: Video -->
+        <div class="future-video-wrap" style="position: relative;">
+          <div class="patent-tag"
+            style="position: absolute; top: 20px; left: 20px; z-index: 10; margin: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+              </path>
+            </svg>
+            Patentable Technology
+          </div>
+          <video src="../assets/videos/lab_on_aCell_new_page.mp4" controls></video>
+        </div>
+      </div>
+
+      <div class="loop-return" style="margin-bottom: 60px; justify-content: center;">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+          </path>
+        </svg>
+        One loop. Millions of behaviours. The Digital Twin decides what to test — LabOnAcell executes autonomously.
+      </div>
+
+      <!-- Horizontal features -->
+      <div class="future-features"
+        style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; flex-direction: row; margin-top: 40px;">
+        <div class="future-feature" style="flex-direction: column; align-items: flex-start; padding: 24px;">
+          <div class="ff-icon" style="background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2);">
+            <svg width="20" height="20" fill="none" stroke="#60A5FA" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <div>
+            <strong style="font-size: 1.05rem; margin-bottom: 8px;">Massively Parallel Experimentation</strong>
+            <p>Thousands of miniaturised biological experiments per run. Each cell in the array is a full lab —
+              testing genetic variants, culture conditions, and consortia simultaneously.</p>
+          </div>
+        </div>
+
+        <div class="future-feature" style="flex-direction: column; align-items: flex-start; padding: 24px;">
+          <div class="ff-icon" style="background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2);">
+            <svg width="20" height="20" fill="none" stroke="#00D4FF" stroke-width="2" viewBox="0 0 24 24">
+              <path
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+              </path>
+            </svg>
+          </div>
+          <div>
+            <strong style="font-size: 1.05rem; margin-bottom: 8px;">Closed-Loop Digital Twin Integration</strong>
+            <p>Simulation predictions guide hardware experiments. Real data refines the model automatically. The
+              validation loop that today takes weeks will run in hours.</p>
+          </div>
+        </div>
+
+        <div class="future-feature" style="flex-direction: column; align-items: flex-start; padding: 24px;">
+          <div class="ff-icon" style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2);">
+            <svg width="20" height="20" fill="none" stroke="#10B981" stroke-width="2" viewBox="0 0 24 24">
+              <path
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+              </path>
+            </svg>
+          </div>
+          <div>
+            <strong style="font-size: 1.05rem; margin-bottom: 8px;">Scale-Ready Protocols from Day One</strong>
+            <p>Results map directly to any industrial bioreactor. Optimised culture conditions translate without
+              re-validation — from LabOnAcell to production scale.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capabilities -->
+  <section class="capabilities-section" id="capabilities">
+    <div class="capabilities-inner">
+      <div class="section-label-row" style="color:#2563EB;">Platform capabilities</div>
+      <h2>Built for the scientist. Bought by the decision-maker.</h2>
+      <div class="cap-cols">
+        <div class="cap-group for-users">
+          <h4>
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path
+                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z">
+              </path>
+            </svg>
+            For Scientists & Engineers
+          </h4>
+          <ul class="cap-list">
+            <li>
+              <div class="cap-icon">
+                <svg width="18" height="18" fill="none" stroke="#00A8CC" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              </div>
+              <div class="cap-text">
+                <h5>Mechanistic Validation Infrastructure</h5>
+                <p>Chemostats for kinetic truth, designed communities for interaction validation, and field data for
+                  real-world stress testing — a complete evidence pipeline.</p>
+              </div>
+            </li>
+            <li>
+              <div class="cap-icon">
+                <svg width="18" height="18" fill="none" stroke="#00A8CC" stroke-width="2" viewBox="0 0 24 24">
+                  <path
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                  </path>
+                </svg>
+              </div>
+              <div class="cap-text">
+                <h5>Digital Twin Feedback Loop</h5>
+                <p>Every physical experiment refines the computational model. Simulation predictions guide what you test
+                  next — no wasted runs, no guesswork.</p>
+              </div>
+            </li>
+            <li>
+              <div class="cap-icon">
+                <svg width="18" height="18" fill="none" stroke="#00A8CC" stroke-width="2" viewBox="0 0 24 24">
+                  <path
+                    d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z">
+                  </path>
+                </svg>
+              </div>
+              <div class="cap-text">
+                <h5>Future: Massively Parallel Hardware</h5>
+                <p>LabOnAcell will deliver thousands of experiments per run — compressing design-build-test cycles from
+                  months to hours with patentable in-situ synthesis.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="cap-group for-deciders">
+          <h4>
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+            </svg>
+            For Decision Makers
+          </h4>
+          <ul class="cap-list">
+            <li>
+              <div class="cap-icon">
+                <svg width="18" height="18" fill="none" stroke="#059669" stroke-width="2" viewBox="0 0 24 24">
+                  <path
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                  </path>
+                </svg>
+              </div>
+              <div class="cap-text">
+                <h5>Capital-Efficient R&amp;D</h5>
+                <p>Every validation tier produces auditable, reusable data. No duplicated experiments, no
+                  "let's try again" budgets — every euro generates evidence.</p>
+              </div>
+            </li>
+            <li>
+              <div class="cap-icon">
+                <svg width="18" height="18" fill="none" stroke="#059669" stroke-width="2" viewBox="0 0 24 24">
+                  <path
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                  </path>
+                </svg>
+              </div>
+              <div class="cap-text">
+                <h5>Regulatory Confidence</h5>
+                <p>QbD-compatible methodology with full traceability. The validation trail you build today is the
+                  compliance package regulators will ask for tomorrow.</p>
+              </div>
+            </li>
+            <li>
+              <div class="cap-icon">
+                <svg width="18" height="18" fill="none" stroke="#059669" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                </svg>
+              </div>
+              <div class="cap-text">
+                <h5>De-Risked Scale-Up</h5>
+                <p>Validated protocols translate directly to industrial bioreactors. No costly re-validation, no
+                  unexpected failures — your first production batch starts from proven parameters.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / Demo Section -->
+  <section class="cta-section" id="demo">
+    <div class="cta-inner">
+      <div class="cta-info">
+        <div class="section-label-row">Get in touch</div>
+        <h2>See how our validation methodology applies to your biology.</h2>
+        <p>Talk to our team. We'll show you how the 3-tier validation framework maps to your specific organism, process,
+          or production challenge — and what confidence level you can expect from your first engagement.</p>
+      </div>
+      <div class="cta-form-box">
+        <h3>Contact Us</h3>
+        <form action="book_meeting.php" method="POST">
+          <div class="form-row-2">
+            <div class="form-group"><input type="text" name="name" placeholder="First Name" required></div>
+            <div class="form-group"><input type="text" name="last_name" placeholder="Last Name" required></div>
+          </div>
+          <div class="form-group"><input type="text" name="position" placeholder="Position / Role" required></div>
+          <div class="form-group"><input type="text" name="company_name" placeholder="Company / Institution" required>
+          </div>
+          <div class="form-group">
+            <select name="company_size" required>
+              <option value="" disabled selected>Company size</option>
+              <option value="1-10">1–10 employees</option>
+              <option value="11-25">11–25 employees</option>
+              <option value="26-50">26–50 employees</option>
+              <option value="51-100">51–100 employees</option>
+              <option value="100+">100+ employees</option>
+            </select>
+          </div>
+          <div class="form-group"><input type="email" name="email" placeholder="Institution Email" required></div>
+          <button type="submit" class="form-submit">Schedule a Meeting →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-section">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <img src="../assets/images/logos/Ajax-logo-white.png" alt="AjaxDNA">
+        <p>The first integrated biotech platform combining digital cell twins and LabOnAcell hardware.</p>
+      </div>
+      <div class="footer-column">
+        <h3>Platform</h3>
+        <ul>
+          <li><a href="design-software.html">Design Software</a></li>
+          <li><a href="lab-workstation.html">Lab Workstation</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="about.html">Our Team</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Connect</h3>
+        <div class="social-icons">
+          <a href="https://www.linkedin.com/in/alejandro-atienza-vicedo-963242190/" target="_blank">
+            <img src="../assets/images/partners/linkedin.png" alt="LinkedIn">
+          </a>
+        </div>
+      </div>
     </div>
     <div class="footer-bottom">
-        <p>© 2025 All Rights Reserved</p>
+      <p>© 2025 AjaxDNA. All Rights Reserved.</p>
+      <span class="footer-slogan">Test Better, Test Faster.</span>
     </div>
-</footer>
+  </footer>
 
 </body>
+
 </html>

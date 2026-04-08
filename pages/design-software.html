@@ -2,330 +2,1753 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AjaxDNA Design Software</title>
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/common.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <style>
-        /* Product Section */
-        .product-section {
-            display: flex;
-            align-items: flex-start;
-            /* Aligns image and text at the top */
-            justify-content: space-between;
-            gap: 30px;
-            padding: 120px 50px 50px;
-            margin-top: 0;
-            background: linear-gradient(-30deg, #FFFFFF, #A6CAEC)
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Software — AjaxDNA | Whole-Cell &amp; Community Digital Twin Platform</title>
+  <meta name="description"
+    content="AjaxDNA Design Software: three converging computational modules — enhanced genome annotation, automated protein design, automated DNA design and metabolic modeling — building toward the world's most accurate whole-cell and microbial community digital twin.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <style>
+    body,
+    html {
+      font-family: 'Inter', Arial, sans-serif;
+      background: #060F2B;
+      color: #fff;
+    }
 
-        .product-image {
-            width: 40%;
-            border-radius: 10px;
-        }
+    /* ── PAGE HERO ── */
+    .page-hero {
+      position: relative;
+      min-height: 65vh;
+      background: #060F2B;
+      display: flex;
+      align-items: center;
+      padding: 140px 8vw 80px;
+      overflow: hidden;
+    }
 
-        .product-description {
-            width: 50%;
-            text-align: left;
-        }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 800px;
+      height: 800px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
 
-        .product-description h1 {
-            font-size: 2.5rem;
-            color: #083A47;
-        }
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: -100px;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
 
-        .product-description p {
-            font-size: 1rem;
-            color: #4A5568;
-            line-height: 1.6;
-        }
+    .page-hero-content {
+      max-width: 780px;
+      position: relative;
+      z-index: 2;
+    }
 
-        /* Video Section */
-        .video-section {
-            position: relative;
-            padding: 50px 20px;
-            background: #F7FAFC;
-            text-align: center;
-        }
+    .page-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 28px;
+      background: rgba(0, 212, 255, 0.12);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #00D4FF;
+    }
 
-        .promo-video {
-            width: 100%;
-            max-width: 800px;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
+    .page-hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 900;
+      margin: 0 0 24px;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      color: #fff;
+    }
 
-        /* Features Table */
-        .features-section {
-            padding: 50px 20px;
-            background: #FFFFFF;
-        }
+    .page-hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #00D4FF, #3B82F6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-        .features-table {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            border-collapse: collapse;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
+    .page-hero p {
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.68);
+      line-height: 1.75;
+      max-width: 620px;
+      margin-bottom: 36px;
+    }
 
-        .features-table th,
-        .features-table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
+    .page-hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
 
-        .features-table th {
-            background: #A6CAEC;
-            color: white;
-        }
+    .btn-primary {
+      padding: 14px 32px;
+      background: #00D4FF;
+      color: #060F2B;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', Arial, sans-serif;
+    }
 
-        /* Contact Section */
-        .cta-section {
-            padding: 50px 20px;
-            background: linear-gradient(30deg, #FFFFFF, #A6CAEC);
-            text-align: left;
-        }
+    .btn-primary:hover {
+      background: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0, 212, 255, 0.3);
+    }
 
-        .cta-section h2 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-        }
+    .btn-ghost {
+      padding: 14px 32px;
+      background: transparent;
+      color: #fff;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      border: 1.5px solid rgba(255, 255, 255, 0.22);
+      cursor: pointer;
+    }
 
-        .cta-section p {
-            margin-bottom: 20px;
-            font-size: 1rem;
-            color: #4A5568;
-        }
+    .btn-ghost:hover {
+      border-color: #00D4FF;
+      color: #00D4FF;
+    }
 
-        .cta-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+    /* ── SHARED LABEL ── */
+    .section-label-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      color: #00D4FF;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
 
-        .cta-form input,
-        .cta-form select,
-        .cta-form button {
-            padding: 10px;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 100%;
-            max-width: 400px;
-        }
+    /* ── VIDEO SECTION ── */
+    .video-section {
+      background: #060F2B;
+      padding: 0 8vw 80px;
+      text-align: center;
+    }
 
-        .cta-form button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
+    .video-wrapper {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.15), 0 32px 80px rgba(0, 0, 0, 0.5);
+    }
 
-        .cta-form button:hover {
-            background-color: #0056b3;
-        }
+    .video-wrapper video {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+    }
 
-        /* Button Styling */
-        .toggle-btn {
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
+    /* ── PAIN & GAIN ── */
+    .pain-section {
+      background: #fff;
+      padding: 100px 8vw;
+    }
 
-        .toggle-btn:hover {
-            background-color: #0056b3;
-        }
+    .pain-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
 
-        /* Optional: Add a subtle highlight for collapsible rows */
-        .collapsible-row {
-            background-color: #f9f9f9;
-        }
-    </style>
+    .pain-section .section-label-row {
+      color: #DC2626;
+    }
+
+    .pain-section h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      color: #060F2B;
+      max-width: 700px;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 60px;
+    }
+
+    .pain-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .pain-col-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #EFF2F8;
+    }
+
+    .pain-col-header .audience-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 999px;
+    }
+
+    .pain-col-header .audience-tag.initiator {
+      background: rgba(139, 92, 246, 0.1);
+      color: #8B5CF6;
+      border: 1px solid rgba(139, 92, 246, 0.25);
+    }
+
+    .pain-col-header .audience-tag.researcher {
+      background: rgba(0, 212, 255, 0.1);
+      color: #0891B2;
+      border: 1px solid rgba(0, 212, 255, 0.25);
+    }
+
+    .pain-col-header .audience-tag.decider {
+      background: rgba(16, 185, 129, 0.1);
+      color: #059669;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .pain-col-header h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #060F2B;
+      margin: 0;
+    }
+
+    .pain-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      align-items: flex-start;
+    }
+
+    .pain-item .pain-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      background: rgba(220, 38, 38, 0.06);
+      border: 1px solid rgba(220, 38, 38, 0.15);
+    }
+
+    .gain-item .pain-icon {
+      background: rgba(16, 185, 129, 0.06);
+      border-color: rgba(16, 185, 129, 0.15);
+    }
+
+    .pain-item .pain-text strong {
+      font-size: 0.9rem;
+      color: #111827;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .pain-item .pain-text p {
+      font-size: 0.85rem;
+      color: #6B7280;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .pain-divider {
+      height: 1px;
+      background: #EFF2F8;
+      margin: 28px 0;
+    }
+
+    .gain-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #10B981;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── MODULES SECTION ── */
+    .modules-section {
+      background: #060F2B;
+      padding: 100px 8vw;
+    }
+
+    .modules-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .modules-section h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      color: #fff;
+      max-width: 700px;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .modules-section .section-sub {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 1.05rem;
+      max-width: 640px;
+      line-height: 1.7;
+      margin-bottom: 72px;
+    }
+
+    .module-block {
+      margin-bottom: 64px;
+    }
+
+    .module-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .module-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .module-num {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #00D4FF;
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+    }
+
+    .module-header-text {
+      flex: 1;
+    }
+
+    .module-header-text .mod-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.1);
+      color: #10B981;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .module-header-text .mod-status.wip {
+      background: rgba(245, 158, 11, 0.1);
+      color: #FBBF24;
+      border-color: rgba(245, 158, 11, 0.2);
+    }
+
+    .module-header-text h3 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 0 8px;
+    }
+
+    .module-header-text p {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.65;
+      margin: 0;
+      max-width: 680px;
+    }
+
+    .submodules {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .submodule {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .submodule::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      z-index: 10;
+      background: linear-gradient(90deg, var(--sm-c1, #00D4FF), var(--sm-c2, #3B82F6));
+    }
+
+    .submodule:hover {
+      border-color: rgba(0, 212, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-3px);
+    }
+
+    .submodule-img {
+      height: 160px;
+      width: 100%;
+      object-fit: cover;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .submodule-content {
+      padding: 24px 20px;
+      flex: 1;
+    }
+
+    .submodule h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .submodule p {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.52);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .module-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .module-detail {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      overflow: hidden;
+      border-radius: 16px;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .module-detail:hover {
+      border-color: rgba(0, 212, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .module-detail-img {
+      height: 180px;
+      width: 100%;
+      object-fit: cover;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .module-detail-content {
+      padding: 24px 20px;
+      flex: 1;
+    }
+
+    .module-detail h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #00D4FF;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.75rem;
+    }
+
+    .module-detail p {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.58);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* ── VISION / CONVERGENCE ── */
+    .vision-section {
+      background: linear-gradient(135deg, #070F2E 0%, #0C1A45 100%);
+      padding: 100px 8vw;
+    }
+
+    .vision-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .vision-section h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      color: #fff;
+      max-width: 720px;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .vision-section .section-sub {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 1.05rem;
+      max-width: 640px;
+      line-height: 1.7;
+      margin-bottom: 64px;
+    }
+
+    .vision-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .vision-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .vision-pillar {
+      display: flex;
+      gap: 18px;
+      padding: 20px 24px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      transition: all 0.3s;
+    }
+
+    .vision-pillar:hover {
+      border-color: rgba(0, 212, 255, 0.2);
+      background: rgba(0, 212, 255, 0.03);
+    }
+
+    .vision-pillar .vp-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .vision-pillar .vp-text strong {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .vision-pillar .vp-text p {
+      font-size: 0.83rem;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .vision-convergence {
+      background: rgba(0, 212, 255, 0.04);
+      border: 1px solid rgba(0, 212, 255, 0.15);
+      border-radius: 24px;
+      padding: 40px 36px;
+    }
+
+    .vision-convergence h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #00D4FF;
+      margin-bottom: 16px;
+    }
+
+    .vision-convergence p {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .convergence-modules {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cm-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .cm-row .cm-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10B981;
+      flex-shrink: 0;
+    }
+
+    .cm-row .cm-dot.wip {
+      background: #FBBF24;
+    }
+
+    .cm-arrow {
+      text-align: center;
+      color: rgba(0, 212, 255, 0.5);
+      font-size: 1.1rem;
+    }
+
+    .cm-result {
+      padding: 16px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(37, 99, 235, 0.1));
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #00D4FF;
+    }
+
+    /* ── PROPRIETARY DATABASES ── */
+    .db-section {
+      background: #fff;
+      padding: 100px 8vw;
+    }
+
+    .db-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .db-section .section-label-row {
+      color: #7C3AED;
+    }
+
+    .db-section h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      color: #060F2B;
+      max-width: 680px;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .db-section .section-sub {
+      color: #6B7280;
+      font-size: 1.05rem;
+      max-width: 640px;
+      line-height: 1.7;
+      margin-bottom: 60px;
+    }
+
+    .db-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+
+    .db-card {
+      border-radius: 20px;
+      padding: 36px 32px;
+      border: 1px solid #EFF2F8;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .db-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--db-c1), var(--db-c2));
+    }
+
+    .db-card:nth-child(1) {
+      --db-c1: #7C3AED;
+      --db-c2: #3B82F6;
+    }
+
+    .db-card:nth-child(2) {
+      --db-c1: #3B82F6;
+      --db-c2: #00D4FF;
+    }
+
+    .db-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+      border-color: #D1D5DB;
+    }
+
+    .db-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      background: rgba(124, 58, 237, 0.08);
+      color: #6D28D9;
+      border: 1px solid rgba(124, 58, 237, 0.2);
+    }
+
+    .db-card:nth-child(2) .db-tag {
+      background: rgba(37, 99, 235, 0.08);
+      color: #1D4ED8;
+      border-color: rgba(37, 99, 235, 0.2);
+    }
+
+    .db-card h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #060F2B;
+      margin-bottom: 12px;
+    }
+
+    .db-card p {
+      font-size: 0.9rem;
+      color: #6B7280;
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+
+    .db-stats {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .db-stat {}
+
+    .db-stat .stat-val {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #060F2B;
+    }
+
+    .db-stat .stat-label {
+      font-size: 0.75rem;
+      color: #9CA3AF;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .db-moat {
+      margin-top: 40px;
+      padding: 28px 32px;
+      background: linear-gradient(135deg, #F9F5FF 0%, #EFF6FF 100%);
+      border-radius: 16px;
+      border: 1px solid rgba(124, 58, 237, 0.12);
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .db-moat-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .db-moat h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #060F2B;
+      margin-bottom: 6px;
+    }
+
+    .db-moat p {
+      font-size: 0.88rem;
+      color: #6B7280;
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* ── CAPABILITY TABLE ── */
+    .spec-section {
+      background: #060F2B;
+      padding: 100px 8vw;
+    }
+
+    .spec-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .spec-section h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      color: #fff;
+      max-width: 620px;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 48px;
+    }
+
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .spec-table thead tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .spec-table th {
+      padding: 14px 20px;
+      text-align: left;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #00D4FF;
+    }
+
+    .spec-table td {
+      padding: 16px 20px;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.75);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      vertical-align: middle;
+    }
+
+    .spec-table .module-group td {
+      color: rgba(255, 255, 255, 0.35);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 20px 20px 8px;
+      border-bottom: none;
+    }
+
+    .spec-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .spec-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .spec-badge.available {
+      background: rgba(16, 185, 129, 0.12);
+      color: #10B981;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .spec-badge.request {
+      background: rgba(37, 99, 235, 0.12);
+      color: #60A5FA;
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+
+    .spec-badge.dev {
+      background: rgba(245, 158, 11, 0.12);
+      color: #FBBF24;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .spec-badge.future {
+      background: rgba(139, 92, 246, 0.12);
+      color: #A78BFA;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .show-future-btn {
+      margin-top: 24px;
+      padding: 11px 24px;
+      background: rgba(0, 212, 255, 0.08);
+      color: #00D4FF;
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Inter', Arial, sans-serif;
+      transition: all 0.2s;
+    }
+
+    .show-future-btn:hover {
+      background: #00D4FF;
+      color: #060F2B;
+    }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      background: linear-gradient(135deg, #060F2B 0%, #0D1A40 100%);
+      padding: 100px 8vw;
+    }
+
+    .cta-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .cta-info h2 {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .cta-info p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    .cta-form-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 44px;
+    }
+
+    .cta-form-box h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 13px 18px;
+      font-size: 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      transition: all 0.2s;
+      font-family: 'Inter', Arial, sans-serif;
+      outline: none;
+    }
+
+    .form-group input::placeholder {
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .form-group select {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .form-group select option {
+      color: #000;
+      background: #fff;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: rgba(0, 212, 255, 0.4);
+      background: rgba(0, 212, 255, 0.05);
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 15px 24px;
+      margin-top: 8px;
+      background: linear-gradient(135deg, #00D4FF, #2563EB);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+
+    .form-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 212, 255, 0.25);
+    }
+
+    @media(max-width: 1024px) {
+      .submodules {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media(max-width: 900px) {
+      .pain-cols {
+        grid-template-columns: 1fr;
+      }
+
+      .module-2col {
+        grid-template-columns: 1fr;
+      }
+
+      .vision-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .db-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .submodules {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="main-navbar">
-        <div class="navbar-content">
-            <a href="../index.html" class="navbar-logo-link">
-                <img src="../assets/images/logos/Ajax-logo-white.png" alt="AJAXdna Logo" class="navbar-logo" />
-            </a>
-            <div class="navbar-links">
-                <a href="../index.html">Home</a>
-                <a href="about.html">About</a>
-                <a href="design-software.html" class="active">Design Software</a>
-                <a href="lab-workstation.html">Lab Workstation</a>
+  <!-- Navigation Bar -->
+  <nav class="main-navbar">
+    <div class="navbar-content">
+      <a href="../index.html" class="navbar-logo-link">
+        <img src="../assets/images/logos/Ajax-logo-white.png" alt="AjaxDNA Logo" class="navbar-logo" />
+      </a>
+      <div class="navbar-links">
+        <a href="../index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="design-software.html" class="active">Design Software</a>
+        <a href="lab-workstation.html">Lab Workstation</a>
+        <a href="#demo" class="nav-cta">Request Demo</a>
+      </div>
+    </div>
+  </nav>
 
-                <a href="product.html">Product</a>
-                <a href="../blog/DESCRIPTION.html">Blog</a>
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="page-eyebrow">
+        <span>🧬</span> Design Software · Explainable Engineering
+      </div>
+      <h1>Debug engineered cells <em>before they exist.</em></h1>
+      <p>AjaxDNA Design Software turns trial-and-error biology into explainable engineering. We don't just automate the
+        DBTL cycle—we dramatically reduce the number of iterations you need by improving hypothesis quality and
+        biological understanding.</p>
+      <div class="page-hero-actions">
+        <a href="#demo" class="btn-primary">Request a Demo →</a>
+        <a href="#modules" class="btn-ghost">Explore Modules</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Section -->
+  <section class="video-section">
+    <div class="section-label-row" style="justify-content:center;margin-bottom:20px;">
+      <span>See It In Action</span>
+    </div>
+    <div class="video-wrapper">
+      <video controls poster="../assets/images/digital_twin.png">
+        <source src="../assets/videos/promo_video_software.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </section>
+
+  <!-- Pain & Gain Section -->
+  <section class="pain-section">
+    <div class="pain-inner">
+      <div class="section-label-row" style="color:#DC2626;">The Problem We Solve</div>
+      <h2>Reduce iterations by improving decisions, not just automation.</h2>
+      <div class="pain-cols">
+
+        <!-- Initiator column -->
+        <div>
+          <div class="pain-col-header">
+            <span class="audience-tag initiator">🎯 For Innovation Leads</span>
+          </div>
+          <div class="pain-item">
+            <div class="pain-icon"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" />
+              </svg></div>
+            <div class="pain-text">
+              <strong>Complexity Blindness</strong>
+              <p>Teams struggle to interpret exactly why strains fail. Unclear results lead to a lack of confidence in
+                engineering decisions and internal misalignment.</p>
             </div>
+          </div>
+          <div class="pain-divider"></div>
+          <div class="gain-label" style="color: #8B5CF6;">✓ "I finally understand what's going on."</div>
+          <div class="pain-item gain-item">
+            <div class="pain-icon"
+              style="background: rgba(139,92,246,0.06); border-color: rgba(139,92,246,0.15); color: #8B5CF6;"><svg
+                width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+              </svg></div>
+            <div class="pain-text">
+              <strong>Rational, Justified Engineering</strong>
+              <p>Understand the biological system and formulate better hypotheses. Make engineering decisions you can
+                defend scientifically and internally.</p>
+            </div>
+          </div>
         </div>
-    </nav>
 
-    <section class="product-section">
-        <img src="../assets/images/icons/design_tool.png" alt="AjaxDNA Design Software" class="product-image">
-        <div class="product-description">
-            <h1>AjaxDNA Design Software</h1>
-            <p>
-                Our design software allows you to go from a experiment in mind to DNA in your lab in just a few clicks.
-                Automate digital twin modeling and optimize your systems seamlessly. This software
-                can operate as a standalone experimental design tool or integrated with Lab on a Cell
-                workstations for advanced management capabilities.
-            </p>
-            <!-- Features Table -->
-            <table class="features-table">
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Experiment to DNA (for molecule production)</td>
-                        <td>Available</td>
-                    </tr>
-                    <tr>
-                        <td>Automated digital twin modeling</td>
-                        <td>Available</td>
-                    </tr>
-                    <tr>
-                        <td>Relevant gene detection</td>
-                        <td>Available</td>
-                    </tr>
-                    <tr>
-                        <td>DNA shop</td>
-                        <td>Upon request</td>
-                    </tr>
-                    <tr>
-                        <td>Transformation and cloning service</td>
-                        <td>Upon request</td>
-                    </tr>
-                    <!-- Expandable Rows -->
-                    <tr class="collapsible-row">
-                        <td>Integrated Lab Management</td>
-                        <td>In Development</td>
-                    </tr>
-                    <tr class="collapsible-row">
-                        <td>Protein production</td>
-                        <td>In Development</td>
-                    </tr>
-                    <tr class="collapsible-row">
-                        <td>AI-powered Experiment to DNA conversion (for any experiment)</td>
-                        <td>Future Release</td>
-                    </tr>
-                    <tr class="collapsible-row">
-                        <td>Logic-based experiment to DNA conversion</td>
-                        <td>Future Release</td>
-                    </tr>
-                    <tr class="collapsible-row">
-                        <td>Automated new protein design</td>
-                        <td>Future Release</td>
-                    </tr>
-                    <tr class="collapsible-row">
-                        <td>Automated cell modeling from sequencing or omics data</td>
-                        <td>Future Release</td>
-                    </tr>
-                </tbody>
-            </table>
-            <button class="toggle-btn" onclick="toggleRows()">Show Future features</button>
+        <!-- User column -->
+        <div>
+          <div class="pain-col-header">
+            <span class="audience-tag researcher">🔬 For Strain Engineers &amp; Scientists</span>
+          </div>
+          <div class="pain-item">
+            <div class="pain-icon"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" />
+              </svg></div>
+            <div class="pain-text">
+              <strong>Trial-and-Error Frustration</strong>
+              <p>Slow and unpredictable DBTL cycles mean spending months building and testing variants only to hit an
+                unexpected dead end and start over.</p>
+            </div>
+          </div>
+          <div class="pain-divider"></div>
+          <div class="gain-label">✓ "I can design experiments taking into account more variables"</div>
+          <div class="pain-item gain-item">
+            <div class="pain-icon"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+              </svg></div>
+            <div class="pain-text">
+              <strong>Debug Before You Build</strong>
+              <p>Design better experiments and hypotheses in silico. Spend less time on dead ends and more on
+                productive, successful engineering.</p>
+            </div>
+          </div>
         </div>
-    </section>
 
-    <!-- Video Section -->
-    <section class="video-section">
-        <h2>See AjaxDNA in Action</h2>
-        <video controls class="promo-video">
-            <source src="../assets/videos/promo_video_software.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </section>
+        <!-- Decider column -->
+        <div>
+          <div class="pain-col-header">
+            <span class="audience-tag decider">📈 For Deciders &amp; Portfolio Managers</span>
+          </div>
+          <div class="pain-item">
+            <div class="pain-icon"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" />
+              </svg></div>
+            <div class="pain-text">
+              <strong>Inefficient Capital Allocation</strong>
+              <p>Every extra iteration burns budget and delays milestones. Unreliable planning forces conservative
+                investments and increases portfolio risk.</p>
+            </div>
+          </div>
+          <div class="pain-divider"></div>
+          <div class="gain-label" style="color: #059669;">✓ "We reduce cost and increase success rate."</div>
+          <div class="pain-item gain-item">
+            <div class="pain-icon" style="background: rgba(16,185,129,0.06); border-color: rgba(16,185,129,0.15);"><svg
+                width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+              </svg></div>
+            <div class="pain-text">
+              <strong>A Predictable R&amp;D System</strong>
+              <p>Turn unpredictable trial-and-error into a reproducible pipeline. Reduce cost and time per successful
+                strain while capturing value earlier.</p>
+            </div>
+          </div>
+        </div>
 
+      </div>
+    </div>
+  </section>
 
-    <!-- Contact Section -->
-    <section class="cta-section">
-        <h2>Book a Demo with Our Experts</h2>
-        <p>Learn how AjaxDNA Design Software can transform your lab's efficiency and accuracy.</p>
-        <form action="book_meeting.php" method="POST" class="cta-form">
-            <input type="text" name="name" placeholder="First Name" required>
-            <input type="text" name="last_name" placeholder="Last Name" required>
-            <input type="text" name="position" placeholder="Position" required>
-            <input type="text" name="company_name" placeholder="Company Name" required>
+  <!-- Working Modules Section -->
+  <section class="modules-section" id="modules">
+    <div class="modules-inner">
+      <div class="section-label-row">Three working modules</div>
+      <h2>Independent capabilities. One converging architecture.</h2>
+      <p class="section-sub">Each module is independently functional today. Together, they form the computational
+        scaffolding of the world's first whole-cell and microbial community digital twin — capable of simulating every
+        cellular life event: mutation, engineering, energy flow, compartmentalization, and information transfer between
+        molecules.</p>
+
+      <!-- Modules Breakdown -->
+
+      <!-- Module 1: Enhanced Genome Annotation -->
+      <div class="module-block">
+        <div class="module-header">
+          <div class="module-num">01</div>
+          <div class="module-header-text">
+            <span class="mod-status">✓ Operational</span>
+            <h3>Enhanced Genome Annotation</h3>
+            <p>State-of-the-art annotation pipelines that go beyond standard databases — resolving functional roles for
+              genes left un-annotated by conventional tools. The foundation of every downstream module: a more complete
+              genome means more predictive power at every subsequent step.</p>
+          </div>
+        </div>
+        <div class="module-2col">
+          <div class="module-detail">
+            <div class="module-detail-content">
+              <h4>What it solves</h4>
+              <p>Standard annotation tools (NCBI, UniProt pipelines) consistently leave 30–40% of genes without functional
+                assignment. These gaps propagate errors into every downstream model — metabolic, regulatory, and
+                structural.</p>
+            </div>
+          </div>
+          <div class="module-detail">
+            <div class="module-detail-content">
+              <h4>What it delivers</h4>
+              <p>Automated functional assignment combining homology, domain architecture, and synteny analysis. Outputs
+                feed directly into protein design and metabolic modeling — closing the annotation gap before design
+                begins.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 2: Automated Protein Design -->
+      <div class="module-block">
+        <div class="module-header">
+          <div class="module-num">02</div>
+          <div class="module-header-text">
+            <span class="mod-status">✓ Operational</span>
+            <h3>Automated Protein Design</h3>
+            <p>A multi-layered engine for designing proteins with specific catalytic, structural, or signaling
+              properties — backed by proprietary databases of protein topology, motion, catalytic transition states, and
+              catalytic arrays that no competitor can replicate.</p>
+          </div>
+        </div>
+        <div class="submodules">
+          <div class="submodule" style="--sm-c1:#00D4FF;--sm-c2:#3B82F6;">
+            <div style="position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; opacity: 0.15; pointer-events: none;">
+              <img src="../assets/images/modules/submod_active_center.png" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <img src="../assets/images/modules/active_center.png" alt="Active Center" class="submodule-img" style="position:relative; z-index:1;">
+            <div class="submodule-content" style="position:relative; z-index:1;">
+              <h4>Active Centre Design &amp; Transition State Modeling</h4>
+              <p>Predict and engineer enzyme active sites with atomic precision. Transition state modeling enables
+                rational catalyst design without random mutagenesis — dramatically narrowing the search space for novel
+                enzymatic functions.</p>
+            </div>
+          </div>
+          <div class="submodule" style="--sm-c1:#3B82F6;--sm-c2:#8B5CF6;">
+            <div style="position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; opacity: 0.15; pointer-events: none;">
+              <img src="../assets/images/modules/submod_shape_topology.png" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <img src="../assets/images/modules/shape_protein.jpg" alt="Shape Topology" class="submodule-img" style="position:relative; z-index:1;">
+            <div class="submodule-content" style="position:relative; z-index:1;">
+              <h4>Shape &amp; Topology Design</h4>
+              <p>Design protein backbone geometry for stability, binding affinity, and expression efficiency. Backed by
+                a proprietary database of protein structures, topologies, and conformational states built from curated
+                experimental and computational sources.</p>
+            </div>
+          </div>
+          <div class="submodule" style="--sm-c1:#8B5CF6;--sm-c2:#EC4899;">
+            <div style="position: absolute; top:0; left:0; width:100%; height:100%; z-index:0; opacity: 0.15; pointer-events: none;">
+              <img src="../assets/images/modules/submod_allosteric.png" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <video src="../assets/images/modules/protein_motion.mp4" autoplay loop muted playsinline class="submodule-img" style="position:relative; z-index:1; object-fit: cover;"></video>
+            <div class="submodule-content" style="position:relative; z-index:1;">
+              <h4>Allosteric &amp; Mobility Design</h4>
+              <p>Model and engineer long-range conformational changes — allosteric regulation, domain flexibility, and
+                dynamic signaling pathways within proteins. Enables design of proteins that respond intelligently to
+                cellular conditions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 3: Automated DNA Design + Metabolic Modeling -->
+      <div class="module-block">
+        <div class="module-header">
+          <div class="module-num">03</div>
+          <div class="module-header-text">
+            <span class="mod-status wip">⚡ Operational — Improvements in Progress</span>
+            <h3>Automated DNA Design &amp; Metabolic Modeling</h3>
+            <p>From production goal to testable genetic construct — automatically. Design DNA sequences, plasmid-ready
+              constructs, and full metabolic models for any organism. Run flux balance analysis to predict yield,
+              growth, and pathway performance before a single experiment.</p>
+          </div>
+        </div>
+        <div class="module-2col">
+          <div class="module-detail">
+            <img src="../assets/images/modules/metabolic_modeling_real.png" alt="Metabolic Modeling" class="module-detail-img">
+            <div class="module-detail-content">
+              <h4>Metabolic Modeling &amp; Simulation</h4>
+              <p>Whole-cell metabolic models auto-generated from genome data. Flux Balance Analysis predicts growth
+                rate, production yield, and metabolic bottlenecks across strain variants, consortia, media conditions
+                and time — before any wet-lab commitment.</p>
+            </div>
+          </div>
+          <div class="module-detail">
+            <img src="../assets/images/dna_generation.png" alt="DNA Design" class="module-detail-img">
+            <div class="module-detail-content">
+              <h4>Automated DNA Design</h4>
+              <p>Define a target molecule or phenotype, and the system designs the optimal genetic construct —
+                codon-optimized, promoter-assigned, and plasmid-formatted for direct synthesis and transformation.
+                Already deployed in industrial and academic contexts.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Vision / Convergence -->
+  <section class="vision-section">
+    <div class="vision-inner">
+      <div class="section-label-row" style="color:#00D4FF;">The whole-cell digital twin</div>
+      <h2>Where all three modules converge.</h2>
+      <p class="section-sub">Our philosophy is simple: a digital twin must represent all cellular life events — not just
+        metabolism, not just structure — but mutation, modification, engineering, energy compartmentalization, and the
+        full information flow from gene to phenotype. With maximum biological accuracy at minimal computational cost.
+      </p>
+      <div class="vision-grid">
+        <div class="vision-pillars">
+          <div class="vision-pillar">
+            <div class="vp-icon"><svg width="24" height="24" fill="none" stroke="#00D4FF" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+              </svg></div>
+            <div class="vp-text">
+              <strong>Realistic energy accounting</strong>
+              <p>ATP, NADH, proton gradients — the twin tracks energetic costs across every simulated pathway,
+                reflecting what cells actually pay to produce a molecule.</p>
+            </div>
+          </div>
+          <div class="vision-pillar">
+            <div class="vp-icon"><svg width="24" height="24" fill="none" stroke="#A78BFA" stroke-width="2"
+                viewBox="0 0 24 24">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M8 21h8m-4-4v4"></path>
+              </svg></div>
+            <div class="vp-text">
+              <strong>Compartmentalization</strong>
+              <p>Distinct cytoplasm, membrane, periplasm, and organelle environments — each with unique transport, pH,
+                and enzymatic conditions that affect every reaction.</p>
+            </div>
+          </div>
+          <div class="vision-pillar">
+            <div class="vp-icon"><svg width="24" height="24" fill="none" stroke="#3B82F6" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path
+                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                </path>
+              </svg></div>
+            <div class="vp-text">
+              <strong>Molecular information flow</strong>
+              <p>Signal propagation from metabolites to transcriptional regulators to protein conformation — the twin
+                sees how one molecular event triggers another across the cell.</p>
+            </div>
+          </div>
+          <div class="vision-pillar">
+            <div class="vp-icon"><svg width="24" height="24" fill="none" stroke="#10B981" stroke-width="2"
+                viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M8 12h8m-4-4v8"></path>
+              </svg></div>
+            <div class="vp-text">
+              <strong>Microbial community modeling</strong>
+              <p>Extend the twin beyond single cells to entire consortia — model cross-feeding, competition,
+                cooperation, and GMO behavior within mixed microbial populations.</p>
+            </div>
+          </div>
+        </div>
+        <div class="vision-convergence">
+          <h3>Modules → Digital Twin</h3>
+          <p>Each operational module contributes a layer of biological resolution. As they converge, the prediction
+            accuracy of the whole-cell twin approaches the fidelity needed for autonomous bioprocess design.</p>
+          <div class="convergence-modules">
+            <div class="cm-row">
+              <div class="cm-dot"></div>
+              Enhanced Genome Annotation → gene function map
+            </div>
+            <div class="cm-arrow">↓</div>
+            <div class="cm-row">
+              <div class="cm-dot"></div>
+              Automated Protein Design → structure &amp; function predictions
+            </div>
+            <div class="cm-arrow">↓</div>
+            <div class="cm-row">
+              <div class="cm-dot wip"></div>
+              Metabolic Modeling → flux prediction &amp; yield optimization
+            </div>
+            <div class="cm-arrow">↓</div>
+            <div class="cm-row">
+              <div class="cm-dot" style="background:#00D4FF;box-shadow:0 0 8px rgba(0,212,255,0.4);"></div>
+              AI-Powered Computing &amp; Multiomics Integration
+            </div>
+            <div class="cm-arrow">↓</div>
+            <div class="cm-result">
+              Whole-Cell &amp; Community Digital Twin — in development
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proprietary Databases -->
+  <section class="db-section">
+    <div class="db-inner">
+      <div class="section-label-row" style="color:#7C3AED;">Proprietary data assets</div>
+      <h2>The competitive moat you cannot buy elsewhere.</h2>
+      <p class="section-sub">Our platform's prediction accuracy rests on two proprietary databases built from years of
+        curated experimental and computational research — unavailable from any public source or commercial competitor.
+      </p>
+      <div class="db-grid">
+        <div class="db-card">
+          <span class="db-tag">Protein Architecture Database</span>
+          <h3>Structure, Topology &amp; Motion Atlas</h3>
+          <p>A curated database of protein three-dimensional structures, topological classifications, and conformational
+            motion profiles. Covers fold families, domain arrangements, and experimentally validated dynamic states —
+            specifically enriched for industrially relevant enzyme classes and microbial proteins.</p>
+          <div class="db-stats">
+            <div class="db-stat">
+              <div class="stat-val">Proprietary</div>
+              <div class="stat-label">Data source</div>
+            </div>
+            <div class="db-stat">
+              <div class="stat-val">Curated</div>
+              <div class="stat-label">Quality standard</div>
+            </div>
+          </div>
+        </div>
+        <div class="db-card">
+          <span class="db-tag">Catalysis Database</span>
+          <h3>Transition States &amp; Catalytic Arrays</h3>
+          <p>A proprietary collection of catalytic transition state geometries and catalytic residue arrays — the
+            atomic-level fingerprints of how enzymes lower activation energy. Enables rational active-site redesign and
+            novel catalyst engineering without dependence on random mutagenesis libraries.</p>
+          <div class="db-stats">
+            <div class="db-stat">
+              <div class="stat-val">Proprietary</div>
+              <div class="stat-label">Data source</div>
+            </div>
+            <div class="db-stat">
+              <div class="stat-val">Curated</div>
+              <div class="stat-label">Quality standard</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="db-moat">
+        <div class="db-moat-icon">🔒</div>
+        <div>
+          <h4>Why this matters to you</h4>
+          <p>Every competitor uses the same public databases (PDB, UniProt, BRENDA). AjaxDNA's proprietary databases
+            mean our protein design predictions carry resolution unavailable to any other computational platform — a
+            structural advantage that grows as the databases expand.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capability Table -->
+  <section class="spec-section" id="specs">
+    <div class="spec-inner">
+      <div class="section-label-row">Capability overview</div>
+      <h2>Full platform capability status</h2>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Description</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Module 1 -->
+          <tr class="module-group">
+            <td colspan="3">Module 1 — Enhanced Genome Annotation</td>
+          </tr>
+          <tr>
+            <td><strong>Automated Functional Annotation</strong></td>
+            <td>Multi-method functional assignment for un-annotated genes using homology, domain, and synteny analysis
+            </td>
+            <td><span class="spec-badge available">✓ Available</span></td>
+          </tr>
+          <tr>
+            <td><strong>Relevant Gene Detection</strong></td>
+            <td>AI-driven identification of key genes and regulatory elements for a target phenotype or production goal
+            </td>
+            <td><span class="spec-badge available">✓ Available</span></td>
+          </tr>
+
+          <!-- Module 2 -->
+          <tr class="module-group">
+            <td colspan="3">Module 2 — Automated Protein Design</td>
+          </tr>
+          <tr>
+            <td><strong>Active Centre &amp; Transition State Design</strong></td>
+            <td>Atomic-level enzyme active site engineering guided by proprietary catalytic transition state database
+            </td>
+            <td><span class="spec-badge available">✓ Available</span></td>
+          </tr>
+          <tr>
+            <td><strong>Protein Shape &amp; Topology Design</strong></td>
+            <td>Backbone and fold design for stability, expression, and binding — informed by proprietary structure
+              database</td>
+            <td><span class="spec-badge available">✓ Available</span></td>
+          </tr>
+          <tr>
+            <td><strong>Allosteric &amp; Mobility Design</strong></td>
+            <td>Conformational dynamics and long-range allosteric pathway engineering</td>
+            <td><span class="spec-badge available">✓ Available</span></td>
+          </tr>
+          <tr>
+            <td><strong>De Novo Protein Generation</strong></td>
+            <td>Design proteins without natural homologs — novel folds and catalytic activities from scratch</td>
+            <td><span class="spec-badge request">↗ Upon Request</span></td>
+          </tr>
+
+          <!-- Module 3 -->
+          <tr class="module-group">
+            <td colspan="3">Module 3 — Automated DNA Design &amp; Metabolic Modeling</td>
+          </tr>
+          <tr>
+            <td><strong>Automated DNA Design (molecule production)</strong></td>
+            <td>From production target to optimized genetic construct — codon optimized, promoter assigned,
+              plasmid-ready</td>
+            <td><span class="spec-badge available">✓ Available</span></td>
+          </tr>
+          <tr>
+            <td><strong>Plasmid-Ready Constructs</strong></td>
+            <td>Output formatted for immediate cloning and transformation — directly testable in host organisms</td>
+            <td><span class="spec-badge available">✓ Available</span></td>
+          </tr>
+          <tr>
+            <td><strong>Metabolic Modeling &amp; FBA</strong></td>
+            <td>Whole-cell metabolic model generation from genome data; flux balance analysis for yield and growth
+              prediction</td>
+            <td><span class="spec-badge available">✓ Available</span></td>
+          </tr>
+          <tr>
+            <td><strong>Microbial Consortia Modeling</strong></td>
+            <td>Multi-organism community simulations — predict cross-feeding, stability, and productivity of mixed
+              microbial populations</td>
+            <td><span class="spec-badge dev">⚡ In Progress</span></td>
+          </tr>
+          <tr>
+            <td><strong>DNA Shop — Synthesis Integration</strong></td>
+            <td>Order designed constructs directly from the platform through integrated synthesis provider partnerships
+            </td>
+            <td><span class="spec-badge request">↗ Upon Request</span></td>
+          </tr>
+          <tr>
+            <td><strong>Transformation &amp; Cloning Service</strong></td>
+            <td>End-to-end service from plasmid blueprint to validated strain — handled by our scientific team</td>
+            <td><span class="spec-badge request">↗ Upon Request</span></td>
+          </tr>
+
+          <!-- Convergence (hidden) -->
+          <tr class="future-row" style="display:none;" class="module-group">
+            <td colspan="3">Whole-Cell Digital Twin — Convergence Roadmap</td>
+          </tr>
+          <tr class="future-row" style="display:none;">
+            <td><strong>Whole-Cell Digital Twin (single organism)</strong></td>
+            <td>Full integration of annotation, protein, and metabolic modules into a unified predictive cell model</td>
+            <td><span class="spec-badge dev">🔧 In Development</span></td>
+          </tr>
+          <tr class="future-row" style="display:none;">
+            <td><strong>GMO Stability &amp; Perturbance Simulation</strong></td>
+            <td>Predict GMO behavior under environmental perturbances; assess community stability and regulatory
+              compliance risk</td>
+            <td><span class="spec-badge dev">🔧 In Development</span></td>
+          </tr>
+          <tr class="future-row" style="display:none;">
+            <td><strong>Integrated Lab Management (LabOnAcell)</strong></td>
+            <td>Closed-loop connection: digital twin drives hardware experiments; results refine the model automatically
+            </td>
+            <td><span class="spec-badge dev">🔧 In Development</span></td>
+          </tr>
+          <tr class="future-row" style="display:none;">
+            <td><strong>Cell Modeling from Omics Data</strong></td>
+            <td>Auto-parameterize digital twins from sequencing, transcriptomics, or proteomics datasets</td>
+            <td><span class="spec-badge future">◈ Future Release</span></td>
+          </tr>
+          <tr class="future-row" style="display:none;">
+            <td><strong>AI-Driven Experiment Design</strong></td>
+            <td>Natural language to genetic blueprint — describe any biological outcome; AI designs the full construct
+            </td>
+            <td><span class="spec-badge future">◈ Future Release</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="show-future-btn" id="toggleFutureBtn" onclick="toggleFuture()">Show full development roadmap
+        ↓</button>
+    </div>
+  </section>
+
+  <!-- CTA / Demo Section -->
+  <section class="cta-section" id="demo">
+    <div class="cta-inner">
+      <div class="cta-info">
+        <div class="section-label-row" style="color:#00D4FF;">Book a Demo</div>
+        <h2>See the platform running on your biology.</h2>
+        <p>Our scientific team will walk you through a live demonstration using your organism, your target, or your
+          dataset. Whether you're optimising a fermentation process, designing a therapeutic protein, or evaluating a
+          cell factory — contact us to find out what AjaxDNA can predict before your next experiment.</p>
+      </div>
+      <div class="cta-form-box">
+        <h3>Schedule a Demo Session</h3>
+        <form action="book_meeting.php" method="POST">
+          <div class="form-row-2">
+            <div class="form-group"><input type="text" name="name" placeholder="First Name" required></div>
+            <div class="form-group"><input type="text" name="last_name" placeholder="Last Name" required></div>
+          </div>
+          <div class="form-group"><input type="text" name="position" placeholder="Position / Role" required></div>
+          <div class="form-group"><input type="text" name="company_name" placeholder="Company / Institution" required>
+          </div>
+          <div class="form-group">
             <select name="company_size" required>
-                <option value="1-10">1-10</option>
-                <option value="11-25">11-25</option>
-                <option value="26-50">26-50</option>
-                <option value="51-100">51-100</option>
-                <option value="100+">100+</option>
+              <option value="" disabled selected>Company size</option>
+              <option value="1-10">1–10 employees</option>
+              <option value="11-25">11–25 employees</option>
+              <option value="26-50">26–50 employees</option>
+              <option value="51-100">51–100 employees</option>
+              <option value="100+">100+ employees</option>
             </select>
-            <input type="email" name="email" placeholder="Institution Email" required>
-            <button type="submit">Schedule a Demo</button>
+          </div>
+          <div class="form-group"><input type="email" name="email" placeholder="Institution Email" required></div>
+          <button type="submit" class="form-submit">Request a Demo Session →</button>
         </form>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        function toggleRows() {
-            const rows = document.querySelectorAll('.collapsible-row');
-            const button = document.querySelector('.toggle-btn');
-            rows.forEach(row => {
-                row.style.display = row.style.display === 'none' || row.style.display === '' ? 'table-row' : 'none';
-            });
-            button.textContent = button.textContent === 'Show Future features' ? 'Show Less' : 'Show Future features';
-        }
-
-        // Initialize rows to be hidden
-        document.addEventListener('DOMContentLoaded', () => {
-            const rows = document.querySelectorAll('.collapsible-row');
-            rows.forEach(row => {
-                row.style.display = 'none';
-            });
-        });
-    </script>
-
-    <!-- Footer -->
-    <footer class="footer-section">
-        <div class="footer-container">
-            <!-- About Us -->
-            <div class="footer-column">
-                <h3>About Us</h3>
-                <ul>
-                    <li><a href="about.html">Our Team</a></li>
-                </ul>
-            </div>
-
-            <!-- Product -->
-            <div class="footer-column">
-                <h3>Product</h3>
-                <ul>
-                    <li><a href="../index.html#product-section">Our Solution</a></li>
-                </ul>
-            </div>
-
-            <!-- Connect With Us -->
-            <div class="footer-column">
-                <h3>Connect With Us</h3>
-                <div class="social-icons">
-                    <a href="https://www.linkedin.com/in/alejandro-atienza-vicedo-963242190/" target="_blank"><img
-                            src="../assets/images/partners/linkedin.png" alt="LinkedIn"></a>
-                </div>
-            </div>
+  <!-- Footer -->
+  <footer class="footer-section">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <img src="../assets/images/logos/Ajax-logo-white.png" alt="AjaxDNA">
+        <p>The first integrated biotech platform combining digital cell twins and LabOnAcell hardware.</p>
+      </div>
+      <div class="footer-column">
+        <h3>Platform</h3>
+        <ul>
+          <li><a href="design-software.html">Design Software</a></li>
+          <li><a href="lab-workstation.html">Lab Workstation</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="about.html">Our Team</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Connect</h3>
+        <div class="social-icons">
+          <a href="https://www.linkedin.com/in/alejandro-atienza-vicedo-963242190/" target="_blank">
+            <img src="../assets/images/partners/linkedin.png" alt="LinkedIn">
+          </a>
         </div>
-        <div class="footer-bottom">
-            <p>© 2025 All Rights Reserved</p>
-        </div>
-    </footer>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 AjaxDNA. All Rights Reserved.</p>
+      <span class="footer-slogan">Test Better, Test Faster.</span>
+    </div>
+  </footer>
 
+  <script>
+    function toggleFuture() {
+      const rows = document.querySelectorAll('.future-row');
+      const btn = document.getElementById('toggleFutureBtn');
+      const hidden = rows[0].style.display === 'none';
+      rows.forEach(r => r.style.display = hidden ? 'table-row' : 'none');
+      btn.textContent = hidden ? 'Hide full roadmap ↑' : 'Show full development roadmap ↓';
+    }
+  </script>
 </body>
 
 </html>

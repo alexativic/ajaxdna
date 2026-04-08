@@ -1,163 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products - AJAX DNA</title>
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/common.css">
-    <style>
-        /* General Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products — AjaxDNA | Consulting, Design Tool & Cell Testing</title>
+  <meta name="description" content="AjaxDNA products: expert consulting for bioprocess optimisation, the digital cell twin design tool, and end-to-end cell testing solutions.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <style>
+    body, html { font-family: 'Inter', Arial, sans-serif; background: #060F2B; color: #fff; }
 
-        /* Full Height for HTML and Body */
-        html,
-        body {
-            height: 100%;
-        }
+    /* ── PAGE HERO ── */
+    .page-hero {
+      position: relative; min-height: 52vh; background: #060F2B;
+      display: flex; align-items: center; padding: 140px 8vw 80px;
+      overflow: hidden; text-align: center; justify-content: center;
+    }
+    .page-hero::before {
+      content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .page-hero-content { max-width: 720px; position: relative; z-index: 2; }
+    .page-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 999px; margin-bottom: 28px;
+      background: rgba(0,212,255,0.12); border: 1px solid rgba(0,212,255,0.3);
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #00D4FF;
+    }
+    .page-hero h1 {
+      font-size: clamp(2.2rem, 4.5vw, 3.5rem); font-weight: 900;
+      margin: 0 0 20px; line-height: 1.1; letter-spacing: -0.02em; color: #fff;
+    }
+    .page-hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #00D4FF, #3B82F6);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .page-hero p {
+      font-size: 1.15rem; color: rgba(255,255,255,0.7); line-height: 1.7; max-width: 580px; margin: 0 auto;
+    }
 
-        /* Body Styling */
-        body {
-            background: url('../assets/images/backgrounds/background1.webp') no-repeat center center fixed;
-            background-size: cover;
-            color: white;
-        }
+    /* ── PRODUCTS GRID ── */
+    .products-section {
+      background: #060F2B; padding: 80px 8vw 120px;
+    }
+    .section-label-row {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 16px; justify-content: center;
+      color: #00D4FF; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .products-section .intro {
+      text-align: center; margin-bottom: 72px;
+    }
+    .products-section .intro h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: #fff; letter-spacing: -0.02em; line-height: 1.15;
+    }
+    .products-section .intro p {
+      color: rgba(255,255,255,0.55); font-size: 1.05rem; max-width: 560px; margin: 16px auto 0; line-height: 1.7;
+    }
+    .products-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1100px; margin: 0 auto;
+    }
+    .product-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px; padding: 48px 36px; text-align: center;
+      display: flex; flex-direction: column; align-items: center;
+      transition: all 0.3s; position: relative; overflow: hidden;
+      text-decoration: none; color: inherit;
+    }
+    .product-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--c1), var(--c2));
+    }
+    .product-card:nth-child(1) { --c1: #00D4FF; --c2: #3B82F6; }
+    .product-card:nth-child(2) { --c1: #10B981; --c2: #00D4FF; }
+    .product-card:nth-child(3) { --c1: #3B82F6; --c2: #8B5CF6; }
+    .product-card:hover { transform: translateY(-8px); border-color: rgba(0,212,255,0.2); background: rgba(255,255,255,0.07); box-shadow: 0 24px 60px rgba(0,0,0,0.3); }
+    .product-icon-wrap {
+      width: 96px; height: 96px; border-radius: 24px; margin-bottom: 28px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2);
+      font-size: 2.5rem;
+    }
+    .product-card:nth-child(2) .product-icon-wrap { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); }
+    .product-card:nth-child(3) .product-icon-wrap { background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.2); }
+    .product-card h3 { font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 16px; }
+    .product-card p { color: rgba(255,255,255,0.6); font-size: 0.95rem; line-height: 1.65; flex: 1; }
+    .product-card-cta {
+      margin-top: 32px; padding: 11px 24px; border-radius: 10px;
+      font-size: 0.88rem; font-weight: 700; text-decoration: none;
+      background: rgba(0,212,255,0.1); color: #00D4FF;
+      border: 1px solid rgba(0,212,255,0.25); transition: all 0.2s;
+      display: inline-block;
+    }
+    .product-card:hover .product-card-cta { background: #00D4FF; color: #060F2B; }
+    .product-card:nth-child(2) .product-card-cta { background: rgba(16,185,129,0.1); color: #10B981; border-color: rgba(16,185,129,0.25); }
+    .product-card:nth-child(2):hover .product-card-cta { background: #10B981; color: #fff; }
+    .product-card:nth-child(3) .product-card-cta { background: rgba(59,130,246,0.1); color: #60A5FA; border-color: rgba(59,130,246,0.25); }
+    .product-card:nth-child(3):hover .product-card-cta { background: #3B82F6; color: #fff; }
 
-        /* Main Content */
-        .content-box {
-            display: flex;
-            justify-content: center;
-            align-items: stretch;
-            min-height: calc(100vh - 150px);
-            /* Adjust height excluding header and footer */
-            padding: 120px 20px 40px;
-            gap: 10px;
-            /* Space between product boxes */
-        }
+    /* ── VALUE STRIP ── */
+    .value-strip {
+      background: #fff; padding: 80px 8vw;
+    }
+    .value-strip-inner { max-width: 1100px; margin: 0 auto; }
+    .value-strip .section-label-row { color: #2563EB; justify-content: flex-start; }
+    .value-strip h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: #060F2B; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 56px; }
+    .value-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    .value-col { border-left: 3px solid #EFF2F8; padding-left: 28px; }
+    .value-col h4 { font-size: 1rem; font-weight: 700; color: #060F2B; margin-bottom: 10px; }
+    .value-col p { font-size: 0.9rem; color: #6B7280; line-height: 1.65; }
+    .value-stat { font-size: 2rem; font-weight: 800; color: #2563EB; margin-bottom: 8px; display: block; }
 
-        /* Product Icon Buttons */
-        .product-icon {
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            text-align: center;
-            flex: 1;
-            /* Each product takes equal space */
-            margin: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-decoration: none;
-            color: #222;
-        }
+    /* ── CTA BOTTOM ── */
+    .cta-bottom {
+      background: linear-gradient(135deg, #060F2B 0%, #0D1A40 100%);
+      padding: 100px 8vw; text-align: center;
+    }
+    .cta-bottom h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: #fff; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .cta-bottom p { color: rgba(255,255,255,0.6); font-size: 1.05rem; max-width: 520px; margin: 0 auto 36px; line-height: 1.7; }
+    .cta-bottom a {
+      padding: 16px 36px; background: #00D4FF; color: #060F2B;
+      border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1rem;
+      transition: all 0.2s; display: inline-block;
+    }
+    .cta-bottom a:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,212,255,0.3); }
 
-        .product-icon:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-        }
-
-        .product-icon img {
-            width: 150px;
-            /* Larger icon */
-            height: auto;
-            /* Maintain aspect ratio */
-            max-height: 200px;
-            /* Prevent it from getting too large */
-            margin-bottom: 10px;
-        }
-
-        .product-icon h3 {
-            font-size: 24px;
-            margin: 5px 0;
-        }
-
-        .product-icon p {
-            font-size: 16px;
-            color: #444;
-        }
-    </style>
+    @media(max-width: 900px) {
+      .products-grid { grid-template-columns: 1fr; }
+      .value-cols { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-
 <body>
 
-    <!-- Navigation Bar -->
-    <nav class="main-navbar">
-        <div class="navbar-content">
-            <a href="../index.html" class="navbar-logo-link">
-                <img src="../assets/images/logos/Ajax-logo-white.png" alt="AJAXdna Logo" class="navbar-logo" />
-            </a>
-            <div class="navbar-links">
-                <a href="../index.html">Home</a>
-                <a href="about.html">About</a>
-                <a href="design-software.html">Design Software</a>
-                <a href="lab-workstation.html">Lab Workstation</a>
-
-                <a href="product.html" class="active">Product</a>
-                <a href="../blog/DESCRIPTION.html">Blog</a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="content-box">
-        <!-- Product Icons -->
-        <a href="contact_us.html" class="product-icon">
-            <img src="../assets/images/icons/consulting.png" alt="Consulting">
-            <h3>Consulting</h3>
-            <p>Professional guidance for optimizing your industrial or medical cell production systems.</p>
-        </a>
-        <a href="step1.html" class="product-icon">
-            <img src="../assets/images/icons/design_tool.png" alt="Design Tool">
-            <h3>Design Tool</h3>
-            <p>A web platform for identifying the optimal genetic network for your cell’s production.</p>
-        </a>
-        <a href="contact_us2.html" class="product-icon">
-            <img src="../assets/images/icons/cell_testing.png" alt="Cell Testing">
-            <h3>Cell Testing</h3>
-            <p>End-to-end solutions to build, test, and deliver your production-ready cells.</p>
-        </a>
+  <!-- Navigation Bar -->
+  <nav class="main-navbar">
+    <div class="navbar-content">
+      <a href="../index.html" class="navbar-logo-link">
+        <img src="../assets/images/logos/Ajax-logo-white.png" alt="AjaxDNA Logo" class="navbar-logo" />
+      </a>
+      <div class="navbar-links">
+        <a href="../index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="design-software.html">Design Software</a>
+        <a href="lab-workstation.html">Lab Workstation</a>
+        <a href="product.html" class="active">Product</a>
+        <a href="#contact" class="nav-cta">Request Demo</a>
+      </div>
     </div>
+  </nav>
 
-    <!-- Footer -->
-    <footer class="footer-section">
-        <div class="footer-container">
-            <!-- About Us -->
-            <div class="footer-column">
-                <h3>About Us</h3>
-                <ul>
-                    <li><a href="about.html">Our Team</a></li>
-                </ul>
-            </div>
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="page-eyebrow">Our Solutions</div>
+      <h1>Three ways AjaxDNA <em>solves</em> your problem</h1>
+      <p>Whether you need expert guidance, a digital design platform, or end-to-end cell testing — we have a product built for your exact challenge in bioprocessing.</p>
+    </div>
+  </section>
 
-            <!-- Product -->
-            <div class="footer-column">
-                <h3>Product</h3>
-                <ul>
-                    <li><a href="../index.html#product-section">Our Solution</a></li>
-                </ul>
-            </div>
+  <!-- Products Grid -->
+  <section class="products-section">
+    <div class="intro">
+      <div class="section-label-row">The product portfolio</div>
+      <h2>Choose your entry point</h2>
+      <p>Each product is designed for a specific challenge — and all three integrate into a single, coherent platform.</p>
+    </div>
+    <div class="products-grid">
+      <a href="about.html#contact" class="product-card">
+        <div class="product-icon-wrap">🧭</div>
+        <h3>Consulting</h3>
+        <p>Professional scientific guidance for optimising your industrial or medical cell production systems. Our experts analyse your current bioprocess, identify yield and stability bottlenecks, and design a data-driven improvement roadmap.</p>
+        <span class="product-card-cta">Talk to Our Experts →</span>
+      </a>
+      <a href="design-software.html" class="product-card">
+        <div class="product-icon-wrap">💻</div>
+        <h3>Design Tool</h3>
+        <p>A web platform for identifying the optimal genetic network for your cell's production. Simulate your organism's metabolism <em>in silico</em>, run FBA optimization, design CRISPR edits, and predict outcomes — before your first experiment.</p>
+        <span class="product-card-cta">Explore the Software →</span>
+      </a>
+      <a href="lab-workstation.html" class="product-card">
+        <div class="product-icon-wrap">🔬</div>
+        <h3>Cell Testing</h3>
+        <p>End-to-end solutions to build, test, and deliver your production-ready cells. From digital twin design to the LabOnAcell workstation running thousands of parallel experiments — we validate your biology at scale.</p>
+        <span class="product-card-cta">See the Hardware →</span>
+      </a>
+    </div>
+  </section>
 
-            <!-- Connect With Us -->
-            <div class="footer-column">
-                <h3>Connect With Us</h3>
-                <div class="social-icons">
-                    <a href="https://www.linkedin.com/in/alejandro-atienza-vicedo-963242190/" target="_blank"><img
-                            src="../assets/images/partners/linkedin.png" alt="LinkedIn"></a>
-                </div>
-            </div>
+  <!-- Value Strip -->
+  <section class="value-strip">
+    <div class="value-strip-inner">
+      <div class="section-label-row">Why it matters</div>
+      <h2>The numbers behind our approach</h2>
+      <div class="value-cols">
+        <div class="value-col">
+          <span class="value-stat">95%</span>
+          <h4>Cost Reduction</h4>
+          <p>Eliminate the vast majority of costly wet-lab iterations. Optimise in silico first, validate in hardware after — not the other way around.</p>
         </div>
-        <div class="footer-bottom">
-            <p>© 2025 All Rights Reserved</p>
+        <div class="value-col">
+          <span class="value-stat">10×</span>
+          <h4>Faster R&amp;D Cycles</h4>
+          <p>Compress months of trial-and-error into hours of computation. Your team focuses on decisions, not waiting for results.</p>
         </div>
-    </footer>
+        <div class="value-col">
+          <span class="value-stat">€0.45</span>
+          <h4>Per Kg Production Cost</h4>
+          <p>Digital-twin optimised fermentation conditions slash production costs for precision fermentation of proteins, ingredients and compounds.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Bottom -->
+  <section class="cta-bottom" id="contact">
+    <h2>Not sure which product fits your challenge?</h2>
+    <p>Talk to our team. We'll help you identify the right starting point and show you how each product connects to your specific bioprocess.</p>
+    <a href="about.html#contact">Schedule a Free Consultation →</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-section">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <img src="../assets/images/logos/Ajax-logo-white.png" alt="AjaxDNA">
+        <p>The first integrated biotech platform combining digital cell twins and LabOnAcell hardware.</p>
+      </div>
+      <div class="footer-column">
+        <h3>Platform</h3>
+        <ul>
+          <li><a href="design-software.html">Design Software</a></li>
+          <li><a href="lab-workstation.html">Lab Workstation</a></li>
+          <li><a href="product.html">Products</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="about.html">Our Team</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Connect</h3>
+        <div class="social-icons">
+          <a href="https://www.linkedin.com/in/alejandro-atienza-vicedo-963242190/" target="_blank">
+            <img src="../assets/images/partners/linkedin.png" alt="LinkedIn">
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 AjaxDNA. All Rights Reserved.</p>
+      <span class="footer-slogan">Test Better, Test Faster.</span>
+    </div>
+  </footer>
 
 </body>
-
 </html>
